@@ -59,7 +59,7 @@ class AuthController extends Controller
         }
 
         if ($voter->has_voted) {
-            $votedAtFormatted = $voter->voted_at ? $voter->voted_at->translatedFormat('d M Y, H:i').' WIB' : 'sebelumnya';
+            $votedAtFormatted = $voter->voted_at ? $voter->voted_at->setTimezone('Asia/Jakarta')->translatedFormat('d M Y, H:i').' WIB' : 'sebelumnya';
 
             return back()->withErrors([
                 'nisn' => "Halo {$voter->name}, hak suara Anda sudah tercatat pada {$votedAtFormatted}. Satu pemilih hanya memiliki 1 kali hak pilih.",

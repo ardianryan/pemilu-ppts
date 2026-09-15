@@ -109,7 +109,7 @@ class VotingController extends Controller
             $receiptData = [
                 'token_code' => $tokenCode,
                 'sha_proof' => $shaProof,
-                'voted_at' => $now->translatedFormat('d M Y, H:i:s').' WIB',
+                'voted_at' => $now->setTimezone('Asia/Jakarta')->translatedFormat('d M Y, H:i:s').' WIB',
                 'voter_name' => $lockedVoter->name,
                 'candidate_number' => str_pad((string) $candidate->candidate_number, 2, '0', STR_PAD_LEFT),
             ];
