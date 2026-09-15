@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, Deferred } from '@inertiajs/react';
 import AdminLayout from '@/Layouts/AdminLayout';
 import { 
     Users, 
@@ -21,6 +21,46 @@ import {
     PieChart,
     BarChart3
 } from 'lucide-react';
+
+function DashboardSkeleton() {
+    return (
+        <div className="space-y-8 animate-pulse">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className="bg-white rounded-3xl p-5 border border-[#E1F2E2] space-y-2">
+                        <div className="h-3 w-20 bg-[#E1F2E2] rounded-md"></div>
+                        <div className="h-8 w-16 bg-[#D5E7D7] rounded-lg"></div>
+                        <div className="h-3 w-24 bg-[#E1F2E2] rounded-md"></div>
+                    </div>
+                ))}
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="bg-white rounded-3xl p-6 border border-[#E1F2E2] space-y-4">
+                    <div className="h-5 w-48 bg-[#E1F2E2] rounded-md"></div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {[1, 2].map((i) => (
+                            <div key={i} className="h-28 bg-[#F4F7F4] rounded-2xl border border-[#E1F2E2]"></div>
+                        ))}
+                    </div>
+                </div>
+                <div className="bg-white rounded-3xl p-6 border border-[#E1F2E2] space-y-4">
+                    <div className="h-5 w-48 bg-[#E1F2E2] rounded-md"></div>
+                    <div className="space-y-3">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                            <div key={i} className="h-10 bg-[#F4F7F4] rounded-xl border border-[#E1F2E2]"></div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E1F2E2] space-y-4">
+                <div className="h-6 w-64 bg-[#E1F2E2] rounded-md"></div>
+                <div className="h-64 w-full bg-[#F4F7F4] rounded-2xl border border-[#E1F2E2]"></div>
+            </div>
+        </div>
+    );
+}
 
 export default function Dashboard({ metrics, gender_stats = [], grade_stats = [], class_stats = [], setting }) {
     const [searchTerm, setSearchTerm] = useState('');
@@ -81,23 +121,24 @@ export default function Dashboard({ metrics, gender_stats = [], grade_stats = []
                     </div>
                 </div>
 
-                {/* 1. FOCUS METRICS: 4 Core Metric Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    {/* Metric 1: Jumlah DPT */}
-                    <div className="bg-white rounded-3xl p-5 border border-[#E1F2E2] shadow-xs flex items-center gap-4">
-                        <div className="w-13 h-13 rounded-2xl bg-[#E6F8E8] text-[#204E2B] flex items-center justify-center shrink-0">
-                            <Users className="w-6 h-6" />
+                <Deferred data={['metrics', 'gender_stats', 'grade_stats', 'class_stats']} fallback={<DashboardSkeleton />}>
+                    {/* 1. FOCUS METRICS: 4 Core Metric Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                        {/* Metric 1: Jumlah DPT */}
+                        <div className="bg-white rounded-3xl p-5 border border-[#E1F2E2] shadow-xs flex items-center gap-4">
+                            <div className="w-13 h-13 rounded-2xl bg-[#E6F8E8] text-[#204E2B] flex items-center justify-center shrink-0">
+                                <Users className="w-6 h-6" />
+                            </div>
+                            <div>
+                                <span className="text-[11px] font-bold text-[#727970] uppercase tracking-wider block">
+                                    Jumlah DPT
+                                </span>
+                                <span className="font-headline font-extrabold text-2xl text-[#101F15] block">
+                                    {(metrics?.total_voters ?? 0).toLocaleString('id-ID')}
+                                </span>
+                                <span className="text-[11px] text-[#727970]">Total pemilih terdaftar</span>
+                            </div>
                         </div>
-                        <div>
-                            <span className="text-[11px] font-bold text-[#727970] uppercase tracking-wider block">
-                                Jumlah DPT
-                            </span>
-                            <span className="font-headline font-extrabold text-2xl text-[#101F15] block">
-                                {metrics.total_voters.toLocaleString('id-ID')}
-                            </span>
-                            <span className="text-[11px] text-[#727970]">Total pemilih terdaftar</span>
-                        </div>
-                    </div>
 
                     {/* Metric 2: Suara Masuk */}
                     <div className="bg-white rounded-3xl p-5 border border-[#E1F2E2] shadow-xs flex items-center gap-4">
@@ -109,7 +150,7 @@ export default function Dashboard({ metrics, gender_stats = [], grade_stats = []
                                 Suara Masuk (Sah)
                             </span>
                             <span className="font-headline font-extrabold text-2xl text-[#204E2B] block">
-                                {metrics.total_voted.toLocaleString('id-ID')}
+                                {(metrics?.total_voted ?? 0).toLocaleString('id-ID')}
                             </span>
                             <span className="text-[11px] font-semibold text-[#2D6A4F]">
                                 Sudah mencoblos
@@ -127,7 +168,7 @@ export default function Dashboard({ metrics, gender_stats = [], grade_stats = []
                                 Suara Belum Digunakan
                             </span>
                             <span className="font-headline font-extrabold text-2xl text-[#93000A] block">
-                                {metrics.total_not_voted.toLocaleString('id-ID')}
+                                {(metrics?.total_not_voted ?? 0).toLocaleString('id-ID')}
                             </span>
                             <span className="text-[11px] text-[#727970]">Pemilih belum memilih</span>
                         </div>
@@ -143,7 +184,7 @@ export default function Dashboard({ metrics, gender_stats = [], grade_stats = []
                                 Tingkat Partisipasi
                             </span>
                             <span className="font-headline font-extrabold text-2xl text-[#2D6A4F] block">
-                                {metrics.turnout_percentage}%
+                                {metrics?.turnout_percentage ?? 0}%
                             </span>
                             <span className={`text-[11px] font-bold ${setting?.is_voting_active ? 'text-[#2D6A4F]' : 'text-[#BA1A1A]'}`}>
                                 Bilik Suara: {setting?.is_voting_active ? 'AKTIF' : 'DITUTUP'}
@@ -390,6 +431,7 @@ export default function Dashboard({ metrics, gender_stats = [], grade_stats = []
                         </table>
                     </div>
                 </div>
+                </Deferred>
             </div>
         </AdminLayout>
     );

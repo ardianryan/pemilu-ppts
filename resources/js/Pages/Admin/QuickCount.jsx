@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, Deferred } from '@inertiajs/react';
 import AdminLayout from '@/Layouts/AdminLayout';
 import { 
     Vote, 
@@ -14,6 +14,39 @@ import {
     Clock,
     CheckCircle2
 } from 'lucide-react';
+
+function QuickCountSkeleton() {
+    return (
+        <div className="space-y-8 animate-pulse">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className="bg-white rounded-3xl p-5 border border-[#E1F2E2] space-y-2">
+                        <div className="h-3 w-20 bg-[#E1F2E2] rounded-md"></div>
+                        <div className="h-8 w-16 bg-[#D5E7D7] rounded-lg"></div>
+                        <div className="h-3 w-24 bg-[#E1F2E2] rounded-md"></div>
+                    </div>
+                ))}
+            </div>
+
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E1F2E2] space-y-6">
+                <div className="h-6 w-48 bg-[#E1F2E2] rounded-lg"></div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="rounded-3xl p-6 border border-[#E1F2E2] bg-[#F4F7F4] space-y-4">
+                            <div className="flex justify-between items-center">
+                                <div className="w-12 h-12 rounded-2xl bg-[#E1F2E2]"></div>
+                                <div className="h-6 w-16 bg-[#D5E7D7] rounded-full"></div>
+                            </div>
+                            <div className="w-full h-44 rounded-2xl bg-[#E1F2E2]"></div>
+                            <div className="h-5 w-36 bg-[#E1F2E2] rounded-md"></div>
+                            <div className="h-4 w-full bg-[#E1F2E2] rounded-full"></div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
 
 export default function QuickCount({ metrics, candidates = [], setting }) {
     const [autoRefresh, setAutoRefresh] = useState(true);
@@ -100,60 +133,61 @@ export default function QuickCount({ metrics, candidates = [], setting }) {
                     </div>
                 </div>
 
-                {/* Core Stats Overview Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    <div className="bg-white rounded-3xl p-5 border border-[#E1F2E2] shadow-xs flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-[#E6F8E8] text-[#204E2B] flex items-center justify-center shrink-0">
-                            <Users className="w-5 h-5" />
+                <Deferred data={['metrics', 'candidates']} fallback={<QuickCountSkeleton />}>
+                    {/* Core Stats Overview Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                        <div className="bg-white rounded-3xl p-5 border border-[#E1F2E2] shadow-xs flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-2xl bg-[#E6F8E8] text-[#204E2B] flex items-center justify-center shrink-0">
+                                <Users className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <span className="text-[11px] font-bold text-[#727970] uppercase tracking-wider block">Total DPT</span>
+                                <span className="font-headline font-extrabold text-2xl text-[#101F15] block">
+                                    {(metrics?.total_voters ?? 0).toLocaleString('id-ID')}
+                                </span>
+                                <span className="text-[11px] text-[#727970]">Hak Suara Resmi</span>
+                            </div>
                         </div>
-                        <div>
-                            <span className="text-[11px] font-bold text-[#727970] uppercase tracking-wider block">Total DPT</span>
-                            <span className="font-headline font-extrabold text-2xl text-[#101F15] block">
-                                {metrics.total_voters.toLocaleString('id-ID')}
-                            </span>
-                            <span className="text-[11px] text-[#727970]">Hak Suara Resmi</span>
-                        </div>
-                    </div>
 
-                    <div className="bg-white rounded-3xl p-5 border border-[#E1F2E2] shadow-xs flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-[#BAEE99]/50 text-[#3D6924] flex items-center justify-center shrink-0">
-                            <Vote className="w-5 h-5" />
+                        <div className="bg-white rounded-3xl p-5 border border-[#E1F2E2] shadow-xs flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-2xl bg-[#BAEE99]/50 text-[#3D6924] flex items-center justify-center shrink-0">
+                                <Vote className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <span className="text-[11px] font-bold text-[#386641] uppercase tracking-wider block">Suara Masuk (Sah)</span>
+                                <span className="font-headline font-extrabold text-2xl text-[#204E2B] block">
+                                    {(metrics?.total_voted ?? 0).toLocaleString('id-ID')}
+                                </span>
+                                <span className="text-[11px] font-bold text-[#2D6A4F]">Telah Mencoblos</span>
+                            </div>
                         </div>
-                        <div>
-                            <span className="text-[11px] font-bold text-[#386641] uppercase tracking-wider block">Suara Masuk (Sah)</span>
-                            <span className="font-headline font-extrabold text-2xl text-[#204E2B] block">
-                                {metrics.total_voted.toLocaleString('id-ID')}
-                            </span>
-                            <span className="text-[11px] font-bold text-[#2D6A4F]">Telah Mencoblos</span>
-                        </div>
-                    </div>
 
-                    <div className="bg-white rounded-3xl p-5 border border-[#E1F2E2] shadow-xs flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-[#FFDAD6]/60 text-[#BA1A1A] flex items-center justify-center shrink-0">
-                            <UserX className="w-5 h-5" />
+                        <div className="bg-white rounded-3xl p-5 border border-[#E1F2E2] shadow-xs flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-2xl bg-[#FFDAD6]/60 text-[#BA1A1A] flex items-center justify-center shrink-0">
+                                <UserX className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <span className="text-[11px] font-bold text-[#BA1A1A] uppercase tracking-wider block">Belum Mencoblos</span>
+                                <span className="font-headline font-extrabold text-2xl text-[#93000A] block">
+                                    {(metrics?.total_not_voted ?? 0).toLocaleString('id-ID')}
+                                </span>
+                                <span className="text-[11px] text-[#727970]">Belum Menyalurkan</span>
+                            </div>
                         </div>
-                        <div>
-                            <span className="text-[11px] font-bold text-[#BA1A1A] uppercase tracking-wider block">Belum Mencoblos</span>
-                            <span className="font-headline font-extrabold text-2xl text-[#93000A] block">
-                                {metrics.total_not_voted.toLocaleString('id-ID')}
-                            </span>
-                            <span className="text-[11px] text-[#727970]">Belum Menyalurkan</span>
-                        </div>
-                    </div>
 
-                    <div className="bg-white rounded-3xl p-5 border border-[#E1F2E2] shadow-xs flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-[#E6F8E8] text-[#2D6A4F] flex items-center justify-center shrink-0">
-                            <Activity className="w-5 h-5" />
-                        </div>
-                        <div>
-                            <span className="text-[11px] font-bold text-[#727970] uppercase tracking-wider block">Partisipasi</span>
-                            <span className="font-headline font-extrabold text-2xl text-[#2D6A4F] block">
-                                {metrics.turnout_percentage}%
-                            </span>
-                            <span className="text-[11px] font-semibold text-[#2D6A4F]">Progres Suara</span>
+                        <div className="bg-white rounded-3xl p-5 border border-[#E1F2E2] shadow-xs flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-2xl bg-[#E6F8E8] text-[#2D6A4F] flex items-center justify-center shrink-0">
+                                <Activity className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <span className="text-[11px] font-bold text-[#727970] uppercase tracking-wider block">Partisipasi</span>
+                                <span className="font-headline font-extrabold text-2xl text-[#2D6A4F] block">
+                                    {metrics?.turnout_percentage ?? 0}%
+                                </span>
+                                <span className="text-[11px] font-semibold text-[#2D6A4F]">Progres Suara</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
                 {/* Main Quick Count Cards Grid */}
                 <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E1F2E2] shadow-xs space-y-6">
@@ -262,6 +296,7 @@ export default function QuickCount({ metrics, candidates = [], setting }) {
                         })}
                     </div>
                 </div>
+                </Deferred>
             </div>
         </AdminLayout>
     );

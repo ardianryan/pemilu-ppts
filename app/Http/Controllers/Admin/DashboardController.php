@@ -15,7 +15,20 @@ class DashboardController extends Controller
 {
     public function index(): Response
     {
-        $payload = Cache::remember('admin_dashboard_payload', 5, function () {
+        $setting = ElectionSetting::current();
+
+        return Inertia::render('Admin/Dashboard', [
+            'setting' => $setting,
+            'metrics' => Inertia::defer(fn () => $this->getDashboardPayload()['metrics']),
+            'gender_stats' => Inertia::defer(fn () => $this->getDashboardPayload()['gender_stats']),
+            'grade_stats' => Inertia::defer(fn () => $this->getDashboardPayload()['grade_stats']),
+            'class_stats' => Inertia::defer(fn () => $this->getDashboardPayload()['class_stats']),
+        ]);
+    }
+
+    private function getDashboardPayload(): array
+    {
+        return Cache::remember('admin_dashboard_payload', 5, function () {
             $totalVoters = Voter::count();
             $totalVoted = Voter::where('has_voted', true)->count();
             $totalNotVoted = $totalVoters - $totalVoted;
@@ -41,7 +54,9 @@ class DashboardController extends Controller
                         'not_voted' => $notVoted,
                         'percentage' => $pct,
                     ];
-                });
+                })
+                ->values()
+                ->all();
 
             // Partisipasi per Angkatan / Kategori
             $gradeStats = Voter::select('grade', DB::raw('count(*) as total'), DB::raw('sum(has_voted) as voted'))
@@ -61,7 +76,9 @@ class DashboardController extends Controller
                         'not_voted' => $notVoted,
                         'percentage' => $pct,
                     ];
-                });
+                })
+                ->values()
+                ->all();
 
             // Partisipasi per Rombel Kelas & Pamong
             $classStats = Voter::select('class_room', 'grade', DB::raw('count(*) as total'), DB::raw('sum(has_voted) as voted'))
@@ -82,7 +99,9 @@ class DashboardController extends Controller
                         'not_voted' => $notVoted,
                         'percentage' => $pct,
                     ];
-                });
+                })
+                ->values()
+                ->all();
 
             return [
                 'metrics' => [
@@ -96,21 +115,22 @@ class DashboardController extends Controller
                 'class_stats' => $classStats,
             ];
         });
-
-        $setting = ElectionSetting::current();
-
-        return Inertia::render('Admin/Dashboard', [
-            'metrics' => $payload['metrics'],
-            'gender_stats' => $payload['gender_stats'],
-            'grade_stats' => $payload['grade_stats'],
-            'class_stats' => $payload['class_stats'],
-            'setting' => $setting,
-        ]);
     }
 
     public function quickCount(): Response
     {
-        $payload = Cache::remember('admin_quick_count_payload', 3, function () {
+        $setting = ElectionSetting::current();
+
+        return Inertia::render('Admin/QuickCount', [
+            'setting' => $setting,
+            'metrics' => Inertia::defer(fn () => $this->getQuickCountPayload()['metrics']),
+            'candidates' => Inertia::defer(fn () => $this->getQuickCountPayload()['candidates']),
+        ]);
+    }
+
+    private function getQuickCountPayload(): array
+    {
+        return Cache::remember('admin_quick_count_payload', 3, function () {
             $totalVoters = Voter::count();
             $totalVoted = Voter::where('has_voted', true)->count();
             $totalNotVoted = $totalVoters - $totalVoted;
@@ -134,7 +154,9 @@ class DashboardController extends Controller
                         'vote_count' => $c->vote_count,
                         'percentage' => $percentage,
                     ];
-                });
+                })
+                ->values()
+                ->all();
 
             return [
                 'metrics' => [
@@ -146,13 +168,5 @@ class DashboardController extends Controller
                 'candidates' => $candidates,
             ];
         });
-
-        $setting = ElectionSetting::current();
-
-        return Inertia::render('Admin/QuickCount', [
-            'metrics' => $payload['metrics'],
-            'candidates' => $payload['candidates'],
-            'setting' => $setting,
-        ]);
     }
 }

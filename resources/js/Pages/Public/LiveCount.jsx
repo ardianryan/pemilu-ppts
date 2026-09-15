@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, Deferred } from '@inertiajs/react';
 import { 
     BarChart3, 
     ShieldCheck, 
@@ -11,6 +11,39 @@ import {
     Sparkles, 
     School 
 } from 'lucide-react';
+
+function LiveCountSkeleton() {
+    return (
+        <div className="space-y-8 animate-pulse">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className="bg-white p-5 rounded-2xl border border-[#E1F2E2] space-y-2">
+                        <div className="h-3 w-20 bg-[#E1F2E2] rounded-md"></div>
+                        <div className="h-8 w-16 bg-[#D5E7D7] rounded-lg"></div>
+                        <div className="h-3 w-24 bg-[#E1F2E2] rounded-md"></div>
+                    </div>
+                ))}
+            </div>
+
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E1F2E2] space-y-6">
+                <div className="h-6 w-56 bg-[#E1F2E2] rounded-lg"></div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="bg-[#F4F7F4] rounded-2xl p-5 border border-[#E1F2E2] space-y-4">
+                            <div className="flex justify-between items-center">
+                                <div className="w-10 h-10 rounded-xl bg-[#E1F2E2]"></div>
+                                <div className="h-7 w-12 bg-[#D5E7D7] rounded-md"></div>
+                            </div>
+                            <div className="w-full h-40 rounded-xl bg-[#E1F2E2]"></div>
+                            <div className="h-4 w-32 bg-[#E1F2E2] rounded-md"></div>
+                            <div className="h-3 w-full bg-[#E1F2E2] rounded-full"></div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
 
 export default function PublicLiveCount({ setting, is_public_enabled, metrics = {}, candidates = [], grade_stats = [], last_updated = '00:00 WIB', next_update = '01:00 WIB' }) {
     const safeCandidates = Array.isArray(candidates) ? candidates : [];
@@ -103,8 +136,9 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics = 
                         </div>
                     </div>
                 ) : (
-                    /* Live Count Data Grid */
-                    <div className="space-y-8">
+                    /* Live Count Data Grid with Deferred Skeleton */
+                    <Deferred data={['metrics', 'candidates', 'grade_stats']} fallback={<LiveCountSkeleton />}>
+                        <div className="space-y-8">
                         {/* Overall Metrics Cards */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
                             <div className="bg-white p-5 rounded-2xl border border-[#E1F2E2] shadow-xs">
@@ -249,7 +283,8 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics = 
                                 ))}
                             </div>
                         </div>
-                    </div>
+                        </div>
+                    </Deferred>
                 )}
             </main>
 

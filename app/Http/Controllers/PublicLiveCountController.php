@@ -22,7 +22,20 @@ class PublicLiveCountController extends Controller
         $lastUpdatedFormatted = date('H:00').' WIB';
         $nextUpdateFormatted = date('H:00', strtotime('+1 hour')).' WIB';
 
-        $data = Cache::remember('public_livecount_payload_'.$currentHourKey, $secondsUntilNextHour, function () use ($setting) {
+        return Inertia::render('Public/LiveCount', [
+            'setting' => $setting,
+            'is_public_enabled' => (bool) $setting->show_quick_count_public,
+            'metrics' => Inertia::defer(fn () => $this->getPayload($currentHourKey, $secondsUntilNextHour, $setting)['metrics']),
+            'candidates' => Inertia::defer(fn () => $this->getPayload($currentHourKey, $secondsUntilNextHour, $setting)['candidates']),
+            'grade_stats' => Inertia::defer(fn () => $this->getPayload($currentHourKey, $secondsUntilNextHour, $setting)['grade_stats']),
+            'last_updated' => $lastUpdatedFormatted,
+            'next_update' => $nextUpdateFormatted,
+        ]);
+    }
+
+    private function getPayload(string $currentHourKey, int $secondsUntilNextHour, ElectionSetting $setting): array
+    {
+        return Cache::remember('public_livecount_payload_'.$currentHourKey, $secondsUntilNextHour, function () use ($setting) {
             $totalVoters = Voter::count();
             $totalVoted = Voter::where('has_voted', true)->count();
             $totalNotVoted = $totalVoters - $totalVoted;
@@ -81,15 +94,5 @@ class PublicLiveCountController extends Controller
                 'grade_stats' => $gradeStats,
             ];
         });
-
-        return Inertia::render('Public/LiveCount', [
-            'setting' => $setting,
-            'is_public_enabled' => (bool) $setting->show_quick_count_public,
-            'metrics' => $data['metrics'] ?? [],
-            'candidates' => is_array($data['candidates'] ?? null) ? $data['candidates'] : [],
-            'grade_stats' => is_array($data['grade_stats'] ?? null) ? $data['grade_stats'] : [],
-            'last_updated' => $lastUpdatedFormatted,
-            'next_update' => $nextUpdateFormatted,
-        ]);
     }
 }
