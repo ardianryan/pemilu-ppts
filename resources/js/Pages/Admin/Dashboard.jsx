@@ -17,7 +17,9 @@ import {
     Upload,
     UserCheck,
     GraduationCap,
-    Briefcase
+    Briefcase,
+    PieChart,
+    BarChart3
 } from 'lucide-react';
 
 export default function Dashboard({ metrics, candidates, gender_stats = [], grade_stats = [], class_stats = [], setting }) {
@@ -47,20 +49,22 @@ export default function Dashboard({ metrics, candidates, gender_stats = [], grad
     });
 
     return (
-        <AdminLayout title="Dashboard & Live Quick Count">
+        <AdminLayout title="Dashboard Perolehan Suara & Quick Count">
             <Head title="Admin Dashboard - Pemilu PPTS" />
 
             <div className="space-y-8">
                 {/* Top Control Bar */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-[#E1F2E2] shadow-xs">
                     <div className="flex items-center gap-3">
-                        <div className="w-3 h-3 rounded-full bg-[#386641] animate-ping"></div>
-                        <span className="font-headline font-bold text-sm text-[#101F15]">
-                            Pemantauan Suara Real-time (Live Count PPTS)
-                        </span>
-                        <span className="text-xs text-[#727970] hidden sm:inline">
-                            • Diperbarui secara otomatis
-                        </span>
+                        <div className="w-3.5 h-3.5 rounded-full bg-[#386641] animate-ping"></div>
+                        <div>
+                            <span className="font-headline font-bold text-sm text-[#101F15] block">
+                                Pemantauan Suara Masuk (Live Dashboard)
+                            </span>
+                            <span className="text-xs text-[#727970]">
+                                Perolehan suara real-time Pemilu PPTS SMA Tamansiswa Mojokerto
+                            </span>
+                        </div>
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -82,144 +86,174 @@ export default function Dashboard({ metrics, candidates, gender_stats = [], grad
                     </div>
                 </div>
 
-                {/* 4 Core Metric Cards */}
+                {/* 1. FOCUS METRICS: 4 Core Metric Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    {/* Metric 1: Total DPT */}
+                    {/* Metric 1: Jumlah DPT */}
                     <div className="bg-white rounded-3xl p-5 border border-[#E1F2E2] shadow-xs flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-[#E6F8E8] text-[#204E2B] flex items-center justify-center shrink-0">
+                        <div className="w-13 h-13 rounded-2xl bg-[#E6F8E8] text-[#204E2B] flex items-center justify-center shrink-0">
                             <Users className="w-6 h-6" />
                         </div>
                         <div>
-                            <span className="text-xs font-bold text-[#727970] uppercase tracking-wider block">
-                                Total DPT Terdaftar
+                            <span className="text-[11px] font-bold text-[#727970] uppercase tracking-wider block">
+                                Jumlah DPT
                             </span>
                             <span className="font-headline font-extrabold text-2xl text-[#101F15] block">
                                 {metrics.total_voters.toLocaleString('id-ID')}
                             </span>
-                            <span className="text-[11px] text-[#727970]">Hak suara terverifikasi</span>
+                            <span className="text-[11px] text-[#727970]">Total pemilih terdaftar</span>
                         </div>
                     </div>
 
                     {/* Metric 2: Suara Masuk */}
                     <div className="bg-white rounded-3xl p-5 border border-[#E1F2E2] shadow-xs flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-[#BAEE99]/50 text-[#3D6924] flex items-center justify-center shrink-0">
+                        <div className="w-13 h-13 rounded-2xl bg-[#BAEE99]/50 text-[#3D6924] flex items-center justify-center shrink-0">
                             <Vote className="w-6 h-6" />
                         </div>
                         <div>
-                            <span className="text-xs font-bold text-[#727970] uppercase tracking-wider block">
+                            <span className="text-[11px] font-bold text-[#386641] uppercase tracking-wider block">
                                 Suara Masuk (Sah)
                             </span>
                             <span className="font-headline font-extrabold text-2xl text-[#204E2B] block">
                                 {metrics.total_voted.toLocaleString('id-ID')}
                             </span>
                             <span className="text-[11px] font-semibold text-[#2D6A4F]">
-                                {metrics.turnout_percentage}% Partisipasi
+                                Sudah mencoblos
                             </span>
                         </div>
                     </div>
 
-                    {/* Metric 3: Belum Memilih */}
+                    {/* Metric 3: Suara Belum Digunakan */}
                     <div className="bg-white rounded-3xl p-5 border border-[#E1F2E2] shadow-xs flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-[#F4F7F4] text-[#727970] flex items-center justify-center shrink-0">
+                        <div className="w-13 h-13 rounded-2xl bg-[#FFDAD6]/60 text-[#BA1A1A] flex items-center justify-center shrink-0">
                             <UserX className="w-6 h-6" />
                         </div>
                         <div>
-                            <span className="text-xs font-bold text-[#727970] uppercase tracking-wider block">
-                                Belum Memilih
+                            <span className="text-[11px] font-bold text-[#BA1A1A] uppercase tracking-wider block">
+                                Suara Belum Digunakan
                             </span>
-                            <span className="font-headline font-extrabold text-2xl text-[#101F15] block">
+                            <span className="font-headline font-extrabold text-2xl text-[#93000A] block">
                                 {metrics.total_not_voted.toLocaleString('id-ID')}
                             </span>
-                            <span className="text-[11px] text-[#727970]">Pemilih belum mencoblos</span>
+                            <span className="text-[11px] text-[#727970]">Pemilih belum memilih</span>
                         </div>
                     </div>
 
-                    {/* Metric 4: Status Bilik Suara */}
+                    {/* Metric 4: Persentase Partisipasi */}
                     <div className="bg-white rounded-3xl p-5 border border-[#E1F2E2] shadow-xs flex items-center gap-4">
-                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${
-                            setting?.is_voting_active 
-                                ? 'bg-[#E6F8E8] text-[#2D6A4F]' 
-                                : 'bg-[#FFDAD6] text-[#BA1A1A]'
-                        }`}>
+                        <div className="w-13 h-13 rounded-2xl bg-[#E6F8E8] text-[#2D6A4F] flex items-center justify-center shrink-0">
                             <Activity className="w-6 h-6" />
                         </div>
                         <div>
-                            <span className="text-xs font-bold text-[#727970] uppercase tracking-wider block">
-                                Status Bilik Suara
+                            <span className="text-[11px] font-bold text-[#727970] uppercase tracking-wider block">
+                                Tingkat Partisipasi
                             </span>
-                            <span className={`font-headline font-extrabold text-xl block ${
-                                setting?.is_voting_active ? 'text-[#2D6A4F]' : 'text-[#BA1A1A]'
-                            }`}>
-                                {setting?.is_voting_active ? 'TERBUKA / AKTIF' : 'DITUTUP'}
+                            <span className="font-headline font-extrabold text-2xl text-[#2D6A4F] block">
+                                {metrics.turnout_percentage}%
                             </span>
-                            <Link href={route('admin.settings.index')} className="text-[11px] text-[#386641] hover:underline font-semibold">
-                                Ubah status
-                            </Link>
+                            <span className={`text-[11px] font-bold ${setting?.is_voting_active ? 'text-[#2D6A4F]' : 'text-[#BA1A1A]'}`}>
+                                Bilik Suara: {setting?.is_voting_active ? 'AKTIF' : 'DITUTUP'}
+                            </span>
                         </div>
                     </div>
                 </div>
 
-                {/* Candidate Live Count Section */}
-                <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E1F2E2] shadow-xs space-y-6">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E1F2E2] pb-4">
+                {/* 2. DEDICATED QUICK COUNT SECTION */}
+                <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E1F2E2] shadow-sm space-y-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E1F2E2] pb-5">
                         <div>
-                            <h2 className="font-headline font-extrabold text-lg text-[#101F15] flex items-center gap-2">
-                                <TrendingUp className="w-5 h-5 text-[#386641]" />
-                                <span>Perolehan Suara Pasangan Calon (Quick Count)</span>
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#E6F8E8] text-[#204E2B] text-xs font-bold mb-1">
+                                <BarChart3 className="w-4 h-4 text-[#386641]" />
+                                <span>QUICK COUNT PEROLEHAN SUARA PASLON</span>
+                            </div>
+                            <h2 className="font-headline font-extrabold text-xl sm:text-2xl text-[#101F15]">
+                                Hasil Perolehan Suara Pasangan Calon
                             </h2>
                             <p className="text-xs text-[#727970]">
-                                Perolehan suara sah berdasarkan transaksi database terenkripsi
+                                Total perolehan suara terkumpul per pasangan calon Ketua & Wakil Ketua PPTS
                             </p>
                         </div>
 
                         {leader && leader.vote_count > 0 && (
-                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E6F8E8] border border-[#A7C957]/50 text-[#204E2B] text-xs font-bold">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#E6F8E8] border border-[#A7C957]/50 text-[#204E2B] text-xs font-bold shadow-xs">
                                 <Award className="w-4 h-4 text-[#386641]" />
                                 <span>Unggul Sementara: Paslon 0{leader.candidate_number} ({leader.percentage}%)</span>
                             </div>
                         )}
                     </div>
 
-                    {/* Candidate Progress Bars */}
-                    <div className="space-y-6">
+                    {/* Candidate Cards Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {candidates.map((paslon) => {
                             const isLead = leader && leader.id === paslon.id && paslon.vote_count > 0;
 
                             return (
-                                <div key={paslon.id} className="space-y-2">
-                                    <div className="flex items-center justify-between gap-4">
-                                        <div className="flex items-center gap-3">
-                                            <span className="w-9 h-9 rounded-xl bg-[#E6F8E8] text-[#204E2B] font-headline font-extrabold text-base flex items-center justify-center shrink-0">
+                                <div 
+                                    key={paslon.id} 
+                                    className={`rounded-2xl p-5 border transition-all duration-300 flex flex-col justify-between space-y-4 ${
+                                        isLead 
+                                            ? 'bg-gradient-to-b from-[#E6F8E8] to-white border-[#386641] shadow-md ring-2 ring-[#386641]/20' 
+                                            : 'bg-[#F4F7F4] border-[#E1F2E2]'
+                                    }`}
+                                >
+                                    <div className="space-y-3">
+                                        {/* Header & Number */}
+                                        <div className="flex items-center justify-between">
+                                            <span className={`w-10 h-10 rounded-xl font-headline font-extrabold text-lg flex items-center justify-center shadow-xs ${
+                                                isLead ? 'bg-[#386641] text-white' : 'bg-white text-[#101F15] border border-[#E1F2E2]'
+                                            }`}>
                                                 0{paslon.candidate_number}
                                             </span>
-                                            <div>
-                                                <h3 className="font-headline font-bold text-sm sm:text-base text-[#101F15]">
-                                                    {paslon.chairman_name} & {paslon.vice_chairman_name}
-                                                </h3>
-                                                <span className="text-xs text-[#727970] italic">
-                                                    "{paslon.tagline || '-'}"
+                                            {isLead && (
+                                                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#386641] text-white">
+                                                    Unggul
                                                 </span>
-                                            </div>
+                                            )}
                                         </div>
 
-                                        <div className="text-right shrink-0">
-                                            <span className="font-headline font-extrabold text-lg sm:text-xl text-[#204E2B] block">
-                                                {paslon.vote_count} <span className="text-xs font-normal text-[#727970]">Suara</span>
-                                            </span>
-                                            <span className="text-xs font-bold text-[#386641]">
-                                                {paslon.percentage}%
-                                            </span>
+                                        {/* Photo if available */}
+                                        {paslon.photo_path && (
+                                            <div className="w-full h-36 rounded-xl bg-white border border-[#E1F2E2] overflow-hidden">
+                                                <img 
+                                                    src={paslon.photo_path} 
+                                                    alt={paslon.chairman_name}
+                                                    className="w-full h-full object-cover object-top" 
+                                                />
+                                            </div>
+                                        )}
+
+                                        {/* Candidate Names */}
+                                        <div>
+                                            <h3 className="font-headline font-bold text-base text-[#101F15]">
+                                                {paslon.chairman_name}
+                                            </h3>
+                                            <p className="text-xs font-semibold text-[#386641]">
+                                                & {paslon.vice_chairman_name}
+                                            </p>
+                                            <p className="text-[11px] text-[#727970] italic mt-1 line-clamp-1">
+                                                "{paslon.tagline || '-'}"
+                                            </p>
                                         </div>
                                     </div>
 
-                                    {/* Progress Bar Track */}
-                                    <div className="w-full bg-[#F4F7F4] h-4 rounded-full overflow-hidden p-0.5 border border-[#E1F2E2]">
-                                        <div
-                                            className={`h-full rounded-full transition-all duration-700 ${
-                                                isLead ? 'bg-[#386641]' : 'bg-[#6A994E]'
-                                            }`}
-                                            style={{ width: `${Math.max(paslon.percentage, 1)}%` }}
-                                        ></div>
+                                    {/* Stats & Progress Bar */}
+                                    <div className="space-y-2 pt-2 border-t border-[#E1F2E2]/80">
+                                        <div className="flex justify-between items-baseline">
+                                            <span className="font-headline font-extrabold text-2xl text-[#204E2B]">
+                                                {paslon.percentage}%
+                                            </span>
+                                            <span className="font-bold text-sm text-[#101F15]">
+                                                {paslon.vote_count} <span className="text-xs font-normal text-[#727970]">Suara</span>
+                                            </span>
+                                        </div>
+
+                                        <div className="w-full bg-white h-3.5 rounded-full overflow-hidden border border-[#E1F2E2] p-0.5">
+                                            <div
+                                                className={`h-full rounded-full transition-all duration-700 ${
+                                                    isLead ? 'bg-[#386641]' : 'bg-[#6A994E]'
+                                                }`}
+                                                style={{ width: `${Math.max(paslon.percentage, 1)}%` }}
+                                            ></div>
+                                        </div>
                                     </div>
                                 </div>
                             );
@@ -227,20 +261,18 @@ export default function Dashboard({ metrics, candidates, gender_stats = [], grad
                     </div>
                 </div>
 
-                {/* 2-Column Section: Gender Breakdown & Grade Breakdown */}
+                {/* 3. SEBARAN PARTISIPASI DETAIL (2 Columns) */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* 1. Sebaran Berdasarkan Jenis Kelamin */}
+                    {/* Sebaran Berdasarkan Jenis Kelamin */}
                     <div className="bg-white rounded-3xl p-6 border border-[#E1F2E2] shadow-xs space-y-4">
-                        <div className="border-b border-[#E1F2E2] pb-3 flex items-center justify-between">
-                            <div>
-                                <h3 className="font-headline font-bold text-base text-[#101F15] flex items-center gap-2">
-                                    <UserCheck className="w-5 h-5 text-[#386641]" />
-                                    <span>Sebaran Suara per Jenis Kelamin</span>
-                                </h3>
-                                <span className="text-xs text-[#727970]">
-                                    Partisipasi suara pemilih Laki-Laki (L) dan Perempuan (P)
-                                </span>
-                            </div>
+                        <div className="border-b border-[#E1F2E2] pb-3">
+                            <h3 className="font-headline font-bold text-base text-[#101F15] flex items-center gap-2">
+                                <UserCheck className="w-5 h-5 text-[#386641]" />
+                                <span>Sebaran Suara per Jenis Kelamin</span>
+                            </h3>
+                            <span className="text-xs text-[#727970]">
+                                Rekap suara pemilih Laki-Laki (L) dan Perempuan (P)
+                            </span>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -251,7 +283,7 @@ export default function Dashboard({ metrics, candidates, gender_stats = [], grad
                                             {g.label}
                                         </span>
                                         <span className="font-bold text-xs text-[#386641] bg-[#E6F8E8] px-2.5 py-0.5 rounded-full border border-[#A7C957]/40">
-                                            {g.percentage}% Suara Masuk
+                                            {g.percentage}% Suara
                                         </span>
                                     </div>
 
@@ -283,7 +315,7 @@ export default function Dashboard({ metrics, candidates, gender_stats = [], grad
                         </div>
                     </div>
 
-                    {/* 2. Sebaran Berdasarkan Kategori / Angkatan */}
+                    {/* Sebaran Berdasarkan Kategori */}
                     <div className="bg-white rounded-3xl p-6 border border-[#E1F2E2] shadow-xs space-y-4">
                         <div className="border-b border-[#E1F2E2] pb-3">
                             <h3 className="font-headline font-bold text-base text-[#101F15] flex items-center gap-2">
@@ -318,16 +350,16 @@ export default function Dashboard({ metrics, candidates, gender_stats = [], grad
                     </div>
                 </div>
 
-                {/* Detailed Class & Staff Breakdown Table */}
+                {/* 4. DETAIL SEBARAN PER ROMBEL KELAS & GURU */}
                 <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#E1F2E2] shadow-xs space-y-5">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E1F2E2] pb-4">
                         <div>
                             <h3 className="font-headline font-extrabold text-lg text-[#101F15] flex items-center gap-2">
                                 <Briefcase className="w-5 h-5 text-[#386641]" />
-                                <span>Detail Sebaran Suara Masuk per Rombel & Guru</span>
+                                <span>Rincian Suara Masuk per Rombel Kelas & Guru/Staf</span>
                             </h3>
                             <p className="text-xs text-[#727970]">
-                                Rincian lengkap jumlah pemilih, suara masuk, dan sisa per rombel kelas & pamong
+                                Rincian lengkap jumlah pemilih, suara masuk, dan suara belum digunakan
                             </p>
                         </div>
 
@@ -347,7 +379,7 @@ export default function Dashboard({ metrics, candidates, gender_stats = [], grad
                             <div className="inline-flex rounded-xl bg-[#F4F7F4] p-1 border border-[#E1F2E2] text-xs">
                                 <button
                                     onClick={() => setFilterCategory('ALL')}
-                                    className={`px-3 py-1 rounded-lg font-bold transition ${
+                                    className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${
                                         filterCategory === 'ALL' ? 'bg-[#386641] text-white shadow-xs' : 'text-[#727970] hover:text-[#101F15]'
                                     }`}
                                 >
@@ -355,7 +387,7 @@ export default function Dashboard({ metrics, candidates, gender_stats = [], grad
                                 </button>
                                 <button
                                     onClick={() => setFilterCategory('SISWA')}
-                                    className={`px-3 py-1 rounded-lg font-bold transition ${
+                                    className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${
                                         filterCategory === 'SISWA' ? 'bg-[#386641] text-white shadow-xs' : 'text-[#727970] hover:text-[#101F15]'
                                     }`}
                                 >
@@ -363,7 +395,7 @@ export default function Dashboard({ metrics, candidates, gender_stats = [], grad
                                 </button>
                                 <button
                                     onClick={() => setFilterCategory('GURU_TENDIK')}
-                                    className={`px-3 py-1 rounded-lg font-bold transition ${
+                                    className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${
                                         filterCategory === 'GURU_TENDIK' ? 'bg-[#386641] text-white shadow-xs' : 'text-[#727970] hover:text-[#101F15]'
                                     }`}
                                 >
@@ -373,16 +405,16 @@ export default function Dashboard({ metrics, candidates, gender_stats = [], grad
                         </div>
                     </div>
 
-                    {/* Class Stats Grid / Table */}
+                    {/* Class Stats Table */}
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse text-xs">
                             <thead>
                                 <tr className="bg-[#F4F7F4] border-b border-[#E1F2E2] text-[#101F15] font-bold">
                                     <th className="py-3 px-4 rounded-l-xl">Rombel / Jabatan</th>
                                     <th className="py-3 px-4">Kategori</th>
-                                    <th className="py-3 px-4 text-center">Total DPT</th>
+                                    <th className="py-3 px-4 text-center">Jumlah DPT</th>
                                     <th className="py-3 px-4 text-center">Suara Masuk</th>
-                                    <th className="py-3 px-4 text-center">Belum Memilih</th>
+                                    <th className="py-3 px-4 text-center">Belum Digunakan</th>
                                     <th className="py-3 px-4 text-center">Progres %</th>
                                     <th className="py-3 px-4 rounded-r-xl">Status Partisipasi</th>
                                 </tr>
@@ -422,7 +454,7 @@ export default function Dashboard({ metrics, candidates, gender_stats = [], grad
                                                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
                                                         c.percentage === 100
                                                             ? 'bg-[#E6F8E8] text-[#2D6A4F]'
-                                                            : c.percentage > 50
+                                                            : c.percentage > 0
                                                             ? 'bg-[#BAEE99]/50 text-[#3D6924]'
                                                             : 'bg-[#F4F7F4] text-[#727970]'
                                                     }`}>
