@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Candidate;
 use App\Models\ElectionSetting;
 use App\Models\Voter;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,12 +14,12 @@ use Inertia\Response;
 
 class VotingController extends Controller
 {
-    public function index(): Response|\Illuminate\Http\RedirectResponse
+    public function index(): Response|RedirectResponse
     {
         /** @var Voter|null $voter */
         $voter = Auth::guard('voter')->user();
 
-        if (!$voter) {
+        if (! $voter) {
             return redirect()->route('login');
         }
 
@@ -27,15 +28,16 @@ class VotingController extends Controller
         }
 
         $setting = ElectionSetting::current();
-        if (!$setting->is_voting_active) {
+        if (! $setting->is_voting_active) {
             Auth::guard('voter')->logout();
+
             return redirect()->route('login')->with('error', 'Bilik suara telah ditutup.');
         }
 
         $candidates = Candidate::where('is_active', true)
             ->orderBy('candidate_number', 'asc')
             ->get()
-            ->map(fn($c) => [
+            ->map(fn ($c) => [
                 'id' => $c->id,
                 'candidate_number' => $c->candidate_number,
                 'chairman_name' => $c->chairman_name,
@@ -73,63 +75,60 @@ class VotingController extends Controller
         /** @var Voter|null $voter */
         $voter = Auth::guard('voter')->user();
 
-        if (!$voter) {
+        if (! $voter) {
             return redirect()->route('login');
         }
 
+        $candidate = Candidate::select(['id', 'candidate_number'])->find($request->candidate_id);
+        if (! $candidate) {
+            return back()->withErrors(['candidate_id' => 'Kandidat pilihan tidak valid.']);
+        }
+
+        $now = now();
+        $tokenCode = 'PLK-'.$now->year.'-'.strtoupper(substr(bin2hex(random_bytes(4)), 0, 6));
         $receiptData = null;
 
-        DB::transaction(function () use ($voter, $request, &$receiptData) {
-            // Lock voter record to prevent concurrent double-voting
+        DB::transaction(function () use ($voter, $candidate, $now, $tokenCode, &$receiptData) {
+            /** @var Voter|null $lockedVoter */
             $lockedVoter = Voter::where('id', $voter->id)->lockForUpdate()->first();
 
-            if ($lockedVoter->has_voted) {
+            if (! $lockedVoter || $lockedVoter->has_voted) {
                 throw new \Exception('Hak suara telah digunakan.');
             }
 
-            // 1. Tambahkan perolehan suara paslon secara atomik
-            Candidate::where('id', $request->candidate_id)->increment('vote_count');
+            $shaProof = hash('sha256', $lockedVoter->nisn.'|'.$candidate->id.'|'.microtime(true).'|tamansiswa_secure');
 
-            // 2. Generate Kriptografi Bukti Suara Sah (SHA-256)
-            $tokenCode = 'PLK-' . date('Y') . '-' . strtoupper(substr(bin2hex(random_bytes(4)), 0, 6));
-            $shaProof = hash('sha256', $lockedVoter->nisn . '|' . $request->candidate_id . '|' . microtime(true) . '|tamansiswa_secure');
-
-            $now = now();
-
-            // 3. Kunci status pemilih
             $lockedVoter->update([
                 'has_voted' => true,
                 'voted_at' => $now,
                 'receipt_token' => $shaProof,
             ]);
 
-            $candidate = Candidate::find($request->candidate_id);
+            Candidate::where('id', $candidate->id)->increment('vote_count');
 
             $receiptData = [
                 'token_code' => $tokenCode,
                 'sha_proof' => $shaProof,
-                'voted_at' => $now->translatedFormat('d M Y, H:i:s') . ' WIB',
+                'voted_at' => $now->translatedFormat('d M Y, H:i:s').' WIB',
                 'voter_name' => $lockedVoter->name,
-                'candidate_number' => $candidate ? str_pad($candidate->candidate_number, 2, '0', STR_PAD_LEFT) : '00',
+                'candidate_number' => str_pad((string) $candidate->candidate_number, 2, '0', STR_PAD_LEFT),
             ];
         });
 
-        // 4. Logout Sesi Pemilih untuk Asas Kerahasiaan
         Auth::guard('voter')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        // Render langsung halaman tanda bukti dengan data resi
         return Inertia::render('Voting/Receipt', [
             'receipt' => $receiptData,
         ]);
     }
 
-    public function receipt(Request $request): Response|\Illuminate\Http\RedirectResponse
+    public function receipt(Request $request): Response|RedirectResponse
     {
         $receipt = session('receipt');
 
-        if (!$receipt) {
+        if (! $receipt) {
             return redirect()->route('login');
         }
 
@@ -138,4 +137,3 @@ class VotingController extends Controller
         ]);
     }
 }
-
