@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\ElectionSetting;
 use App\Models\Voter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -26,9 +27,9 @@ class VoterController extends Controller
             $search = trim($request->search);
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('nisn', 'like', "%{$search}%")
-                  ->orWhere('token', 'like', "%{$search}%")
-                  ->orWhere('class_room', 'like', "%{$search}%");
+                    ->orWhere('nisn', 'like', "%{$search}%")
+                    ->orWhere('token', 'like', "%{$search}%")
+                    ->orWhere('class_room', 'like', "%{$search}%");
             });
         }
 
@@ -55,17 +56,26 @@ class VoterController extends Controller
             ->paginate($perPage)
             ->withQueryString();
 
-        $classes = Voter::distinct()->orderBy('class_room')->pluck('class_room');
+        $classes = Cache::remember('voter_classes_list', 30, function () {
+            return Voter::distinct()->orderBy('class_room')->pluck('class_room');
+        });
+
+        $stats = Cache::remember('voter_stats_summary', 5, function () {
+            $total = Voter::count();
+            $voted = Voter::where('has_voted', true)->count();
+
+            return [
+                'total' => $total,
+                'voted' => $voted,
+                'not_voted' => $total - $voted,
+            ];
+        });
 
         return Inertia::render('Admin/Voters/Index', [
             'voters' => $voters,
             'classes' => $classes,
             'filters' => $request->only(['search', 'grade', 'class_room', 'status', 'per_page']),
-            'stats' => [
-                'total' => Voter::count(),
-                'voted' => Voter::where('has_voted', true)->count(),
-                'not_voted' => Voter::where('has_voted', false)->count(),
-            ],
+            'stats' => $stats,
         ]);
     }
 
@@ -103,8 +113,8 @@ class VoterController extends Controller
     public function update(Request $request, Voter $voter)
     {
         $validated = $request->validate([
-            'nisn' => 'required|string|min:3|max:20|unique:voters,nisn,' . $voter->id,
-            'token' => 'required|string|min:3|max:20|unique:voters,token,' . $voter->id,
+            'nisn' => 'required|string|min:3|max:20|unique:voters,nisn,'.$voter->id,
+            'token' => 'required|string|min:3|max:20|unique:voters,token,'.$voter->id,
             'name' => 'required|string|max:120',
             'gender' => 'required|string|in:L,P',
             'grade' => 'required|string|max:30',
@@ -147,7 +157,7 @@ class VoterController extends Controller
 
     public function downloadTemplate(): StreamedResponse
     {
-        $spreadsheet = new Spreadsheet();
+        $spreadsheet = new Spreadsheet;
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle('Template DPT');
 
@@ -181,7 +191,7 @@ class VoterController extends Controller
         $sheet->fromArray($sampleData, null, 'A2');
 
         // Format NISN column as text
-        $sheet->getStyle('A2:A100')->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
+        $sheet->getStyle('A2:A100')->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_TEXT);
 
         foreach (range('A', 'D') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
@@ -220,16 +230,20 @@ class VoterController extends Controller
             }
 
             foreach ($rows as $row) {
-                if (empty($row) || !isset($row[0])) continue;
+                if (empty($row) || ! isset($row[0])) {
+                    continue;
+                }
 
-                $nisn = trim((string)$row[0]);
-                $name = trim((string)($row[1] ?? ''));
-                $classRoom = trim((string)($row[2] ?? 'Umum'));
-                $grade = strtoupper(trim((string)($row[3] ?? 'X')));
-                $gender = !empty($row[4]) && in_array(strtoupper(trim((string)$row[4])), ['L', 'P']) ? strtoupper(trim((string)$row[4])) : 'L';
-                $token = !empty($row[5]) ? strtoupper(trim((string)$row[5])) : null;
+                $nisn = trim((string) $row[0]);
+                $name = trim((string) ($row[1] ?? ''));
+                $classRoom = trim((string) ($row[2] ?? 'Umum'));
+                $grade = strtoupper(trim((string) ($row[3] ?? 'X')));
+                $gender = ! empty($row[4]) && in_array(strtoupper(trim((string) $row[4])), ['L', 'P']) ? strtoupper(trim((string) $row[4])) : 'L';
+                $token = ! empty($row[5]) ? strtoupper(trim((string) $row[5])) : null;
 
-                if (empty($nisn) || empty($name)) continue;
+                if (empty($nisn) || empty($name)) {
+                    continue;
+                }
 
                 if (empty($grade)) {
                     $grade = 'X';
@@ -260,7 +274,7 @@ class VoterController extends Controller
             }
         } catch (\Exception $e) {
             return redirect()->back()->withErrors([
-                'file' => 'Gagal membaca file Excel/CSV: ' . $e->getMessage(),
+                'file' => 'Gagal membaca file Excel/CSV: '.$e->getMessage(),
             ]);
         }
 
@@ -269,7 +283,7 @@ class VoterController extends Controller
 
     public function export(): StreamedResponse
     {
-        $spreadsheet = new Spreadsheet();
+        $spreadsheet = new Spreadsheet;
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle('DPT & Token');
 
@@ -293,17 +307,17 @@ class VoterController extends Controller
 
         foreach ($voters as $v) {
             $dataRows[] = [
-                (string)$v->nisn,
-                (string)$v->token,
+                (string) $v->nisn,
+                (string) $v->token,
                 $v->name,
-                $v->grade === 'GURU' ? 'Guru Pamong' : ($v->grade === 'TENDIK' ? 'Tendik' : 'Kelas ' . $v->grade),
+                $v->grade === 'GURU' ? 'Guru Pamong' : ($v->grade === 'TENDIK' ? 'Tendik' : 'Kelas '.$v->grade),
                 $v->class_room,
                 $v->has_voted ? 'SUDAH MEMILIH' : 'BELUM',
                 $v->voted_at ? $v->voted_at->toDateTimeString() : '-',
             ];
         }
 
-        if (!empty($dataRows)) {
+        if (! empty($dataRows)) {
             $sheet->fromArray($dataRows, null, 'A2');
         }
 
@@ -311,7 +325,7 @@ class VoterController extends Controller
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
-        $fileName = 'DPT_Pemilih_Token_' . date('Ymd_His') . '.xlsx';
+        $fileName = 'DPT_Pemilih_Token_'.date('Ymd_His').'.xlsx';
 
         return response()->streamDownload(function () use ($spreadsheet) {
             $writer = new Xlsx($spreadsheet);
@@ -333,9 +347,9 @@ class VoterController extends Controller
                 $search = trim($request->search);
                 $query->where(function ($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%")
-                      ->orWhere('nisn', 'like', "%{$search}%")
-                      ->orWhere('token', 'like', "%{$search}%")
-                      ->orWhere('class_room', 'like', "%{$search}%");
+                        ->orWhere('nisn', 'like', "%{$search}%")
+                        ->orWhere('token', 'like', "%{$search}%")
+                        ->orWhere('class_room', 'like', "%{$search}%");
                 });
             }
 
