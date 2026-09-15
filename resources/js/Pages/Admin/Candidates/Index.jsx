@@ -140,7 +140,7 @@ export default function CandidatesIndex({ candidates }) {
 
     return (
         <AdminLayout title="Manajemen Pasangan Calon (Kandidat)">
-            <Head title="Data Paslon - Admin Pilketos" />
+            <Head title="Data Paslon - Admin Pemilu PPTS" />
 
             <div className="space-y-6">
                 {/* Header Action Bar */}

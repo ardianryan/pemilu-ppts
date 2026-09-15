@@ -14,7 +14,7 @@ class VoterPrintTest extends TestCase
         parent::setUp();
 
         ElectionSetting::firstOrCreate([], [
-            'school_name' => 'SMA TAMANSISWA',
+            'school_name' => 'SMA TAMANSISWA MOJOKERTO',
             'academic_year' => '2025/2026',
             'title' => 'Pemilihan Ketua PPTS',
             'is_voting_active' => true,

@@ -59,7 +59,7 @@ class HandleInertiaRequests extends Middleware
                 'error' => fn () => $request->session()->get('error'),
                 'message' => fn () => $request->session()->get('message'),
             ],
-            'school_name' => config('app.school_name', 'SMA/SMK TAMANSISWA'),
+            'school_name' => config('app.school_name', 'SMA TAMANSISWA MOJOKERTO'),
             'logo_url' => '/images/logo2.png',
         ];
     }

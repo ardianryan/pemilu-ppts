@@ -143,7 +143,7 @@ export default function VotersIndex({ voters, classes, filters, stats }) {
 
     return (
         <AdminLayout title="Daftar Pemilih Tetap (DPT) & Token Akses">
-            <Head title="Manajemen DPT & Token - Admin Pilketos" />
+            <Head title="Manajemen DPT & Token - Admin Pemilu PPTS" />
 
             <div className="space-y-6">
                 {/* Stats Header */}

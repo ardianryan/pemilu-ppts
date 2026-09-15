@@ -85,7 +85,7 @@ export default function VotingIndex({ voter, candidates, setting }) {
 
     return (
         <div className="min-h-screen bg-[#F4F7F4] text-[#101F15] font-body flex flex-col justify-between selection:bg-[#386641]/20 pb-28">
-            <Head title="Bilik Suara Digital - Pilketos" />
+            <Head title="Bilik Suara Digital - Pemilu PPTS" />
 
             {/* Official Civic Top Header (Slim & Uncluttered) */}
             <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-[#E1F2E2] shadow-xs px-4 sm:px-8 py-3">
@@ -100,7 +100,7 @@ export default function VotingIndex({ voter, candidates, setting }) {
                         />
                         <div>
                             <h1 className="font-headline font-extrabold text-[#204E2B] text-base sm:text-lg tracking-tight leading-none">
-                                PILKETOS
+                                PEMILU PPTS
                             </h1>
                             <span className="text-[11px] font-semibold text-[#727970] block mt-0.5">
                                 {setting?.school_name || 'SMA TAMANSISWA MOJOKERTO'}

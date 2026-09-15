@@ -2,7 +2,7 @@
   <img src="public/images/logo2.png" width="130" alt="Logo SMA Tamansiswa Mojokerto">
 </p>
 
-<h1 align="center">🗳️ Pilketos Tamansiswa</h1>
+<h1 align="center">🗳️ Pemilu PPTS Tamansiswa</h1>
 
 <p align="center">
   <strong>Sistem E-Voting & Manajemen DPT Pemilihan Ketua & Wakil Ketua PPTS (Persatuan Pelajar Tamansiswa) Modern</strong><br>

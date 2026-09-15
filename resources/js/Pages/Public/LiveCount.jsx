@@ -27,7 +27,7 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics, c
 
     return (
         <div className="min-h-screen bg-[#F4F7F4] text-[#101F15] font-body flex flex-col justify-between selection:bg-[#386641]/20">
-            <Head title="Real-Time Live Count Perolehan Suara - Pilketos" />
+            <Head title="Real-Time Live Count Perolehan Suara - Pemilu PPTS" />
 
             {/* Civic Header */}
             <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-[#E1F2E2] px-4 sm:px-8 py-3">
@@ -41,7 +41,7 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics, c
                         />
                         <div>
                             <span className="font-headline font-extrabold text-[#204E2B] text-base sm:text-lg tracking-tight block leading-tight">
-                                PILKETOS LIVE COUNT
+                                PEMILU PPTS LIVE COUNT
                             </span>
                             <span className="text-[11px] font-medium text-[#414941] uppercase tracking-wider block">
                                 {setting?.school_name || 'SMA TAMANSISWA MOJOKERTO'}

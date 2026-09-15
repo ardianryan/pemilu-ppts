@@ -45,7 +45,7 @@ export default function Login({ setting, classes, errors: serverErrors }) {
 
     return (
         <div className="min-h-screen bg-[#F4F7F4] flex flex-col justify-between selection:bg-[#386641]/20 font-body text-[#101F15]">
-            <Head title="Masuk Bilik Suara - Pilketos Digital" />
+            <Head title="Masuk Bilik Suara - Pemilu PPTS Digital" />
 
             {/* Top Bar / Civic Header */}
             <header className="w-full bg-white/80 backdrop-blur-md border-b border-[#E1F2E2] px-4 sm:px-8 py-3.5 sticky top-0 z-20">
@@ -59,7 +59,7 @@ export default function Login({ setting, classes, errors: serverErrors }) {
                         />
                         <div>
                             <span className="font-headline font-extrabold text-[#204E2B] text-base sm:text-lg tracking-tight block leading-tight">
-                                PILKETOS
+                                PEMILU PPTS
                             </span>
                             <span className="text-[11px] font-medium text-[#414941] uppercase tracking-wider block">
                                 {setting?.school_name || 'SMA TAMANSISWA MOJOKERTO'}

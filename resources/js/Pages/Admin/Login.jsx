@@ -16,7 +16,7 @@ export default function AdminLogin() {
 
     return (
         <div className="min-h-screen bg-[#F4F7F4] flex flex-col justify-center items-center p-4 font-body text-[#101F15] selection:bg-[#386641]/20">
-            <Head title="Login Administrator - Pilketos" />
+            <Head title="Login Administrator - Pemilu PPTS" />
 
             <div className="w-full max-w-md space-y-6">
                 {/* Back Link */}

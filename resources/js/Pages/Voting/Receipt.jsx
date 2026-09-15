@@ -35,7 +35,7 @@ export default function VotingReceipt({ receipt }) {
 
     return (
         <div className="min-h-screen bg-[#F4F7F4] flex flex-col items-center justify-center p-4 selection:bg-[#386641]/20 font-body text-[#101F15]">
-            <Head title="Bukti Suara Sah - Pilketos Digital" />
+            <Head title="Bukti Suara Sah - Pemilu PPTS Digital" />
 
             <div className="w-full max-w-[480px] space-y-6">
                 {/* Celebration & Animated Checkmark */}
@@ -77,7 +77,7 @@ export default function VotingReceipt({ receipt }) {
                                     TANDA TERIMA DIGITAL
                                 </span>
                                 <span className="font-headline font-bold text-xs sm:text-sm text-[#204E2B]">
-                                    PILKETOS RESMI 2025/2026
+                                    PEMILU PPTS RESMI 2025/2026
                                 </span>
                             </div>
                         </div>

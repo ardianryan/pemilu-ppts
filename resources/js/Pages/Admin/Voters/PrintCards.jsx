@@ -74,7 +74,7 @@ export default function PrintCards({ voters = [], setting = {}, filters = {} }) 
                         </Link>
                         <div>
                             <h1 className="font-headline font-bold text-base sm:text-lg text-[#101F15] flex items-center gap-2">
-                                <span>Cetak Kartu Pemilih DPT Pilketos</span>
+                                <span>Cetak Kartu Pemilih DPT Pemilu PPTS</span>
                                 <span className="bg-[#E6F8E8] text-[#204E2B] text-xs font-bold px-2.5 py-0.5 rounded-full">
                                     8 Kartu / Lembar A4
                                 </span>
@@ -180,10 +180,10 @@ function VoterCard({ voter, setting }) {
                 )}
                 <div className="flex-1 min-w-0 leading-tight">
                     <span className="text-[7.5px] uppercase tracking-widest text-[#E6F8E8] font-extrabold block">
-                        KARTU PEMILIH DPT &bull; PILKETOS
+                        KARTU PEMILIH DPT &bull; PEMILU PPTS
                     </span>
                     <h4 className="font-headline font-bold text-[9.5px] text-white truncate">
-                        {setting.school_name || 'SMA TAMANSISWA'}
+                        {setting.school_name || 'SMA TAMANSISWA MOJOKERTO'}
                     </h4>
                     <span className="text-[7.5px] text-[#E6F8E8]/90 block">
                         Tahun Ajaran {setting.academic_year || '2025/2026'}

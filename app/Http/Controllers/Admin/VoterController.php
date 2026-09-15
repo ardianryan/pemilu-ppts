@@ -167,7 +167,7 @@ class VoterController extends Controller
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
-        $fileName = 'Template_DPT_Pilketos.xlsx';
+        $fileName = 'Template_DPT_Pemilu_PPTS.xlsx';
 
         return response()->streamDownload(function () use ($spreadsheet) {
             $writer = new Xlsx($spreadsheet);

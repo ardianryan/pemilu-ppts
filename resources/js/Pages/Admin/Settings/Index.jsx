@@ -16,7 +16,7 @@ import {
 
 export default function SettingsIndex({ setting }) {
     const { data, setData, post, processing, errors } = useForm({
-        school_name: setting.school_name || 'SMA/SMK TAMANSISWA',
+        school_name: setting.school_name || 'SMA TAMANSISWA MOJOKERTO',
         academic_year: setting.academic_year || '2025/2026',
         title: setting.title || 'Pemilihan Ketua & Wakil Ketua PPTS',
         is_voting_active: setting.is_voting_active,
@@ -68,7 +68,7 @@ export default function SettingsIndex({ setting }) {
 
     return (
         <AdminLayout title="Pengaturan Sistem Pemilihan">
-            <Head title="Pengaturan - Admin Pilketos" />
+            <Head title="Pengaturan - Admin Pemilu PPTS" />
 
             <div className="max-w-4xl space-y-8">
                 {/* Main Settings Form Card */}

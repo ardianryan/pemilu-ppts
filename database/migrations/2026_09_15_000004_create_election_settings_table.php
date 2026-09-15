@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('election_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('school_name', 150)->default('SMA/SMK TAMANSISWA');
+            $table->string('school_name', 150)->default('SMA TAMANSISWA MOJOKERTO');
             $table->string('academic_year', 20)->default('2025/2026');
             $table->string('title', 150)->default('Pemilihan Ketua & Wakil Ketua PPTS');
             $table->string('logo_path', 255)->default('/images/logo2.png');

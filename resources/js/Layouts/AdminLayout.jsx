@@ -73,7 +73,7 @@ export default function AdminLayout({ children, title }) {
                                 KPU PPTS PANEL
                             </h2>
                             <span className="text-[11px] font-medium text-[#727970] block">
-                                {school_name || 'SMA/SMK TAMANSISWA'}
+                                {school_name || 'SMA TAMANSISWA MOJOKERTO'}
                             </span>
                         </div>
                     </div>

@@ -17,7 +17,7 @@ class VotingFlowTest extends TestCase
         
         // Ensure ElectionSetting exists
         ElectionSetting::firstOrCreate([], [
-            'school_name' => 'SMA/SMK TAMANSISWA',
+            'school_name' => 'SMA TAMANSISWA MOJOKERTO',
             'academic_year' => '2025/2026',
             'title' => 'Pemilihan Ketua & Wakil Ketua PPTS',
             'is_voting_active' => true,
