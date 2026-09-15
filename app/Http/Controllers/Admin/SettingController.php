@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\Candidate;
 use App\Models\ElectionSetting;
 use App\Models\Voter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -43,7 +46,9 @@ class SettingController extends Controller
         ];
 
         if ($request->hasFile('logo')) {
-            $data['logo_path'] = '/storage/' . $request->file('logo')->store('settings', 'public');
+            $disk = env('FILESYSTEM_DISK', 'public');
+            $storedPath = $request->file('logo')->store('settings', $disk);
+            $data['logo_path'] = Storage::disk($disk)->url($storedPath);
         }
 
         $setting->update($data);
@@ -86,17 +91,17 @@ class SettingController extends Controller
             'password.confirmed' => 'Konfirmasi password baru tidak cocok.',
         ]);
 
-        /** @var \App\Models\Admin $admin */
+        /** @var Admin $admin */
         $admin = auth('admin')->user();
 
-        if (!\Illuminate\Support\Facades\Hash::check($validated['current_password'], $admin->password)) {
+        if (! Hash::check($validated['current_password'], $admin->password)) {
             return redirect()->back()->withErrors([
                 'current_password' => 'Password saat ini yang Anda masukkan tidak sesuai.',
             ]);
         }
 
         $admin->update([
-            'password' => \Illuminate\Support\Facades\Hash::make($validated['password']),
+            'password' => Hash::make($validated['password']),
         ]);
 
         return redirect()->back()->with('success', 'Password admin berhasil diperbarui.');

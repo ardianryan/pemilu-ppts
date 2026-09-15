@@ -36,7 +36,9 @@ class CandidateController extends Controller
 
         $photoPath = null;
         if ($request->hasFile('photo')) {
-            $photoPath = '/storage/' . $request->file('photo')->store('candidates', 'public');
+            $disk = env('FILESYSTEM_DISK', 'public');
+            $storedPath = $request->file('photo')->store('candidates', $disk);
+            $photoPath = Storage::disk($disk)->url($storedPath);
         }
 
         Candidate::create([
@@ -58,7 +60,7 @@ class CandidateController extends Controller
     public function update(Request $request, Candidate $candidate)
     {
         $validated = $request->validate([
-            'candidate_number' => 'required|integer|unique:candidates,candidate_number,' . $candidate->id,
+            'candidate_number' => 'required|integer|unique:candidates,candidate_number,'.$candidate->id,
             'chairman_name' => 'required|string|max:100',
             'vice_chairman_name' => 'required|string|max:100',
             'tagline' => 'nullable|string|max:255',
@@ -82,11 +84,14 @@ class CandidateController extends Controller
         ];
 
         if ($request->hasFile('photo')) {
+            $disk = env('FILESYSTEM_DISK', 'public');
             if ($candidate->photo_path) {
-                $oldPath = str_replace('/storage/', '', $candidate->photo_path);
-                Storage::disk('public')->delete($oldPath);
+                $oldRelativePath = ltrim(parse_url($candidate->photo_path, PHP_URL_PATH), '/');
+                $oldRelativePath = str_replace('storage/', '', $oldRelativePath);
+                Storage::disk($disk)->delete($oldRelativePath);
             }
-            $data['photo_path'] = '/storage/' . $request->file('photo')->store('candidates', 'public');
+            $storedPath = $request->file('photo')->store('candidates', $disk);
+            $data['photo_path'] = Storage::disk($disk)->url($storedPath);
         }
 
         $candidate->update($data);
@@ -97,8 +102,10 @@ class CandidateController extends Controller
     public function destroy(Candidate $candidate)
     {
         if ($candidate->photo_path) {
-            $oldPath = str_replace('/storage/', '', $candidate->photo_path);
-            Storage::disk('public')->delete($oldPath);
+            $disk = env('FILESYSTEM_DISK', 'public');
+            $oldRelativePath = ltrim(parse_url($candidate->photo_path, PHP_URL_PATH), '/');
+            $oldRelativePath = str_replace('storage/', '', $oldRelativePath);
+            Storage::disk($disk)->delete($oldRelativePath);
         }
 
         $candidate->delete();
