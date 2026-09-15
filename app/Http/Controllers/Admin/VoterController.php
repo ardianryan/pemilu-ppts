@@ -206,7 +206,8 @@ class VoterController extends Controller
                 $name = trim((string)($row[1] ?? ''));
                 $classRoom = trim((string)($row[2] ?? 'Umum'));
                 $grade = strtoupper(trim((string)($row[3] ?? 'X')));
-                $token = !empty($row[4]) ? strtoupper(trim((string)$row[4])) : null;
+                $gender = !empty($row[4]) && in_array(strtoupper(trim((string)$row[4])), ['L', 'P']) ? strtoupper(trim((string)$row[4])) : 'L';
+                $token = !empty($row[5]) ? strtoupper(trim((string)$row[5])) : null;
 
                 if (empty($nisn) || empty($name)) continue;
 
@@ -221,6 +222,7 @@ class VoterController extends Controller
                         'name' => $name,
                         'class_room' => $classRoom,
                         'grade' => $grade,
+                        'gender' => $gender,
                         'token' => $token ?: $existing->token,
                     ]);
                     $updatedCount++;
@@ -231,6 +233,7 @@ class VoterController extends Controller
                         'name' => $name,
                         'class_room' => $classRoom,
                         'grade' => $grade,
+                        'gender' => $gender,
                     ]);
                     $importedCount++;
                 }

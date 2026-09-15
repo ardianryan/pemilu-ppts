@@ -36,7 +36,28 @@ class DashboardController extends Controller
                 ];
             });
 
-        // Partisipasi per Angkatan / Tingkat
+        // Partisipasi Berdasarkan Jenis Kelamin
+        $genderStats = Voter::select('gender', DB::raw('count(*) as total'), DB::raw('sum(has_voted) as voted'))
+            ->groupBy('gender')
+            ->orderBy('gender')
+            ->get()
+            ->map(function ($g) {
+                $total = (int)$g->total;
+                $voted = (int)$g->voted;
+                $notVoted = $total - $voted;
+                $pct = $total > 0 ? round(($voted / $total) * 100, 1) : 0;
+                $label = $g->gender === 'P' ? 'Perempuan (P)' : 'Laki-Laki (L)';
+                return [
+                    'gender' => $g->gender,
+                    'label' => $label,
+                    'total' => $total,
+                    'voted' => $voted,
+                    'not_voted' => $notVoted,
+                    'percentage' => $pct,
+                ];
+            });
+
+        // Partisipasi per Angkatan / Kategori
         $gradeStats = Voter::select('grade', DB::raw('count(*) as total'), DB::raw('sum(has_voted) as voted'))
             ->groupBy('grade')
             ->orderBy('grade')
@@ -44,28 +65,33 @@ class DashboardController extends Controller
             ->map(function ($g) {
                 $total = (int)$g->total;
                 $voted = (int)$g->voted;
+                $notVoted = $total - $voted;
                 $pct = $total > 0 ? round(($voted / $total) * 100, 1) : 0;
                 return [
                     'grade' => $g->grade,
                     'total' => $total,
                     'voted' => $voted,
+                    'not_voted' => $notVoted,
                     'percentage' => $pct,
                 ];
             });
 
-        // Partisipasi per Rombel Kelas
-        $classStats = Voter::select('class_room', DB::raw('count(*) as total'), DB::raw('sum(has_voted) as voted'))
-            ->groupBy('class_room')
+        // Partisipasi per Rombel Kelas & Pamong
+        $classStats = Voter::select('class_room', 'grade', DB::raw('count(*) as total'), DB::raw('sum(has_voted) as voted'))
+            ->groupBy('class_room', 'grade')
             ->orderBy('class_room')
             ->get()
             ->map(function ($c) {
                 $total = (int)$c->total;
                 $voted = (int)$c->voted;
+                $notVoted = $total - $voted;
                 $pct = $total > 0 ? round(($voted / $total) * 100, 1) : 0;
                 return [
                     'class_room' => $c->class_room,
+                    'grade' => $c->grade,
                     'total' => $total,
                     'voted' => $voted,
+                    'not_voted' => $notVoted,
                     'percentage' => $pct,
                 ];
             });
@@ -80,6 +106,7 @@ class DashboardController extends Controller
                 'turnout_percentage' => $turnoutPercentage,
             ],
             'candidates' => $candidates,
+            'gender_stats' => $genderStats,
             'grade_stats' => $gradeStats,
             'class_stats' => $classStats,
             'setting' => $setting,

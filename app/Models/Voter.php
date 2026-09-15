@@ -17,6 +17,7 @@ class Voter extends Authenticatable
         'token', // Token Akses
         'name',
         'grade',
+        'gender',
         'class_room',
         'has_voted',
         'voted_at',
