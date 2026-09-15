@@ -47,6 +47,7 @@ class SettingController extends Controller
         }
 
         $setting->update($data);
+        ElectionSetting::clearCache();
 
         return redirect()->back()->with('success', 'Pengaturan sistem pemilu berhasil diperbarui.');
     }
