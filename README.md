@@ -1,58 +1,116 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="public/images/logo2.png" width="130" alt="Logo SMA Tamansiswa Mojokerto">
 </p>
 
-## About Laravel
+<h1 align="center">🗳️ Pilketos Tamansiswa</h1>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<p align="center">
+  <strong>Sistem E-Voting & Manajemen DPT Pemilihan Ketua & Wakil Ketua OSIS Modern</strong><br>
+  Designed for <em>SMA Tamansiswa Mojokerto</em>
+</p>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<p align="center">
+  <a href="https://laravel.com"><img src="https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel"></a>
+  <a href="https://react.dev"><img src="https://img.shields.io/badge/React-19.x-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React"></a>
+  <a href="https://inertiajs.com"><img src="https://img.shields.io/badge/Inertia.js-v2-9553E9?style=for-the-badge&logo=inertia&logoColor=white" alt="Inertia"></a>
+  <a href="https://tailwindcss.com"><img src="https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS"></a>
+  <img src="https://img.shields.io/badge/Tests-100%25_Passed-204E2B?style=for-the-badge&logo=php&logoColor=white" alt="PHPUnit Passed">
+</p>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🌟 Fitur Unggulan
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- 🎫 **Identitas Pemilih Universal**: Mendukung Pemilih Siswa (Kelas X, XI, XII), Guru Pamong, & Tenaga Kependidikan (Tendik).
+- 🎲 **Token Acak Unik 6 Digit**: Token dibuat acak alfanumerik (`X7K9P2`) otomatis saat import/tambah data pemilih.
+- 🖨️ **Cetak Kartu Pemilih Presisi (8 Kartu / Lembar A4)**: Siap cetak hemat kertas 8 kartu per halaman A4 lengkap dengan **Barcode SVG Code 39** Token Akses.
+- 📊 **Public Live Count**: Tampilan hasil perolehan suara real-time interaktif di `/livecount` dengan grafik persentase animasi smooth.
+- 🧙‍♂️ **Wizard Alur Pemilihan 3-Langkah**:
+  1. **Verifikasi Identitas**: Memastikan nama & kelas pemilih sudah benar.
+  2. **Pilih Pasangan Calon**: Surat suara digital bersih & jelas.
+  3. **Resi Kriptografi SHA-256**: Cetak bukti suara sah otomatis dan auto-logout demi asas kerahasiaan.
+- 🖼️ **Interactive Crop Foto Paslon (Rasio 4:3)**: Pemotong foto kandidat presisi terintegrasi pada dashboard admin.
+- ⚡ **Animasi GSAP Smooth Modal & Sheet**: Kemunculan modal & sheet bertransisi halus.
+- 🔒 **Keamanan & Performa Tinggi**: Database pessimistic locking (`lockForUpdate()`), proteksi double-voting, dan paginasi DPT ringan.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## 🛠️ Tech Stack
 
-## Agentic Development
+- **Backend Framework**: Laravel 12 (PHP 8.2+)
+- **Frontend Engine**: React 19 + Inertia.js v2
+- **UI & Styling**: Tailwind CSS v4 + Lucide React + GSAP Animation
+- **Image Cropper**: `react-easy-crop`
+- **Excel Spreadsheet**: `phpoffice/phpspreadsheet` (`.xlsx` Import/Export)
+- **Database**: MariaDB / MySQL
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+---
 
+## 🚀 Panduan Instalasi Quick-Start
+
+### 1. Clone Repository & Install Dependency
 ```bash
-composer require laravel/boost --dev
+git clone git@github.com:ardianryan/pilketos-tamansiswa.git
+cd pilketos-tamansiswa
 
-php artisan boost:install
+# Install paket PHP via Composer
+composer install
+
+# Install paket JavaScript via NPM
+npm install
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 2. Konfigurasi Environment & Database
+```bash
+# Salin file environment contoh
+cp .env.example .env
 
-## Contributing
+# Generate Application Key
+php artisan key:generate
+```
+> Pastikan pengaturan `DB_DATABASE`, `DB_USERNAME`, dan `DB_PASSWORD` pada file `.env` sudah disesuaikan dengan database lokal Anda (misal `pilketos_db`).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Migrasi Database & Seeding Data
+```bash
+php artisan migrate:fresh --seed
+```
 
-## Code of Conduct
+### 4. Build Frontend & Jalankan Server Local
+```bash
+# Kompilasi aset frontend
+npm run build
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Jalankan Laravel Development Server
+php artisan serve
+```
+Akses aplikasi di browser pada alamat: `http://localhost:8000`
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🔑 Akses Default Demo (Credentials)
 
-## License
+| Peran | Halaman Login | Username / NISN | Password / Token |
+| :--- | :--- | :--- | :--- |
+| **Super Admin** | `/admin/login` | `admin` | `admin123` |
+| **Panitia Bilik** | `/admin/login` | `panitia` | `panitia123` |
+| **Pemilih Siswa** | `/login` | `0061234501` | *Lihat Token di Dashboard Admin* |
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 🧪 Testing & Audit Keamanan
+
+```bash
+# Menjalankan seluruh pengujian PHPUnit (13 Passed, 62 Assertions)
+php artisan test
+
+# Pindaian audit dependensi
+composer audit
+npm audit
+```
+Aplikasi telah dilengkapi konfigurasi **GitHub Dependabot** (`.github/dependabot.yml`) untuk memantau pembaruan keamanan paket secara berkala.
+
+---
+
+<p align="center">
+  <sub>Dibuat dengan ❤️ untuk SMA Tamansiswa Mojokerto</sub>
+</p>

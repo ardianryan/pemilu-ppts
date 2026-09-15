@@ -25,3 +25,8 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Archives & Mockup Assets
+*.zip
+stitch_e_voting_osis_web_app/
+
