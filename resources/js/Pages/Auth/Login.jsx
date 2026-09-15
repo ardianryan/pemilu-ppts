@@ -81,7 +81,7 @@ export default function Login({ setting, classes, errors: serverErrors }) {
                     {/* Welcome Card */}
                     <div className="relative rounded-2xl overflow-hidden bg-gradient-to-b from-[#E6F8E8] to-white border border-[#E1F2E2] shadow-xs p-6 sm:p-7 text-center space-y-2">
                         <h1 className="font-headline text-2xl sm:text-3xl font-extrabold text-[#101F15] tracking-tight leading-snug">
-                            {setting?.title || 'Pemilihan Ketua & Wakil Ketua OSIS'}
+                            {setting?.title || 'Pemilihan Ketua & Wakil Ketua PPTS'}
                         </h1>
                         <p className="text-sm text-[#414941] max-w-xs mx-auto leading-relaxed">
                             Masukkan Kode Akses / NISN dan Token Anda untuk membuka bilik suara digital.
@@ -189,7 +189,7 @@ export default function Login({ setting, classes, errors: serverErrors }) {
                                     )}
                                 </div>
                                 <p className="text-[11px] text-[#727970] leading-tight">
-                                    Kode Token unik yang diberikan oleh Panitia KPU OSIS.
+                                    Kode Token unik yang diberikan oleh Panitia KPU PPTS.
                                 </p>
                             </div>
 
@@ -241,7 +241,7 @@ export default function Login({ setting, classes, errors: serverErrors }) {
             </main>
 
             <footer className="w-full text-center py-4 border-t border-[#E1F2E2] text-xs text-[#727970]">
-                &copy; {new Date().getFullYear()} OSIS {setting?.school_name || 'SMA TAMANSISWA MOJOKERTO'}
+                &copy; {new Date().getFullYear()} PPTS {setting?.school_name || 'SMA TAMANSISWA MOJOKERTO'}
             </footer>
         </div>
     );

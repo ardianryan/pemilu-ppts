@@ -18,7 +18,7 @@ export default function SettingsIndex({ setting }) {
     const { data, setData, post, processing, errors } = useForm({
         school_name: setting.school_name || 'SMA/SMK TAMANSISWA',
         academic_year: setting.academic_year || '2025/2026',
-        title: setting.title || 'Pemilihan Ketua & Wakil Ketua OSIS',
+        title: setting.title || 'Pemilihan Ketua & Wakil Ketua PPTS',
         is_voting_active: setting.is_voting_active,
         show_quick_count_public: setting.show_quick_count_public,
     });
@@ -199,7 +199,7 @@ export default function SettingsIndex({ setting }) {
                             <span>Keamanan & Ganti Password Admin</span>
                         </h2>
                         <p className="text-xs text-[#727970]">
-                            Perbarui kata sandi akun administrator untuk menjaga keamanan portal KPU OSIS
+                            Perbarui kata sandi akun administrator untuk menjaga keamanan portal KPU PPTS
                         </p>
                     </div>
 

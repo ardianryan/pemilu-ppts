@@ -5,7 +5,7 @@
 <h1 align="center">🗳️ Pilketos Tamansiswa</h1>
 
 <p align="center">
-  <strong>Sistem E-Voting & Manajemen DPT Pemilihan Ketua & Wakil Ketua OSIS Modern</strong><br>
+  <strong>Sistem E-Voting & Manajemen DPT Pemilihan Ketua & Wakil Ketua PPTS (Persatuan Pelajar Tamansiswa) Modern</strong><br>
   Designed for <em>SMA Tamansiswa Mojokerto</em>
 </p>
 

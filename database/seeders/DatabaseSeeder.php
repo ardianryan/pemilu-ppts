@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         Admin::firstOrCreate(
             ['username' => 'admin'],
             [
-                'name' => 'Administrator KPU OSIS',
+                'name' => 'Administrator KPU PPTS',
                 'email' => 'admin@smatamansiswa-mojokerto.sch.id',
                 'password' => Hash::make('admin123'),
                 'role' => 'superadmin',
@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
                 'chairman_name' => 'Rafi Ardian',
                 'vice_chairman_name' => 'Syifa Amanda',
                 'tagline' => 'Ketertiban Belajar & Kebersamaan Siswa',
-                'vision' => 'Mewujudkan OSIS SMA Tamansiswa Mojokerto yang aktif mendengarkan masukan siswa, tertib dalam kegiatan sekolah, dan saling mendukung.',
+                'vision' => 'Mewujudkan PPTS SMA Tamansiswa Mojokerto yang aktif mendengarkan masukan siswa, tertib dalam kegiatan sekolah, dan saling mendukung.',
                 'mission' => [
                     'Mengaktifkan kembali kotak saran dan mading sekolah untuk menyalurkan aspirasi setiap kelas.',
                     'Menyelenggarakan kompetisi olahraga dan seni antar-kelas secara rutin setiap semester.',
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
                 'chairman_name' => 'Dimas Pratama',
                 'vice_chairman_name' => 'Nayla Azzahra',
                 'tagline' => 'Penguatan Ekstrakurikuler & Karakter',
-                'vision' => 'Menjadikan OSIS sebagai sarana pengembangan minat, bakat, serta kedisiplinan pelajar SMA Tamansiswa Mojokerto.',
+                'vision' => 'Menjadikan PPTS sebagai sarana pengembangan minat, bakat, serta kedisiplinan pelajar SMA Tamansiswa Mojokerto.',
                 'mission' => [
                     'Membantu publisitas dan fasilitas kegiatan seluruh unit ekstrakurikuler sekolah.',
                     'Mengadakan kegiatan kebersamaan antar-angkatan untuk mempererat silaturahmi antar-siswa.',
@@ -75,9 +75,9 @@ class DatabaseSeeder extends Seeder
                 'chairman_name' => 'Arya Wicaksana',
                 'vice_chairman_name' => 'Zahra Kirana',
                 'tagline' => 'Kreativitas Pelajar & Transparansi Kegiatan',
-                'vision' => 'Mewujudkan kepengurusan OSIS yang terbuka, bertanggung jawab, dan mengutamakan program kerja yang bermanfaat bagi siswa.',
+                'vision' => 'Mewujudkan kepengurusan PPTS yang terbuka, bertanggung jawab, dan mengutamakan program kerja yang bermanfaat bagi siswa.',
                 'mission' => [
-                    'Menyampaikan laporan kegiatan dan penggunaan dana OSIS secara terbuka kepada perwakilan kelas.',
+                    'Menyampaikan laporan kegiatan dan penggunaan dana PPTS secara terbuka kepada perwakilan kelas.',
                     'Mengadakan bazaar kewirausahaan siswa dan pameran karya seni saat acara sekolah.',
                     'Memfasilitasi kelompok belajar siswa menjelang ujian semester dan ujian akhir.',
                 ],

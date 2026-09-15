@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('school_name', 150)->default('SMA/SMK TAMANSISWA');
             $table->string('academic_year', 20)->default('2025/2026');
-            $table->string('title', 150)->default('Pemilihan Ketua & Wakil Ketua OSIS');
+            $table->string('title', 150)->default('Pemilihan Ketua & Wakil Ketua PPTS');
             $table->string('logo_path', 255)->default('/images/logo2.png');
             $table->timestamp('voting_open_at')->nullable();
             $table->timestamp('voting_close_at')->nullable();

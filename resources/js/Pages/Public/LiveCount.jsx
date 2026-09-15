@@ -71,7 +71,7 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics, c
                         <span>QUICK COUNT & PEROLEHAN SUARA DIGITAL</span>
                     </div>
                     <h1 className="font-headline font-extrabold text-2xl sm:text-4xl text-[#101F15] tracking-tight">
-                        {setting?.title || 'Pemilihan Ketua & Wakil Ketua OSIS'}
+                        {setting?.title || 'Pemilihan Ketua & Wakil Ketua PPTS'}
                     </h1>
                     <p className="text-xs sm:text-sm text-[#727970]">
                         Data hasil perhitungan suara otomatis diperbarui setiap 10 detik.
@@ -88,7 +88,7 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics, c
                             Hasil Live Count Belum Dibuka
                         </h2>
                         <p className="text-xs sm:text-sm text-[#727970] leading-relaxed">
-                            Panitia KPU OSIS {setting?.school_name} belum mengaktifkan penayangan hasil perolehan suara secara publik. Grafik perolehan suara akan muncul setelah voting selesai dan hasil diumumkan secara resmi.
+                            Panitia KPU PPTS {setting?.school_name} belum mengaktifkan penayangan hasil perolehan suara secara publik. Grafik perolehan suara akan muncul setelah voting selesai dan hasil diumumkan secara resmi.
                         </p>
                         <div className="pt-2">
                             <Link 
@@ -251,7 +251,7 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics, c
             </main>
 
             <footer className="w-full text-center py-4 border-t border-[#E1F2E2] text-xs text-[#727970]">
-                &copy; {new Date().getFullYear()} KPU OSIS {setting?.school_name || 'SMA TAMANSISWA MOJOKERTO'}
+                &copy; {new Date().getFullYear()} KPU PPTS {setting?.school_name || 'SMA TAMANSISWA MOJOKERTO'}
             </footer>
         </div>
     );

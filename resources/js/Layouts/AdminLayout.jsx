@@ -44,7 +44,7 @@ export default function AdminLayout({ children, title }) {
                         onError={(e) => { e.target.style.display = 'none'; }}
                     />
                     <span className="font-headline font-bold text-sm text-[#204E2B]">
-                        Admin KPU OSIS
+                        Admin KPU PPTS
                     </span>
                 </div>
                 <button
@@ -70,7 +70,7 @@ export default function AdminLayout({ children, title }) {
                         />
                         <div>
                             <h2 className="font-headline font-extrabold text-[#204E2B] text-base leading-tight">
-                                KPU OSIS PANEL
+                                KPU PPTS PANEL
                             </h2>
                             <span className="text-[11px] font-medium text-[#727970] block">
                                 {school_name || 'SMA/SMK TAMANSISWA'}
@@ -155,14 +155,14 @@ export default function AdminLayout({ children, title }) {
                             {title || 'Dashboard Administrator'}
                         </h1>
                         <span className="text-xs text-[#727970]">
-                            Panel Pengendali Pemilihan Ketua OSIS
+                            Panel Pengendali Pemilihan Ketua PPTS
                         </span>
                     </div>
 
                     <div className="flex items-center gap-3">
                         <div className="flex items-center gap-1.5 text-xs font-semibold text-[#2D6A4F] bg-[#EAF4EE] px-3 py-1.5 rounded-full">
                             <ShieldCheck className="w-4 h-4" />
-                            <span>Sesi Aman KPU OSIS</span>
+                            <span>Sesi Aman KPU PPTS</span>
                         </div>
                     </div>
                 </header>

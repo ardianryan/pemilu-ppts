@@ -333,7 +333,7 @@ export default function VotingIndex({ voter, candidates, setting }) {
                                                     <span>Tagline Aspirasi</span>
                                                 </div>
                                                 <p className="font-headline text-xs font-bold italic text-[#204E2B] leading-snug">
-                                                    "{paslon.tagline || 'Bersama Membangun OSIS yang Lebih Baik'}"
+                                                    "{paslon.tagline || 'Bersama Membangun PPTS yang Lebih Baik'}"
                                                 </p>
                                                 <p className="text-xs text-[#414941] line-clamp-2 leading-relaxed pt-1">
                                                     {paslon.vision}

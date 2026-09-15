@@ -16,7 +16,7 @@ class VoterPrintTest extends TestCase
         ElectionSetting::firstOrCreate([], [
             'school_name' => 'SMA TAMANSISWA',
             'academic_year' => '2025/2026',
-            'title' => 'Pemilihan Ketua OSIS',
+            'title' => 'Pemilihan Ketua PPTS',
             'is_voting_active' => true,
         ]);
     }

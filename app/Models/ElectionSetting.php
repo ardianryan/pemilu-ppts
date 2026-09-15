@@ -37,7 +37,7 @@ class ElectionSetting extends Model
         return static::firstOrCreate([], [
             'school_name' => 'SMA TAMANSISWA MOJOKERTO',
             'academic_year' => '2025/2026',
-            'title' => 'Pemilihan Ketua & Wakil Ketua OSIS',
+            'title' => 'Pemilihan Ketua & Wakil Ketua PPTS',
             'logo_path' => '/images/logo2.png',
             'is_voting_active' => true,
             'show_quick_count_public' => false,

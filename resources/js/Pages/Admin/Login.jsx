@@ -38,7 +38,7 @@ export default function AdminLogin() {
                             onError={(e) => { e.target.style.display = 'none'; }}
                         />
                         <h1 className="font-headline font-extrabold text-2xl text-[#204E2B] tracking-tight">
-                            Portal Petugas KPU OSIS
+                            Portal Petugas KPU PPTS
                         </h1>
                         <p className="text-xs text-[#727970] max-w-xs">
                             Masuk dengan akun panitia atau administrator untuk mengelola data pemilihan.

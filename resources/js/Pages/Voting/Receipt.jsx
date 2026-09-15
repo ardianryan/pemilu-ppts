@@ -124,7 +124,7 @@ export default function VotingReceipt({ receipt }) {
                         <Award className="w-5 h-5 text-[#386641] shrink-0" />
                         <div className="leading-tight">
                             <span className="font-bold block">Tanda Tangan Kriptografi Sah</span>
-                            <span className="text-[10px] text-[#414941]">Otentikasi KPU OSIS Berhasil</span>
+                            <span className="text-[10px] text-[#414941]">Otentikasi KPU PPTS Berhasil</span>
                         </div>
                     </div>
                 </div>

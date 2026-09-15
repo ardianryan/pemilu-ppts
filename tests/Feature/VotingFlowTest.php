@@ -19,7 +19,7 @@ class VotingFlowTest extends TestCase
         ElectionSetting::firstOrCreate([], [
             'school_name' => 'SMA/SMK TAMANSISWA',
             'academic_year' => '2025/2026',
-            'title' => 'Pemilihan Ketua & Wakil Ketua OSIS',
+            'title' => 'Pemilihan Ketua & Wakil Ketua PPTS',
             'is_voting_active' => true,
         ]);
     }

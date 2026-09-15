@@ -147,7 +147,7 @@ export default function CandidatesIndex({ candidates }) {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-3xl border border-[#E1F2E2] shadow-xs">
                     <div>
                         <h2 className="font-headline font-bold text-lg text-[#101F15]">
-                            Daftar Pasangan Calon Ketua & Wakil Ketua OSIS
+                            Daftar Pasangan Calon Ketua & Wakil Ketua PPTS
                         </h2>
                         <span className="text-xs text-[#727970]">
                             Total {candidates.length} Paslon terdaftar pada pemilihan ini
