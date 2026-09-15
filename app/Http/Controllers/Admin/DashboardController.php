@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Candidate;
 use App\Models\ElectionSetting;
 use App\Models\Voter;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -14,7 +15,7 @@ class DashboardController extends Controller
 {
     public function index(): Response
     {
-        $payload = \Illuminate\Support\Facades\Cache::remember('admin_dashboard_payload', 5, function () {
+        $payload = Cache::remember('admin_dashboard_payload', 5, function () {
             $totalVoters = Voter::count();
             $totalVoted = Voter::where('has_voted', true)->count();
             $totalNotVoted = $totalVoters - $totalVoted;
@@ -26,11 +27,12 @@ class DashboardController extends Controller
                 ->orderBy('gender')
                 ->get()
                 ->map(function ($g) {
-                    $total = (int)$g->total;
-                    $voted = (int)$g->voted;
+                    $total = (int) $g->total;
+                    $voted = (int) $g->voted;
                     $notVoted = $total - $voted;
                     $pct = $total > 0 ? round(($voted / $total) * 100, 1) : 0;
                     $label = $g->gender === 'P' ? 'Perempuan (P)' : 'Laki-Laki (L)';
+
                     return [
                         'gender' => $g->gender,
                         'label' => $label,
@@ -47,10 +49,11 @@ class DashboardController extends Controller
                 ->orderBy('grade')
                 ->get()
                 ->map(function ($g) {
-                    $total = (int)$g->total;
-                    $voted = (int)$g->voted;
+                    $total = (int) $g->total;
+                    $voted = (int) $g->voted;
                     $notVoted = $total - $voted;
                     $pct = $total > 0 ? round(($voted / $total) * 100, 1) : 0;
+
                     return [
                         'grade' => $g->grade,
                         'total' => $total,
@@ -66,10 +69,11 @@ class DashboardController extends Controller
                 ->orderBy('class_room')
                 ->get()
                 ->map(function ($c) {
-                    $total = (int)$c->total;
-                    $voted = (int)$c->voted;
+                    $total = (int) $c->total;
+                    $voted = (int) $c->voted;
                     $notVoted = $total - $voted;
                     $pct = $total > 0 ? round(($voted / $total) * 100, 1) : 0;
+
                     return [
                         'class_room' => $c->class_room,
                         'grade' => $c->grade,
@@ -106,16 +110,19 @@ class DashboardController extends Controller
 
     public function quickCount(): Response
     {
-        $payload = \Illuminate\Support\Facades\Cache::remember('admin_quick_count_payload', 3, function () {
+        $payload = Cache::remember('admin_quick_count_payload', 3, function () {
             $totalVoters = Voter::count();
             $totalVoted = Voter::where('has_voted', true)->count();
             $totalNotVoted = $totalVoters - $totalVoted;
             $turnoutPercentage = $totalVoters > 0 ? round(($totalVoted / $totalVoters) * 100, 1) : 0;
 
+            $totalCandidateVotes = (int) Candidate::sum('vote_count');
+
             $candidates = Candidate::orderBy('candidate_number', 'asc')
                 ->get()
-                ->map(function ($c) use ($totalVoted) {
-                    $percentage = $totalVoted > 0 ? round(($c->vote_count / $totalVoted) * 100, 1) : 0;
+                ->map(function ($c) use ($totalCandidateVotes) {
+                    $percentage = $totalCandidateVotes > 0 ? round(($c->vote_count / $totalCandidateVotes) * 100, 1) : 0;
+
                     return [
                         'id' => $c->id,
                         'candidate_number' => $c->candidate_number,

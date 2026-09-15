@@ -28,10 +28,12 @@ class PublicLiveCountController extends Controller
             $totalNotVoted = $totalVoters - $totalVoted;
             $turnoutPercentage = $totalVoters > 0 ? round(($totalVoted / $totalVoters) * 100, 1) : 0;
 
+            $totalCandidateVotes = (int) Candidate::sum('vote_count');
+
             $candidates = Candidate::orderBy('candidate_number', 'asc')
                 ->get()
-                ->map(function ($c) use ($totalVoted, $setting) {
-                    $percentage = $totalVoted > 0 ? round(($c->vote_count / $totalVoted) * 100, 1) : 0;
+                ->map(function ($c) use ($totalCandidateVotes, $setting) {
+                    $percentage = $totalCandidateVotes > 0 ? round(($c->vote_count / $totalCandidateVotes) * 100, 1) : 0;
 
                     return [
                         'id' => $c->id,
@@ -44,7 +46,9 @@ class PublicLiveCountController extends Controller
                         'vote_count' => $setting->show_quick_count_public ? $c->vote_count : 0,
                         'percentage' => $setting->show_quick_count_public ? $percentage : 0,
                     ];
-                });
+                })
+                ->values()
+                ->all();
 
             // Stats per Angkatan
             $gradeStats = Voter::select('grade', DB::raw('count(*) as total'), DB::raw('sum(has_voted) as voted'))
@@ -62,7 +66,9 @@ class PublicLiveCountController extends Controller
                         'voted' => $voted,
                         'percentage' => $pct,
                     ];
-                });
+                })
+                ->values()
+                ->all();
 
             return [
                 'metrics' => [
@@ -79,9 +85,9 @@ class PublicLiveCountController extends Controller
         return Inertia::render('Public/LiveCount', [
             'setting' => $setting,
             'is_public_enabled' => (bool) $setting->show_quick_count_public,
-            'metrics' => $data['metrics'],
-            'candidates' => $data['candidates'],
-            'grade_stats' => $data['grade_stats'],
+            'metrics' => $data['metrics'] ?? [],
+            'candidates' => is_array($data['candidates'] ?? null) ? $data['candidates'] : [],
+            'grade_stats' => is_array($data['grade_stats'] ?? null) ? $data['grade_stats'] : [],
             'last_updated' => $lastUpdatedFormatted,
             'next_update' => $nextUpdateFormatted,
         ]);

@@ -12,8 +12,16 @@ import {
     School 
 } from 'lucide-react';
 
-export default function PublicLiveCount({ setting, is_public_enabled, metrics, candidates, grade_stats, last_updated = '00:00 WIB', next_update = '01:00 WIB' }) {
-    
+export default function PublicLiveCount({ setting, is_public_enabled, metrics = {}, candidates = [], grade_stats = [], last_updated = '00:00 WIB', next_update = '01:00 WIB' }) {
+    const safeCandidates = Array.isArray(candidates) ? candidates : [];
+    const safeGradeStats = Array.isArray(grade_stats) ? grade_stats : [];
+    const safeMetrics = {
+        total_voters: metrics?.total_voters || 0,
+        total_voted: metrics?.total_voted || 0,
+        total_not_voted: metrics?.total_not_voted || 0,
+        turnout_percentage: metrics?.turnout_percentage || 0,
+    };
+
     return (
         <div className="min-h-screen bg-[#F4F7F4] text-[#101F15] font-body flex flex-col justify-between selection:bg-[#386641]/20">
             <Head title="Live Count Perolehan Suara - Pemilu PPTS" />
@@ -62,7 +70,7 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics, c
                     <h1 className="font-headline font-extrabold text-2xl sm:text-4xl text-[#101F15] tracking-tight">
                         {setting?.title || 'Pemilihan Ketua & Wakil Ketua PPTS'}
                     </h1>
-                    <div className="flex items-center justify-center gap-2 pt-1">
+                    <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-[#2D6A4F] text-xs font-semibold border border-[#E1F2E2]">
                             <Clock className="w-3.5 h-3.5 text-[#386641]" />
                             <span>Update Terakhir: <strong>{last_updated}</strong></span>
@@ -104,7 +112,7 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics, c
                                     Total Hak Suara (DPT)
                                 </span>
                                 <span className="font-headline font-extrabold text-2xl sm:text-3xl text-[#101F15] block mt-1">
-                                    {metrics.total_voters}
+                                    {safeMetrics.total_voters}
                                 </span>
                                 <span className="text-xs text-[#727970] block mt-0.5">Siswa terdaftar</span>
                             </div>
@@ -114,7 +122,7 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics, c
                                     Suara Masuk
                                 </span>
                                 <span className="font-headline font-extrabold text-2xl sm:text-3xl text-[#204E2B] block mt-1">
-                                    {metrics.total_voted}
+                                    {safeMetrics.total_voted}
                                 </span>
                                 <span className="text-xs text-[#2D6A4F] block mt-0.5">Sudah memilih</span>
                             </div>
@@ -124,7 +132,7 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics, c
                                     Belum Memilih
                                 </span>
                                 <span className="font-headline font-extrabold text-2xl sm:text-3xl text-[#BA1A1A] block mt-1">
-                                    {metrics.total_not_voted}
+                                    {safeMetrics.total_not_voted}
                                 </span>
                                 <span className="text-xs text-[#93000A] block mt-0.5">Belum menyalurkan</span>
                             </div>
@@ -134,7 +142,7 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics, c
                                     Persentase Partisipasi
                                 </span>
                                 <span className="font-headline font-extrabold text-2xl sm:text-3xl text-[#204E2B] block mt-1">
-                                    {metrics.turnout_percentage}%
+                                    {safeMetrics.turnout_percentage}%
                                 </span>
                                 <span className="text-xs text-[#386641] block mt-0.5">Tingkat kehadiran</span>
                             </div>
@@ -148,17 +156,17 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics, c
                                         Perolehan Suara Pasangan Calon
                                     </h2>
                                     <p className="text-xs text-[#727970]">
-                                        Hasil sementara perhitungan suara langsung (Live Count)
+                                        Hasil perhitungan perolehan suara (Reload otomatis per jam)
                                     </p>
                                 </div>
-                                <div className="flex items-center gap-1.5 text-xs text-[#386641] font-semibold">
-                                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                                    <span>Realtime</span>
+                                <div className="flex items-center gap-1.5 text-xs text-[#386641] font-semibold bg-[#E6F8E8] px-3 py-1 rounded-full border border-[#E1F2E2]">
+                                    <Clock className="w-3.5 h-3.5" />
+                                    <span>Per Jam</span>
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-                                {candidates.map((paslon) => (
+                                {safeCandidates.map((paslon) => (
                                     <div 
                                         key={paslon.id} 
                                         className="bg-[#F4F7F4] rounded-2xl p-5 border border-[#E1F2E2] space-y-4 flex flex-col justify-between"
@@ -202,7 +210,7 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics, c
                                                 <div className="w-full bg-white h-3 rounded-full overflow-hidden border border-[#E1F2E2]">
                                                     <div 
                                                         className="h-full bg-[#386641] rounded-full transition-all duration-700"
-                                                        style={{ width: `${paslon.percentage}%` }}
+                                                        style={{ width: `${Math.min(paslon.percentage, 100)}%` }}
                                                     ></div>
                                                 </div>
                                                 <div className="flex justify-between text-[11px] text-[#727970] font-medium">
@@ -222,7 +230,7 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics, c
                                 Partisipasi Pemilih per Tingkat Kelas
                             </h3>
                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                {grade_stats.map((g) => (
+                                {safeGradeStats.map((g) => (
                                     <div key={g.grade} className="bg-[#F4F7F4] p-4 rounded-2xl border border-[#E1F2E2] space-y-2">
                                         <div className="flex justify-between items-center">
                                             <span className="font-headline font-bold text-sm text-[#101F15]">Kelas {g.grade}</span>
@@ -231,11 +239,11 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics, c
                                         <div className="w-full bg-white h-2 rounded-full overflow-hidden border border-[#E1F2E2]">
                                             <div 
                                                 className="h-full bg-[#386641] rounded-full transition-all duration-500"
-                                                style={{ width: `${g.percentage}%` }}
+                                                style={{ width: `${Math.min(g.percentage, 100)}%` }}
                                             ></div>
                                         </div>
                                         <p className="text-[11px] text-[#727970] text-right">
-                                            {g.voted} dari {g.total} Siswa
+                                            {g.voted} dari {g.total} Pemilih
                                         </p>
                                     </div>
                                 ))}
