@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Candidate;
 use App\Models\ElectionSetting;
 use App\Models\Voter;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -15,7 +16,13 @@ class PublicLiveCountController extends Controller
     {
         $setting = ElectionSetting::current();
 
-        $data = \Illuminate\Support\Facades\Cache::remember('public_livecount_payload', 5, function () use ($setting) {
+        $currentHourKey = date('Y-m-d_H');
+        $secondsUntilNextHour = max(60, 3600 - (time() % 3600));
+
+        $lastUpdatedFormatted = date('H:00').' WIB';
+        $nextUpdateFormatted = date('H:00', strtotime('+1 hour')).' WIB';
+
+        $data = Cache::remember('public_livecount_payload_'.$currentHourKey, $secondsUntilNextHour, function () use ($setting) {
             $totalVoters = Voter::count();
             $totalVoted = Voter::where('has_voted', true)->count();
             $totalNotVoted = $totalVoters - $totalVoted;
@@ -25,6 +32,7 @@ class PublicLiveCountController extends Controller
                 ->get()
                 ->map(function ($c) use ($totalVoted, $setting) {
                     $percentage = $totalVoted > 0 ? round(($c->vote_count / $totalVoted) * 100, 1) : 0;
+
                     return [
                         'id' => $c->id,
                         'candidate_number' => $c->candidate_number,
@@ -44,9 +52,10 @@ class PublicLiveCountController extends Controller
                 ->orderBy('grade')
                 ->get()
                 ->map(function ($g) {
-                    $total = (int)$g->total;
-                    $voted = (int)$g->voted;
+                    $total = (int) $g->total;
+                    $voted = (int) $g->voted;
                     $pct = $total > 0 ? round(($voted / $total) * 100, 1) : 0;
+
                     return [
                         'grade' => $g->grade,
                         'total' => $total,
@@ -69,10 +78,12 @@ class PublicLiveCountController extends Controller
 
         return Inertia::render('Public/LiveCount', [
             'setting' => $setting,
-            'is_public_enabled' => (bool)$setting->show_quick_count_public,
+            'is_public_enabled' => (bool) $setting->show_quick_count_public,
             'metrics' => $data['metrics'],
             'candidates' => $data['candidates'],
             'grade_stats' => $data['grade_stats'],
+            'last_updated' => $lastUpdatedFormatted,
+            'next_update' => $nextUpdateFormatted,
         ]);
     }
 }

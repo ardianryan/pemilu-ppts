@@ -16,14 +16,16 @@ import {
 } from 'lucide-react';
 
 export default function QuickCount({ metrics, candidates = [], setting }) {
-    const [autoRefresh, setAutoRefresh] = useState(false);
+    const [autoRefresh, setAutoRefresh] = useState(true);
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
     useEffect(() => {
         let interval = null;
         if (autoRefresh) {
+            // Auto refresh set to every 15 minutes (900,000 ms) to keep server light
             interval = setInterval(() => {
                 router.reload({ only: ['metrics', 'candidates'] });
-            }, 5000);
+            }, 900000);
         }
         return () => {
             if (interval) clearInterval(interval);
@@ -31,7 +33,11 @@ export default function QuickCount({ metrics, candidates = [], setting }) {
     }, [autoRefresh]);
 
     const handleRefresh = () => {
-        router.reload({ only: ['metrics', 'candidates'] });
+        setIsRefreshing(true);
+        router.reload({ 
+            only: ['metrics', 'candidates'],
+            onFinish: () => setIsRefreshing(false),
+        });
     };
 
     // Find leader candidate
@@ -57,7 +63,7 @@ export default function QuickCount({ metrics, candidates = [], setting }) {
                                 <span className="w-2.5 h-2.5 rounded-full bg-[#386641] animate-ping"></span>
                             </div>
                             <p className="text-xs text-[#727970]">
-                                Hitung cepat perolehan suara real-time Ketua & Wakil Ketua PPTS {setting?.school_name || 'SMA TAMANSISWA MOJOKERTO'}
+                                Hitung cepat perolehan suara Ketua & Wakil Ketua PPTS (Refresh otomatis 15 menit atau manual)
                             </p>
                         </div>
                     </div>
@@ -70,15 +76,16 @@ export default function QuickCount({ metrics, candidates = [], setting }) {
                                 onChange={(e) => setAutoRefresh(e.target.checked)}
                                 className="rounded text-[#386641] focus:ring-[#386641] accent-[#386641]"
                             />
-                            <span>Auto Refresh (5s)</span>
+                            <span>Auto Refresh (15 Menit)</span>
                         </label>
 
                         <button
                             onClick={handleRefresh}
-                            className="px-4 py-2 rounded-xl bg-[#386641] hover:bg-[#204E2B] text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs"
+                            disabled={isRefreshing}
+                            className="px-4 py-2 rounded-xl bg-[#386641] hover:bg-[#204E2B] text-white text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs disabled:opacity-50"
                         >
-                            <RefreshCw className="w-3.5 h-3.5" />
-                            <span>Refresh Suara</span>
+                            <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
+                            <span>{isRefreshing ? 'Memperbarui...' : 'Refresh Suara Manual'}</span>
                         </button>
 
                         <a
@@ -88,7 +95,7 @@ export default function QuickCount({ metrics, candidates = [], setting }) {
                             className="px-3.5 py-2 rounded-xl bg-[#E6F8E8] hover:bg-[#D5E7D7] text-[#204E2B] text-xs font-bold transition flex items-center gap-1.5 border border-[#E1F2E2]"
                         >
                             <ExternalLink className="w-3.5 h-3.5" />
-                            <span>Layar Layar Publik</span>
+                            <span>Layar Publik</span>
                         </a>
                     </div>
                 </div>

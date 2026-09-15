@@ -12,22 +12,11 @@ import {
     School 
 } from 'lucide-react';
 
-export default function PublicLiveCount({ setting, is_public_enabled, metrics, candidates, grade_stats }) {
+export default function PublicLiveCount({ setting, is_public_enabled, metrics, candidates, grade_stats, last_updated = '00:00 WIB', next_update = '01:00 WIB' }) {
     
-    // Auto refresh data every 10 seconds if livecount is enabled
-    useEffect(() => {
-        if (!is_public_enabled) return;
-
-        const interval = setInterval(() => {
-            router.reload({ preserveScroll: true });
-        }, 10000);
-
-        return () => clearInterval(interval);
-    }, [is_public_enabled]);
-
     return (
         <div className="min-h-screen bg-[#F4F7F4] text-[#101F15] font-body flex flex-col justify-between selection:bg-[#386641]/20">
-            <Head title="Real-Time Live Count Perolehan Suara - Pemilu PPTS" />
+            <Head title="Live Count Perolehan Suara - Pemilu PPTS" />
 
             {/* Civic Header */}
             <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-[#E1F2E2] px-4 sm:px-8 py-3">
@@ -68,14 +57,20 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics, c
                 <div className="text-center space-y-2 max-w-2xl mx-auto">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-[#E6F8E8] text-[#204E2B] border border-[#E1F2E2] text-xs font-bold">
                         <BarChart3 className="w-4 h-4 text-[#386641]" />
-                        <span>QUICK COUNT & PEROLEHAN SUARA DIGITAL</span>
+                        <span>PEROLEHAN SUARA DIGITAL (RELOAD PER JAM)</span>
                     </div>
                     <h1 className="font-headline font-extrabold text-2xl sm:text-4xl text-[#101F15] tracking-tight">
                         {setting?.title || 'Pemilihan Ketua & Wakil Ketua PPTS'}
                     </h1>
-                    <p className="text-xs sm:text-sm text-[#727970]">
-                        Data hasil perhitungan suara otomatis diperbarui setiap 10 detik.
-                    </p>
+                    <div className="flex items-center justify-center gap-2 pt-1">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-[#2D6A4F] text-xs font-semibold border border-[#E1F2E2]">
+                            <Clock className="w-3.5 h-3.5 text-[#386641]" />
+                            <span>Update Terakhir: <strong>{last_updated}</strong></span>
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E6F8E8] text-[#204E2B] text-xs font-semibold border border-[#A7C957]/40">
+                            <span>Update Berikutnya: <strong>{next_update}</strong></span>
+                        </span>
+                    </div>
                 </div>
 
                 {!is_public_enabled ? (
