@@ -50,8 +50,8 @@
 
 ### 1. Clone Repository & Install Dependency
 ```bash
-git clone git@github.com:ardianryan/pilketos-tamansiswa.git
-cd pilketos-tamansiswa
+git clone git@github.com:ardianryan/pemilu-ppts.git
+cd pemilu-ppts
 
 # Install paket PHP via Composer
 composer install
