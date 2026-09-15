@@ -33,11 +33,12 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'nisn' => 'required|string|size:10',
+            'nisn' => 'required|string|min:3|max:20',
             'token' => 'required|string|min:3|max:20',
         ], [
             'nisn.required' => 'Kode Akses / NISN wajib diisi.',
-            'nisn.size' => 'Kode Akses / NISN harus berjumlah 10 digit numerik.',
+            'nisn.min' => 'Kode Akses / NISN minimal 3 karakter.',
+            'nisn.max' => 'Kode Akses / NISN maksimal 20 karakter.',
             'token.required' => 'Token wajib diisi.',
         ]);
 

@@ -22,13 +22,10 @@ export default function Login({ setting, errors: serverErrors }) {
 
     const tokenInputRef = useRef(null);
 
-    // Auto-advance cursor to Token field once NISN hits 10 digits
+    // Auto-advance cursor to Token field when user reaches end or presses enter
     const handleNisnChange = (e) => {
-        const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+        const val = e.target.value.toUpperCase().slice(0, 20);
         setData('nisn', val);
-        if (val.length === 10 && tokenInputRef.current) {
-            tokenInputRef.current.focus();
-        }
     };
 
     const handleTokenChange = (e) => {
@@ -41,7 +38,7 @@ export default function Login({ setting, errors: serverErrors }) {
         post(route('login.attempt'));
     };
 
-    const isComplete = data.nisn.length === 10 && data.token.length >= 3;
+    const isComplete = data.nisn.length >= 3 && data.token.length >= 3;
 
     return (
         <div className="min-h-screen bg-[#F4F7F4] flex flex-col justify-between selection:bg-[#386641]/20 font-body text-[#101F15]">
@@ -125,29 +122,27 @@ export default function Login({ setting, errors: serverErrors }) {
                             <div className="space-y-1.5">
                                 <div className="flex justify-between items-center">
                                     <label htmlFor="nisn" className="text-xs font-bold text-[#101F15] uppercase tracking-wider flex items-center gap-1.5">
-                                        <span>Kode Akses / NISN (10 Digit)</span>
+                                        <span>Kode Akses / NISN</span>
                                         <span className="text-[#BA1A1A]">*</span>
                                     </label>
-                                    <span className={`text-xs font-mono font-semibold ${data.nisn.length === 10 ? 'text-[#2D6A4F]' : 'text-[#727970]'}`}>
-                                        {data.nisn.length}/10
-                                    </span>
+                                    {data.nisn.length >= 3 && (
+                                        <span className="text-xs font-mono text-[#2D6A4F] font-semibold">OK</span>
+                                    )}
                                 </div>
 
                                 <div className="relative flex items-center">
                                     <input
                                         id="nisn"
                                         type="text"
-                                        inputMode="numeric"
-                                        pattern="[0-9]*"
-                                        maxLength={10}
+                                        maxLength={20}
                                         autoFocus
-                                        placeholder="Contoh: 0061234501"
+                                        placeholder="Masukkan Kode Akses / NISN"
                                         value={data.nisn}
                                         onChange={handleNisnChange}
-                                        className="w-full h-13 px-4 bg-[#F4F7F4] text-[#101F15] rounded-xl font-mono text-lg font-semibold tracking-widest border border-[#E1F2E2] focus:bg-white focus:border-[#386641] focus:ring-4 focus:ring-[#A7C957]/25 outline-none transition-all"
+                                        className="w-full h-13 px-4 bg-[#F4F7F4] text-[#101F15] rounded-xl font-mono text-lg font-semibold tracking-wider border border-[#E1F2E2] focus:bg-white focus:border-[#386641] focus:ring-4 focus:ring-[#A7C957]/25 outline-none transition-all"
                                         required
                                     />
-                                    {data.nisn.length === 10 && (
+                                    {data.nisn.length >= 3 && (
                                         <div className="absolute right-3.5 flex items-center text-[#2D6A4F] animate-fade-in">
                                             <CheckCircle2 className="w-5 h-5" />
                                         </div>
