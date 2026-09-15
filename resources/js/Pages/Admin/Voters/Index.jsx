@@ -38,6 +38,7 @@ export default function VotersIndex({ voters, classes, filters, stats }) {
         nisn: '',
         token: '',
         name: '',
+        gender: 'L',
         grade: 'X',
         class_room: '',
     });
@@ -79,6 +80,7 @@ export default function VotersIndex({ voters, classes, filters, stats }) {
     const openAddModal = () => {
         setEditingVoter(null);
         voterForm.reset();
+        voterForm.clearErrors();
         setAddModalOpen(true);
     };
 
@@ -88,9 +90,11 @@ export default function VotersIndex({ voters, classes, filters, stats }) {
             nisn: voter.nisn,
             token: voter.token,
             name: voter.name,
+            gender: voter.gender || 'L',
             grade: voter.grade,
             class_room: voter.class_room,
         });
+        voterForm.clearErrors();
         setAddModalOpen(true);
     };
 
@@ -511,17 +515,20 @@ export default function VotersIndex({ voters, classes, filters, stats }) {
                             <form onSubmit={handleVoterSubmit} className="space-y-3.5">
                                 <div>
                                     <label className="text-xs font-bold text-[#101F15] uppercase block mb-1">
-                                        Kode Akses / NISN (10 Digit)
+                                        Kode Akses / NISN
                                     </label>
                                     <input
                                         type="text"
-                                        maxLength={10}
+                                        maxLength={20}
                                         placeholder="Contoh: 0061234501"
                                         value={voterForm.data.nisn}
                                         onChange={(e) => voterForm.setData('nisn', e.target.value)}
-                                        className="w-full h-10 px-3 bg-[#F4F7F4] text-xs font-mono rounded-xl border border-[#E1F2E2] focus:bg-white focus:border-[#386641] outline-none"
+                                        className={`w-full h-10 px-3 bg-[#F4F7F4] text-xs font-mono rounded-xl border ${voterForm.errors.nisn ? 'border-red-500 bg-red-50' : 'border-[#E1F2E2]'} focus:bg-white focus:border-[#386641] outline-none`}
                                         required
                                     />
+                                    {voterForm.errors.nisn && (
+                                        <p className="text-red-500 text-[11px] font-medium mt-1">{voterForm.errors.nisn}</p>
+                                    )}
                                 </div>
 
                                 <div>
@@ -533,11 +540,15 @@ export default function VotersIndex({ voters, classes, filters, stats }) {
                                         placeholder={editingVoter ? "Token Pemilih" : "Kosongkan untuk buat otomatis"}
                                         value={voterForm.data.token}
                                         onChange={(e) => voterForm.setData('token', e.target.value.toUpperCase())}
-                                        className="w-full h-10 px-3 bg-[#F4F7F4] text-xs font-mono font-bold tracking-widest uppercase rounded-xl border border-[#E1F2E2] focus:bg-white focus:border-[#386641] outline-none"
+                                        className={`w-full h-10 px-3 bg-[#F4F7F4] text-xs font-mono font-bold tracking-widest uppercase rounded-xl border ${voterForm.errors.token ? 'border-red-500 bg-red-50' : 'border-[#E1F2E2]'} focus:bg-white focus:border-[#386641] outline-none`}
                                     />
-                                    <p className="text-[11px] text-[#727970] mt-1">
-                                        {editingVoter ? 'Token unik pemilih.' : 'Jika dikosongkan, sistem akan meng-generate token acak 6 karakter.'}
-                                    </p>
+                                    {voterForm.errors.token ? (
+                                        <p className="text-red-500 text-[11px] font-medium mt-1">{voterForm.errors.token}</p>
+                                    ) : (
+                                        <p className="text-[11px] text-[#727970] mt-1">
+                                            {editingVoter ? 'Token unik pemilih.' : 'Jika dikosongkan, sistem akan meng-generate token acak 6 karakter.'}
+                                        </p>
+                                    )}
                                 </div>
 
                                 <div>
@@ -549,12 +560,31 @@ export default function VotersIndex({ voters, classes, filters, stats }) {
                                         placeholder="Nama siswa, guru pamong, atau tendik"
                                         value={voterForm.data.name}
                                         onChange={(e) => voterForm.setData('name', e.target.value)}
-                                        className="w-full h-10 px-3 bg-[#F4F7F4] text-xs rounded-xl border border-[#E1F2E2] focus:bg-white focus:border-[#386641] outline-none"
+                                        className={`w-full h-10 px-3 bg-[#F4F7F4] text-xs rounded-xl border ${voterForm.errors.name ? 'border-red-500 bg-red-50' : 'border-[#E1F2E2]'} focus:bg-white focus:border-[#386641] outline-none`}
                                         required
                                     />
+                                    {voterForm.errors.name && (
+                                        <p className="text-red-500 text-[11px] font-medium mt-1">{voterForm.errors.name}</p>
+                                    )}
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-3">
+                                <div className="grid grid-cols-3 gap-2.5">
+                                    <div>
+                                        <label className="text-xs font-bold text-[#101F15] uppercase block mb-1">
+                                            Gender
+                                        </label>
+                                        <select
+                                            value={voterForm.data.gender}
+                                            onChange={(e) => voterForm.setData('gender', e.target.value)}
+                                            className="w-full h-10 px-2 bg-[#F4F7F4] text-xs rounded-xl border border-[#E1F2E2] outline-none"
+                                        >
+                                            <option value="L">Laki-laki (L)</option>
+                                            <option value="P">Perempuan (P)</option>
+                                        </select>
+                                        {voterForm.errors.gender && (
+                                            <p className="text-red-500 text-[11px] font-medium mt-1">{voterForm.errors.gender}</p>
+                                        )}
+                                    </div>
                                     <div>
                                         <label className="text-xs font-bold text-[#101F15] uppercase block mb-1">
                                             Kategori
@@ -562,7 +592,7 @@ export default function VotersIndex({ voters, classes, filters, stats }) {
                                         <select
                                             value={voterForm.data.grade}
                                             onChange={(e) => voterForm.setData('grade', e.target.value)}
-                                            className="w-full h-10 px-3 bg-[#F4F7F4] text-xs rounded-xl border border-[#E1F2E2] outline-none"
+                                            className="w-full h-10 px-2 bg-[#F4F7F4] text-xs rounded-xl border border-[#E1F2E2] outline-none"
                                         >
                                             <option value="X">Kelas X</option>
                                             <option value="XI">Kelas XI</option>
@@ -570,19 +600,25 @@ export default function VotersIndex({ voters, classes, filters, stats }) {
                                             <option value="GURU">Guru Pamong</option>
                                             <option value="TENDIK">Tendik</option>
                                         </select>
+                                        {voterForm.errors.grade && (
+                                            <p className="text-red-500 text-[11px] font-medium mt-1">{voterForm.errors.grade}</p>
+                                        )}
                                     </div>
                                     <div>
                                         <label className="text-xs font-bold text-[#101F15] uppercase block mb-1">
-                                            Kelas / Jabatan
+                                            Kelas/Jabatan
                                         </label>
                                         <input
                                             type="text"
-                                            placeholder="Contoh: X-1 / Guru Pamong"
+                                            placeholder="X-1 / Pamong"
                                             value={voterForm.data.class_room}
                                             onChange={(e) => voterForm.setData('class_room', e.target.value)}
-                                            className="w-full h-10 px-3 bg-[#F4F7F4] text-xs rounded-xl border border-[#E1F2E2] focus:bg-white focus:border-[#386641] outline-none"
+                                            className={`w-full h-10 px-2.5 bg-[#F4F7F4] text-xs rounded-xl border ${voterForm.errors.class_room ? 'border-red-500 bg-red-50' : 'border-[#E1F2E2]'} focus:bg-white focus:border-[#386641] outline-none`}
                                             required
                                         />
+                                        {voterForm.errors.class_room && (
+                                            <p className="text-red-500 text-[11px] font-medium mt-1">{voterForm.errors.class_room}</p>
+                                        )}
                                     </div>
                                 </div>
 
@@ -597,9 +633,9 @@ export default function VotersIndex({ voters, classes, filters, stats }) {
                                     <button
                                         type="submit"
                                         disabled={voterForm.processing}
-                                        className="px-5 py-2 rounded-xl bg-[#386641] text-white text-xs font-bold hover:bg-[#204E2B] transition"
+                                        className="px-5 py-2 rounded-xl bg-[#386641] text-white text-xs font-bold hover:bg-[#204E2B] transition disabled:opacity-50"
                                     >
-                                        Simpan
+                                        {voterForm.processing ? 'Menyimpan...' : 'Simpan'}
                                     </button>
                                 </div>
                             </form>

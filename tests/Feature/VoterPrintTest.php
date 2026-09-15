@@ -66,4 +66,42 @@ class VoterPrintTest extends TestCase
             );
         }
     }
+
+    public function test_admin_can_manually_add_and_update_voter(): void
+    {
+        $admin = Admin::where('username', 'admin')->first();
+
+        $response = $this->actingAs($admin, 'admin')->post('/admin/voters', [
+            'nisn' => '9998887776',
+            'name' => 'Pemilih Manual Test',
+            'gender' => 'P',
+            'grade' => 'GURU',
+            'class_room' => 'Guru Pamong',
+            'token' => 'MANUAL123',
+        ]);
+
+        $response->assertSessionHas('success');
+        $voter = Voter::where('nisn', '9998887776')->first();
+        $this->assertNotNull($voter);
+        $this->assertEquals('Pemilih Manual Test', $voter->name);
+        $this->assertEquals('P', $voter->gender);
+        $this->assertEquals('MANUAL123', $voter->token);
+
+        // Test update
+        $updateResponse = $this->actingAs($admin, 'admin')->put('/admin/voters/' . $voter->id, [
+            'nisn' => '9998887776',
+            'name' => 'Pemilih Manual Test Updated',
+            'gender' => 'L',
+            'grade' => 'GURU',
+            'class_room' => 'Guru Pamong Utama',
+            'token' => 'MANUAL123',
+        ]);
+
+        $updateResponse->assertSessionHas('success');
+        $this->assertEquals('Pemilih Manual Test Updated', $voter->fresh()->name);
+        $this->assertEquals('L', $voter->fresh()->gender);
+
+        // Cleanup
+        $voter->delete();
+    }
 }

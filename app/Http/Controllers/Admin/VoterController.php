@@ -72,12 +72,22 @@ class VoterController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nisn' => 'required|string|size:10|unique:voters,nisn',
+            'nisn' => 'required|string|min:3|max:20|unique:voters,nisn',
             'token' => 'nullable|string|min:3|max:20|unique:voters,token',
             'name' => 'required|string|max:120',
+            'gender' => 'required|string|in:L,P',
             'grade' => 'required|string|max:30',
             'class_room' => 'required|string|max:50',
+        ], [
+            'nisn.required' => 'Kode Akses / NISN wajib diisi.',
+            'nisn.unique' => 'Kode Akses / NISN ini sudah terdaftar.',
+            'token.unique' => 'Token Akses ini sudah digunakan pemilih lain.',
+            'name.required' => 'Nama Pemilih wajib diisi.',
+            'gender.required' => 'Jenis Kelamin wajib dipilih.',
+            'class_room.required' => 'Kelas / Jabatan wajib diisi.',
         ]);
+
+        $validated['nisn'] = trim($validated['nisn']);
 
         if (empty($validated['token'])) {
             $validated['token'] = Voter::generateUniqueToken();
@@ -93,14 +103,24 @@ class VoterController extends Controller
     public function update(Request $request, Voter $voter)
     {
         $validated = $request->validate([
-            'nisn' => 'required|string|size:10|unique:voters,nisn,' . $voter->id,
+            'nisn' => 'required|string|min:3|max:20|unique:voters,nisn,' . $voter->id,
             'token' => 'required|string|min:3|max:20|unique:voters,token,' . $voter->id,
             'name' => 'required|string|max:120',
+            'gender' => 'required|string|in:L,P',
             'grade' => 'required|string|max:30',
             'class_room' => 'required|string|max:50',
+        ], [
+            'nisn.required' => 'Kode Akses / NISN wajib diisi.',
+            'nisn.unique' => 'Kode Akses / NISN ini sudah terdaftar.',
+            'token.unique' => 'Token Akses ini sudah digunakan pemilih lain.',
+            'name.required' => 'Nama Pemilih wajib diisi.',
+            'gender.required' => 'Jenis Kelamin wajib dipilih.',
+            'class_room.required' => 'Kelas / Jabatan wajib diisi.',
         ]);
 
+        $validated['nisn'] = trim($validated['nisn']);
         $validated['token'] = strtoupper(trim($validated['token']));
+
         $voter->update($validated);
 
         return redirect()->back()->with('success', 'Data Pemilih berhasil diperbarui.');
