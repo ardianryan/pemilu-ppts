@@ -33,22 +33,27 @@ class ElectionSetting extends Model
         ];
     }
 
+    protected static ?self $currentInstance = null;
+
     public static function current(): self
     {
-        return Cache::remember('election_setting_current', 3600, function () {
-            return static::firstOrCreate([], [
-                'school_name' => 'SMA TAMANSISWA MOJOKERTO',
-                'academic_year' => '2025/2026',
-                'title' => 'Pemilihan Ketua & Wakil Ketua PPTS',
-                'logo_path' => '/images/logo2.png',
-                'is_voting_active' => true,
-                'show_quick_count_public' => false,
-            ]);
-        });
+        if (static::$currentInstance !== null) {
+            return static::$currentInstance;
+        }
+
+        return static::$currentInstance = static::firstOrCreate([], [
+            'school_name' => 'SMA TAMANSISWA MOJOKERTO',
+            'academic_year' => '2025/2026',
+            'title' => 'Pemilihan Ketua & Wakil Ketua PPTS',
+            'logo_path' => '/images/logo2.png',
+            'is_voting_active' => true,
+            'show_quick_count_public' => false,
+        ]);
     }
 
     public static function clearCache(): void
     {
+        static::$currentInstance = null;
         Cache::forget('election_setting_current');
         Cache::forget('election_setting_array');
     }
