@@ -26,7 +26,8 @@ export default function AdminLayout({ children, title }) {
     };
 
     const navItems = [
-        { label: 'Dashboard & Quick Count', href: route('admin.dashboard'), icon: LayoutDashboard, routeName: 'admin.dashboard' },
+        { label: 'Dashboard Utama', href: route('admin.dashboard'), icon: LayoutDashboard, routeName: 'admin.dashboard' },
+        { label: 'Quick Count Paslon', href: route('admin.quick_count'), icon: Vote, routeName: 'admin.quick_count' },
         { label: 'Data Pasangan Calon', href: route('admin.candidates.index'), icon: Users, routeName: 'admin.candidates.index' },
         { label: 'Data Pemilih (DPT)', href: route('admin.voters.index'), icon: UserCheck, routeName: 'admin.voters.index' },
         { label: 'Pengaturan Pemilihan', href: route('admin.settings.index'), icon: Settings, routeName: 'admin.settings.index' },

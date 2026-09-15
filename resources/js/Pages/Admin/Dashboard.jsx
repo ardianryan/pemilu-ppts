@@ -22,18 +22,13 @@ import {
     BarChart3
 } from 'lucide-react';
 
-export default function Dashboard({ metrics, candidates, gender_stats = [], grade_stats = [], class_stats = [], setting }) {
+export default function Dashboard({ metrics, gender_stats = [], grade_stats = [], class_stats = [], setting }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [filterCategory, setFilterCategory] = useState('ALL');
 
     const handleRefresh = () => {
-        router.reload({ only: ['metrics', 'candidates', 'gender_stats', 'grade_stats', 'class_stats'] });
+        router.reload({ only: ['metrics', 'gender_stats', 'grade_stats', 'class_stats'] });
     };
-
-    // Find current leader
-    const leader = candidates && candidates.length > 0 
-        ? [...candidates].sort((a, b) => b.vote_count - a.vote_count)[0] 
-        : null;
 
     // Filter class_stats by search & category tab
     const filteredClassStats = class_stats.filter((c) => {
@@ -157,108 +152,28 @@ export default function Dashboard({ metrics, candidates, gender_stats = [], grad
                     </div>
                 </div>
 
-                {/* 2. DEDICATED QUICK COUNT SECTION */}
-                <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E1F2E2] shadow-sm space-y-6">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E1F2E2] pb-5">
-                        <div>
-                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#E6F8E8] text-[#204E2B] text-xs font-bold mb-1">
-                                <BarChart3 className="w-4 h-4 text-[#386641]" />
-                                <span>QUICK COUNT PEROLEHAN SUARA PASLON</span>
-                            </div>
-                            <h2 className="font-headline font-extrabold text-xl sm:text-2xl text-[#101F15]">
-                                Hasil Perolehan Suara Pasangan Calon
-                            </h2>
-                            <p className="text-xs text-[#727970]">
-                                Total perolehan suara terkumpul per pasangan calon Ketua & Wakil Ketua PPTS
-                            </p>
+                {/* Quick Count Navigation Callout Banner */}
+                <div className="bg-gradient-to-r from-[#386641] to-[#204E2B] rounded-3xl p-6 sm:p-7 text-white shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 relative overflow-hidden">
+                    <div className="space-y-1.5 z-10 max-w-xl">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-[#E6F8E8] text-xs font-bold">
+                            <BarChart3 className="w-3.5 h-3.5" />
+                            <span>Quick Count Terpisah</span>
                         </div>
-
-                        {leader && leader.vote_count > 0 && (
-                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#E6F8E8] border border-[#A7C957]/50 text-[#204E2B] text-xs font-bold shadow-xs">
-                                <Award className="w-4 h-4 text-[#386641]" />
-                                <span>Unggul Sementara: Paslon 0{leader.candidate_number} ({leader.percentage}%)</span>
-                            </div>
-                        )}
+                        <h3 className="font-headline font-extrabold text-xl sm:text-2xl tracking-tight text-white">
+                            Lihat Perolehan Suara Paslon Real-Time
+                        </h3>
+                        <p className="text-xs text-[#E6F8E8]/90 leading-relaxed">
+                            Halaman khusus Quick Count untuk memantau perolehan suara pasangan calon 01, 02, dan 03 secara mandiri & cepat tanpa membebani server.
+                        </p>
                     </div>
 
-                    {/* Candidate Cards Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {candidates.map((paslon) => {
-                            const isLead = leader && leader.id === paslon.id && paslon.vote_count > 0;
-
-                            return (
-                                <div 
-                                    key={paslon.id} 
-                                    className={`rounded-2xl p-5 border transition-all duration-300 flex flex-col justify-between space-y-4 ${
-                                        isLead 
-                                            ? 'bg-gradient-to-b from-[#E6F8E8] to-white border-[#386641] shadow-md ring-2 ring-[#386641]/20' 
-                                            : 'bg-[#F4F7F4] border-[#E1F2E2]'
-                                    }`}
-                                >
-                                    <div className="space-y-3">
-                                        {/* Header & Number */}
-                                        <div className="flex items-center justify-between">
-                                            <span className={`w-10 h-10 rounded-xl font-headline font-extrabold text-lg flex items-center justify-center shadow-xs ${
-                                                isLead ? 'bg-[#386641] text-white' : 'bg-white text-[#101F15] border border-[#E1F2E2]'
-                                            }`}>
-                                                0{paslon.candidate_number}
-                                            </span>
-                                            {isLead && (
-                                                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#386641] text-white">
-                                                    Unggul
-                                                </span>
-                                            )}
-                                        </div>
-
-                                        {/* Photo if available */}
-                                        {paslon.photo_path && (
-                                            <div className="w-full h-36 rounded-xl bg-white border border-[#E1F2E2] overflow-hidden">
-                                                <img 
-                                                    src={paslon.photo_path} 
-                                                    alt={paslon.chairman_name}
-                                                    className="w-full h-full object-cover object-top" 
-                                                />
-                                            </div>
-                                        )}
-
-                                        {/* Candidate Names */}
-                                        <div>
-                                            <h3 className="font-headline font-bold text-base text-[#101F15]">
-                                                {paslon.chairman_name}
-                                            </h3>
-                                            <p className="text-xs font-semibold text-[#386641]">
-                                                & {paslon.vice_chairman_name}
-                                            </p>
-                                            <p className="text-[11px] text-[#727970] italic mt-1 line-clamp-1">
-                                                "{paslon.tagline || '-'}"
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    {/* Stats & Progress Bar */}
-                                    <div className="space-y-2 pt-2 border-t border-[#E1F2E2]/80">
-                                        <div className="flex justify-between items-baseline">
-                                            <span className="font-headline font-extrabold text-2xl text-[#204E2B]">
-                                                {paslon.percentage}%
-                                            </span>
-                                            <span className="font-bold text-sm text-[#101F15]">
-                                                {paslon.vote_count} <span className="text-xs font-normal text-[#727970]">Suara</span>
-                                            </span>
-                                        </div>
-
-                                        <div className="w-full bg-white h-3.5 rounded-full overflow-hidden border border-[#E1F2E2] p-0.5">
-                                            <div
-                                                className={`h-full rounded-full transition-all duration-700 ${
-                                                    isLead ? 'bg-[#386641]' : 'bg-[#6A994E]'
-                                                }`}
-                                                style={{ width: `${Math.max(paslon.percentage, 1)}%` }}
-                                            ></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
+                    <Link
+                        href={route('admin.quick_count')}
+                        className="px-5 py-3 rounded-2xl bg-white text-[#204E2B] hover:bg-[#E6F8E8] text-xs font-headline font-extrabold shadow-md transition flex items-center gap-2 shrink-0 z-10"
+                    >
+                        <Vote className="w-4 h-4 text-[#386641]" />
+                        <span>Buka Quick Count Paslon</span>
+                    </Link>
                 </div>
 
                 {/* 3. SEBARAN PARTISIPASI DETAIL (2 Columns) */}

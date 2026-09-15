@@ -38,6 +38,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Admin Dashboard Suite (Protected)
     Route::middleware('auth:admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/quick-count', [DashboardController::class, 'quickCount'])->name('quick_count');
 
         // Candidates Management
         Route::get('/candidates', [CandidateController::class, 'index'])->name('candidates.index');

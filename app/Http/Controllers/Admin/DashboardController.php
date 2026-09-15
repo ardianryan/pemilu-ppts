@@ -19,23 +19,6 @@ class DashboardController extends Controller
         $totalNotVoted = $totalVoters - $totalVoted;
         $turnoutPercentage = $totalVoters > 0 ? round(($totalVoted / $totalVoters) * 100, 1) : 0;
 
-        $candidates = Candidate::orderBy('candidate_number', 'asc')
-            ->get()
-            ->map(function ($c) use ($totalVoted) {
-                $percentage = $totalVoted > 0 ? round(($c->vote_count / $totalVoted) * 100, 1) : 0;
-                return [
-                    'id' => $c->id,
-                    'candidate_number' => $c->candidate_number,
-                    'chairman_name' => $c->chairman_name,
-                    'vice_chairman_name' => $c->vice_chairman_name,
-                    'tagline' => $c->tagline,
-                    'photo_path' => $c->photo_path,
-                    'color_accent' => $c->color_accent,
-                    'vote_count' => $c->vote_count,
-                    'percentage' => $percentage,
-                ];
-            });
-
         // Partisipasi Berdasarkan Jenis Kelamin
         $genderStats = Voter::select('gender', DB::raw('count(*) as total'), DB::raw('sum(has_voted) as voted'))
             ->groupBy('gender')
@@ -105,10 +88,47 @@ class DashboardController extends Controller
                 'total_not_voted' => $totalNotVoted,
                 'turnout_percentage' => $turnoutPercentage,
             ],
-            'candidates' => $candidates,
             'gender_stats' => $genderStats,
             'grade_stats' => $gradeStats,
             'class_stats' => $classStats,
+            'setting' => $setting,
+        ]);
+    }
+
+    public function quickCount(): Response
+    {
+        $totalVoters = Voter::count();
+        $totalVoted = Voter::where('has_voted', true)->count();
+        $totalNotVoted = $totalVoters - $totalVoted;
+        $turnoutPercentage = $totalVoters > 0 ? round(($totalVoted / $totalVoters) * 100, 1) : 0;
+
+        $candidates = Candidate::orderBy('candidate_number', 'asc')
+            ->get()
+            ->map(function ($c) use ($totalVoted) {
+                $percentage = $totalVoted > 0 ? round(($c->vote_count / $totalVoted) * 100, 1) : 0;
+                return [
+                    'id' => $c->id,
+                    'candidate_number' => $c->candidate_number,
+                    'chairman_name' => $c->chairman_name,
+                    'vice_chairman_name' => $c->vice_chairman_name,
+                    'tagline' => $c->tagline,
+                    'photo_path' => $c->photo_path,
+                    'color_accent' => $c->color_accent,
+                    'vote_count' => $c->vote_count,
+                    'percentage' => $percentage,
+                ];
+            });
+
+        $setting = ElectionSetting::current();
+
+        return Inertia::render('Admin/QuickCount', [
+            'metrics' => [
+                'total_voters' => $totalVoters,
+                'total_voted' => $totalVoted,
+                'total_not_voted' => $totalNotVoted,
+                'turnout_percentage' => $turnoutPercentage,
+            ],
+            'candidates' => $candidates,
             'setting' => $setting,
         ]);
     }
