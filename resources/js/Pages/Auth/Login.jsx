@@ -14,7 +14,7 @@ import {
     BarChart3
 } from 'lucide-react';
 
-export default function Login({ setting, classes, errors: serverErrors }) {
+export default function Login({ setting, errors: serverErrors }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         nisn: '',
         token: '',

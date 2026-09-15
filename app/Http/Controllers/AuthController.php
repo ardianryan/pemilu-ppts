@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ElectionSetting;
 use App\Models\Voter;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -11,7 +12,7 @@ use Inertia\Response;
 
 class AuthController extends Controller
 {
-    public function showLogin(): Response|\Illuminate\Http\RedirectResponse
+    public function showLogin(): Response|RedirectResponse
     {
         if (Auth::guard('voter')->check()) {
             return redirect()->route('voting.index');
@@ -26,7 +27,6 @@ class AuthController extends Controller
                 'academic_year' => $setting->academic_year,
                 'is_voting_active' => $setting->is_voting_active,
             ],
-            'classes' => Voter::distinct()->orderBy('class_room')->pluck('class_room'),
         ]);
     }
 
@@ -42,7 +42,7 @@ class AuthController extends Controller
         ]);
 
         $setting = ElectionSetting::current();
-        if (!$setting->is_voting_active) {
+        if (! $setting->is_voting_active) {
             return back()->withErrors([
                 'nisn' => 'Bilik suara saat ini sedang ditutup oleh panitia pemilihan.',
             ]);
@@ -52,14 +52,15 @@ class AuthController extends Controller
             ->where('token', strtoupper(trim($request->token)))
             ->first();
 
-        if (!$voter) {
+        if (! $voter) {
             return back()->withErrors([
                 'nisn' => 'Data pemilih tidak ditemukan. Pastikan Kode Akses / NISN dan Token sesuai.',
             ]);
         }
 
         if ($voter->has_voted) {
-            $votedAtFormatted = $voter->voted_at ? $voter->voted_at->translatedFormat('d M Y, H:i') . ' WIB' : 'sebelumnya';
+            $votedAtFormatted = $voter->voted_at ? $voter->voted_at->translatedFormat('d M Y, H:i').' WIB' : 'sebelumnya';
+
             return back()->withErrors([
                 'nisn' => "Halo {$voter->name}, hak suara Anda sudah tercatat pada {$votedAtFormatted}. Satu pemilih hanya memiliki 1 kali hak pilih.",
             ]);
@@ -68,7 +69,7 @@ class AuthController extends Controller
         // Catat jejak login & login voter
         $voter->update([
             'ip_address' => $request->ip(),
-            'user_agent' => substr((string)$request->userAgent(), 0, 500),
+            'user_agent' => substr((string) $request->userAgent(), 0, 500),
             'voting_session_id' => session()->getId(),
         ]);
 
