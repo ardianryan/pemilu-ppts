@@ -21,6 +21,10 @@ import {
 } from 'lucide-react';
 
 export default function VotersIndex({ voters, classes, filters, stats }) {
+    const safeClasses = Array.isArray(classes) ? classes : (classes ? Object.values(classes) : []);
+    const safeVotersData = Array.isArray(voters?.data) ? voters.data : [];
+    const safeVotersLinks = Array.isArray(voters?.links) ? voters.links : [];
+
     const [searchQuery, setSearchQuery] = useState(filters.search || '');
     const [selectedGrade, setSelectedGrade] = useState(filters.grade || '');
     const [selectedClass, setSelectedClass] = useState(filters.class_room || '');
@@ -275,7 +279,7 @@ export default function VotersIndex({ voters, classes, filters, stats }) {
                             className="h-9 px-3 bg-[#F4F7F4] text-xs text-[#101F15] rounded-xl border border-[#E1F2E2] outline-none"
                         >
                             <option value="">Semua Kelas / Jabatan</option>
-                            {classes.map((c) => (
+                            {safeClasses.map((c) => (
                                 <option key={c} value={c}>{c}</option>
                             ))}
                         </select>
@@ -353,12 +357,12 @@ export default function VotersIndex({ voters, classes, filters, stats }) {
                                     <th className="px-4 py-3.5 w-10 text-center">
                                         <input
                                             type="checkbox"
-                                            checked={voters.data.length > 0 && selectedIds.length === voters.data.length}
+                                            checked={safeVotersData.length > 0 && selectedIds.length === safeVotersData.length}
                                             onChange={() => {
-                                                if (selectedIds.length === voters.data.length) {
+                                                if (selectedIds.length === safeVotersData.length) {
                                                     setSelectedIds([]);
                                                 } else {
-                                                    setSelectedIds(voters.data.map(v => v.id));
+                                                    setSelectedIds(safeVotersData.map(v => v.id));
                                                 }
                                             }}
                                             className="rounded border-[#E1F2E2] text-[#386641] focus:ring-[#386641] cursor-pointer"
@@ -375,14 +379,14 @@ export default function VotersIndex({ voters, classes, filters, stats }) {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#E1F2E2]">
-                                {voters.data.length === 0 ? (
+                                {safeVotersData.length === 0 ? (
                                     <tr>
                                         <td colSpan="9" className="text-center py-12 text-[#727970]">
                                             Tidak ada data pemilih yang sesuai kriteria pencarian.
                                         </td>
                                     </tr>
                                 ) : (
-                                    voters.data.map((v) => (
+                                    safeVotersData.map((v) => (
                                         <tr key={v.id} className={`hover:bg-[#F4F7F4]/60 transition ${selectedIds.includes(v.id) ? 'bg-[#E6F8E8]/40' : ''}`}>
                                             <td className="px-4 py-3 text-center">
                                                 <input
@@ -471,9 +475,9 @@ export default function VotersIndex({ voters, classes, filters, stats }) {
                                 Menampilkan <strong className="text-[#101F15]">{voters.from || 0}</strong> - <strong className="text-[#101F15]">{voters.to || 0}</strong> dari <strong className="text-[#101F15]">{voters.total.toLocaleString('id-ID')}</strong> Pemilih
                             </span>
 
-                            {voters.links && voters.links.length > 1 && (
+                            {safeVotersLinks.length > 1 && (
                                 <div className="flex flex-wrap items-center gap-1">
-                                    {voters.links.map((link, idx) => (
+                                    {safeVotersLinks.map((link, idx) => (
                                         <Link
                                             key={idx}
                                             href={link.url || '#'}

@@ -56,8 +56,8 @@ class VoterController extends Controller
             ->paginate($perPage)
             ->withQueryString();
 
-        $classes = Cache::remember('voter_classes_list', 30, function () {
-            return Voter::distinct()->orderBy('class_room')->pluck('class_room');
+        $classes = Cache::remember('voter_classes_list', 60, function () {
+            return Voter::distinct()->orderBy('class_room')->pluck('class_room')->values()->all();
         });
 
         $stats = Cache::remember('voter_stats_summary', 5, function () {
