@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class ElectionSetting extends Model
 {
@@ -34,20 +35,19 @@ class ElectionSetting extends Model
 
     public static function current(): self
     {
-        return \Illuminate\Support\Facades\Cache::remember('election_setting_current', 300, function () {
-            return static::firstOrCreate([], [
-                'school_name' => 'SMA TAMANSISWA MOJOKERTO',
-                'academic_year' => '2025/2026',
-                'title' => 'Pemilihan Ketua & Wakil Ketua PPTS',
-                'logo_path' => '/images/logo2.png',
-                'is_voting_active' => true,
-                'show_quick_count_public' => false,
-            ]);
-        });
+        return static::firstOrCreate([], [
+            'school_name' => 'SMA TAMANSISWA MOJOKERTO',
+            'academic_year' => '2025/2026',
+            'title' => 'Pemilihan Ketua & Wakil Ketua PPTS',
+            'logo_path' => '/images/logo2.png',
+            'is_voting_active' => true,
+            'show_quick_count_public' => false,
+        ]);
     }
 
     public static function clearCache(): void
     {
-        \Illuminate\Support\Facades\Cache::forget('election_setting_current');
+        Cache::forget('election_setting_current');
+        Cache::forget('election_setting_array');
     }
 }
