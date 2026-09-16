@@ -23,6 +23,7 @@ export default function VotingIndex({ voter, candidates, setting }) {
     const [selectedCandidate, setSelectedCandidate] = useState(null);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [modalManifesto, setModalManifesto] = useState(null);
+    const [showManifestoModal, setShowManifestoModal] = useState(false);
     const [timeLeft, setTimeLeft] = useState(300); // 5 menit hitung mundur
 
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -348,6 +349,7 @@ export default function VotingIndex({ voter, candidates, setting }) {
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     setModalManifesto(paslon);
+                                                    setShowManifestoModal(true);
                                                 }}
                                                 className="flex-1 py-2.5 px-3 rounded-xl bg-[#E1F2E2] hover:bg-[#D5E7D7] text-[#204E2B] text-xs font-bold transition flex items-center justify-center gap-1.5"
                                             >
@@ -366,7 +368,7 @@ export default function VotingIndex({ voter, candidates, setting }) {
                                                 {isSelected ? (
                                                     <>
                                                         <CheckCircle2 className="w-4 h-4" />
-                                                        <span>✓ Terpilih</span>
+                                                        <span>Terpilih</span>
                                                     </>
                                                 ) : (
                                                     <>
@@ -520,8 +522,8 @@ export default function VotingIndex({ voter, candidates, setting }) {
 
             {/* Modal 2: Detail Visi & Misi with GSAP */}
             <GsapModal
-                isOpen={Boolean(modalManifesto)}
-                onClose={() => setModalManifesto(null)}
+                isOpen={showManifestoModal}
+                onClose={() => setShowManifestoModal(false)}
                 maxWidth="max-w-lg"
             >
                 {({ requestClose }) => (

@@ -288,7 +288,7 @@ export default function Dashboard({ metrics, gender_stats = [], grade_stats = []
                                 <div key={g.grade} className="space-y-1 bg-[#F4F7F4] p-3 rounded-xl border border-[#E1F2E2]">
                                     <div className="flex justify-between items-center text-xs">
                                         <span className="font-bold text-[#101F15]">
-                                            {g.grade === 'GURU' ? '👨‍🏫 Guru Pamong' : (g.grade === 'TENDIK' ? '💼 Staf Tata Usaha' : `Siswa Kelas ${g.grade}`)}
+                                            {g.grade === 'GURU' ? 'Guru Pamong' : (g.grade === 'TENDIK' ? 'Staf Tata Usaha' : `Siswa Kelas ${g.grade}`)}
                                         </span>
                                         <span className="text-[#414941] font-semibold">
                                             {g.voted} / {g.total} Suara ({g.percentage}%)
