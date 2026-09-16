@@ -3,24 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presentasi Pemilu PPTS Digital - SMA Tamansiswa Mojokerto</title>
+    <title>Buku Panduan & Deck Presentasi Pemilu PPTS Digital - SMA Tamansiswa Mojokerto</title>
     <link rel="icon" type="image/png" href="/images/logo2.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #08140B;
-            --bg-card: rgba(16, 31, 21, 0.75);
-            --border-card: rgba(74, 222, 128, 0.15);
+            /* Authentic Civic Green Palette (Matched to Pemilu PPTS App) */
+            --bg-page: #F4F7F4;
+            --surface: #FFFFFF;
+            --surface-alt: #F0F5F1;
             --primary: #386641;
-            --primary-light: #4ADE80;
-            --primary-sage: #A7C957;
-            --accent: #22C55E;
-            --text-main: #FFFFFF;
-            --text-muted: #A3B899;
-            --text-dim: #64748B;
+            --primary-dark: #204E2B;
+            --primary-light: #E6F8E8;
+            --primary-accent: #6A994E;
+            --sage-subtle: #A7C957;
+            --border-subtle: #E1F2E2;
+            --border-focus: #386641;
+            --text-title: #101F15;
+            --text-body: #414941;
+            --text-muted: #727970;
+            --danger-bg: #FFDAD6;
+            --danger-text: #BA1A1A;
+            --warning-bg: #FEF3C7;
+            --warning-text: #D97706;
+            --shadow-card: 0 10px 30px -4px rgba(32, 78, 43, 0.08), 0 2px 6px -1px rgba(32, 78, 43, 0.04);
+            --shadow-elevated: 0 20px 40px -8px rgba(32, 78, 43, 0.12);
         }
 
         * {
@@ -30,9 +39,9 @@
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-title);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             overflow: hidden;
             width: 100vw;
             height: 100vh;
@@ -40,14 +49,13 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Ambient Glow Background */
-        .ambient-glow {
+        /* Subtle Civic Watermark Pattern */
+        .ambient-pattern {
             position: fixed;
             inset: 0;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(56, 102, 65, 0.25) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(74, 222, 128, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(16, 31, 21, 0.8) 0%, transparent 100%);
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(56, 102, 65, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(106, 153, 78, 0.06) 0%, transparent 40%);
             pointer-events: none;
             z-index: 0;
         }
@@ -59,21 +67,20 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: rgba(255, 255, 255, 0.08);
+            background: #E1F2E2;
             z-index: 100;
         }
         .progress-bar {
             height: 100%;
-            width: 11%;
-            background: linear-gradient(90deg, #386641, #4ADE80, #A7C957);
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 12px rgba(74, 222, 128, 0.6);
+            width: 8.33%;
+            background: linear-gradient(90deg, #204E2B, #386641, #6A994E);
+            transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Fixed Top Branding Bar */
+        /* Fixed Top Branding Navigation */
         .top-nav {
             position: fixed;
-            top: 16px;
+            top: 14px;
             left: 24px;
             right: 24px;
             display: flex;
@@ -89,33 +96,61 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            background: rgba(16, 31, 21, 0.8);
+            background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-card);
+            border: 1px solid var(--border-subtle);
             padding: 8px 16px;
             border-radius: 9999px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 16px rgba(16, 31, 21, 0.06);
         }
         .brand-badge img {
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             object-fit: contain;
         }
         .brand-text {
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 13px;
             font-weight: 800;
-            letter-spacing: 0.04em;
-            color: #FFFFFF;
+            letter-spacing: -0.01em;
+            color: var(--primary-dark);
+            line-height: 1.1;
         }
         .brand-subtext {
             font-size: 11px;
-            color: var(--primary-light);
+            color: var(--text-muted);
             font-weight: 600;
         }
+        .pill-live {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--primary-light);
+            border: 1px solid #C2E9C6;
+            color: var(--primary-dark);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(32, 78, 43, 0.05);
+        }
+        .dot-pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+            box-shadow: 0 0 0 0 rgba(56, 102, 65, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(56, 102, 65, 0.5); }
+            70% { box-shadow: 0 0 0 8px rgba(56, 102, 65, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(56, 102, 65, 0); }
+        }
 
-        /* Slide Deck Container (Locked 16:9 on Desktop) */
+        /* 16:9 Presentation Frame */
         .slide-deck {
             position: absolute;
             inset: 0;
@@ -136,21 +171,21 @@
             }
         }
 
-        /* Slide Base */
+        /* Individual Slide */
         .slide {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
-            padding: 70px 48px 90px;
+            padding: 68px 48px 90px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             opacity: 0;
             visibility: hidden;
-            transform: scale(0.96) translateY(16px);
-            transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s;
+            transform: scale(0.97) translateY(12px);
+            transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s;
             overflow: hidden;
         }
 
@@ -160,253 +195,291 @@
             transform: scale(1) translateY(0);
         }
 
-        /* Typography */
+        /* Typography & Headings */
         h1, h2, h3, h4 {
             font-family: 'Plus Jakarta Sans', sans-serif;
             letter-spacing: -0.02em;
+            color: var(--text-title);
         }
-        .pill-badge {
+        .pill-category {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 14px;
-            background: rgba(74, 222, 128, 0.12);
-            border: 1px solid rgba(74, 222, 128, 0.3);
+            padding: 5px 12px;
+            background: var(--primary-light);
+            border: 1px solid #C2E9C6;
             border-radius: 9999px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
-            color: var(--primary-light);
+            color: var(--primary-dark);
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 16px;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
         }
         .slide-title {
-            font-size: clamp(28px, 4.2vw, 54px);
+            font-size: clamp(26px, 3.8vw, 44px);
             font-weight: 900;
-            line-height: 1.15;
-            color: #FFFFFF;
-            margin-bottom: 14px;
+            line-height: 1.2;
+            color: var(--text-title);
+            margin-bottom: 8px;
             text-align: center;
         }
         .slide-title span.highlight {
-            background: linear-gradient(135deg, #4ADE80 0%, #A7C957 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
+            position: relative;
         }
         .slide-desc {
-            font-size: clamp(14px, 1.4vw, 18px);
-            color: var(--text-muted);
-            line-height: 1.6;
-            max-width: 720px;
+            font-size: clamp(13px, 1.25vw, 16px);
+            color: var(--text-body);
+            line-height: 1.55;
+            max-width: 780px;
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
-        /* Grid Layouts */
+        /* Responsive Grid Framework */
         .grid-2 {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
+            gap: 20px;
             width: 100%;
             max-width: 1080px;
         }
         .grid-3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            gap: 18px;
             width: 100%;
             max-width: 1100px;
         }
         .grid-4 {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
+            gap: 16px;
             width: 100%;
-            max-width: 1100px;
+            max-width: 1120px;
         }
 
         @media (max-width: 768px) {
             .grid-2, .grid-3, .grid-4 {
                 grid-template-columns: 1fr;
-                gap: 14px;
-                max-height: 52vh;
+                gap: 12px;
+                max-height: 55vh;
                 overflow-y: auto;
-                padding: 4px;
+                padding-right: 4px;
             }
             .slide {
-                padding: 65px 20px 80px;
+                padding: 60px 18px 80px;
             }
         }
 
-        /* Glassmorphism Cards */
+        /* Clean White Cards Matching App Style */
         .card {
-            background: var(--bg-card);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid var(--border-card);
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
             border-radius: 20px;
-            padding: 24px;
+            padding: 20px 22px;
             text-align: left;
-            transition: all 0.3s ease;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
             position: relative;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
         .card:hover {
-            border-color: rgba(74, 222, 128, 0.4);
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+            border-color: #6A994E;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-elevated);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
         }
         .card-icon {
-            width: 44px;
-            height: 44px;
+            width: 38px;
+            height: 38px;
             border-radius: 12px;
-            background: rgba(74, 222, 128, 0.15);
-            color: var(--primary-light);
+            background: var(--primary-light);
+            color: var(--primary-dark);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 14px;
+            flex-shrink: 0;
         }
         .card-title {
-            font-size: 17px;
+            font-size: 15px;
             font-weight: 800;
-            color: #FFFFFF;
-            margin-bottom: 8px;
+            color: var(--text-title);
             line-height: 1.3;
         }
         .card-body {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.6;
+            font-size: 12.5px;
+            color: var(--text-body);
+            line-height: 1.55;
+        }
+        .step-tag {
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            background: var(--primary-dark);
+            color: #FFFFFF;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
         }
 
-        /* Hero Highlights (Big Numbers) */
-        .stat-card {
-            background: linear-gradient(145deg, rgba(20, 45, 27, 0.85), rgba(10, 25, 15, 0.9));
-            border: 1px solid var(--border-card);
-            border-radius: 20px;
-            padding: 24px;
+        /* Interactive Checklist / Action list */
+        .action-list {
+            list-style: none;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .action-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--text-body);
+            line-height: 1.45;
+        }
+        .action-bullet {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: bold;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        /* Stat Card */
+        .stat-box {
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            padding: 18px;
             text-align: center;
+            box-shadow: var(--shadow-card);
         }
         .stat-number {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: clamp(32px, 3.8vw, 48px);
+            font-size: clamp(28px, 3.2vw, 42px);
             font-weight: 900;
-            color: var(--primary-light);
+            color: var(--primary);
             line-height: 1;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         .stat-label {
             font-size: 13px;
-            font-weight: 700;
-            color: #FFFFFF;
-            margin-bottom: 4px;
+            font-weight: 800;
+            color: var(--text-title);
+            margin-bottom: 2px;
         }
         .stat-sub {
             font-size: 11px;
             color: var(--text-muted);
         }
 
-        /* Flow Step Cards */
-        .step-badge {
-            width: 28px;
-            height: 28px;
-            border-radius: 9999px;
-            background: var(--primary-light);
-            color: #08140B;
-            font-weight: 900;
-            font-size: 13px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 12px;
-        }
-
-        /* Bottom Floating Controls */
+        /* Floating Nav Dock */
         .nav-dock {
             position: fixed;
-            bottom: 24px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             align-items: center;
-            gap: 16px;
-            background: rgba(16, 31, 21, 0.85);
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border-card);
-            padding: 8px 18px;
+            border: 1px solid var(--border-subtle);
+            padding: 6px 16px;
             border-radius: 9999px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 8px 24px rgba(16, 31, 21, 0.08);
             z-index: 50;
         }
         .nav-dock button {
-            background: rgba(255, 255, 255, 0.08);
-            border: none;
-            color: #FFFFFF;
-            width: 36px;
-            height: 36px;
+            background: #F4F7F4;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-title);
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.2s ease;
+            font-size: 13px;
+            font-weight: 700;
         }
         .nav-dock button:hover {
-            background: var(--primary-light);
-            color: #08140B;
-            transform: scale(1.08);
+            background: var(--primary);
+            color: #FFFFFF;
+            border-color: var(--primary);
+            transform: scale(1.06);
         }
         .nav-dock .slide-counter {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-dark);
             min-width: 60px;
             text-align: center;
         }
-        .nav-dock .fs-btn {
-            font-size: 14px;
-        }
 
-        /* Key Indicator */
-        .keyboard-hint {
+        /* Keyboard Tip */
+        .kbd-guide {
             position: fixed;
-            bottom: 30px;
-            right: 28px;
+            bottom: 24px;
+            right: 24px;
             display: flex;
             align-items: center;
             gap: 6px;
             font-size: 11px;
-            color: var(--text-dim);
+            color: var(--text-muted);
             font-family: 'JetBrains Mono', monospace;
             z-index: 40;
         }
-        .kbd {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 5px;
+        .kbd-key {
+            background: #FFFFFF;
+            border: 1px solid #D5E7D7;
+            border-radius: 4px;
             padding: 2px 6px;
             font-size: 10px;
-            color: var(--text-muted);
+            font-weight: 600;
+            color: var(--primary-dark);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
-
         @media (max-width: 768px) {
-            .keyboard-hint { display: none; }
+            .kbd-guide { display: none; }
         }
     </style>
 </head>
 <body>
-    <div class="ambient-glow"></div>
+    <div class="ambient-pattern"></div>
 
-    <!-- Progress Indicator -->
+    <!-- Progress Indicator Bar -->
     <div class="progress-bar-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
 
-    <!-- Top Left Civic Brand -->
+    <!-- Top Left Civic Identity -->
     <div class="top-nav">
         <div class="brand-badge">
             <img src="/images/logo2.png" alt="Logo SMA Tamansiswa" onerror="this.style.display='none'">
@@ -415,355 +488,624 @@
                 <div class="brand-subtext">SMA TAMANSISWA MOJOKERTO</div>
             </div>
         </div>
-        <a href="https://pemilu-ppts.ppti.me" target="_blank" style="text-decoration:none;">
-            <div class="brand-badge" style="cursor:pointer;">
-                <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#4ADE80; box-shadow:0 0 8px #4ADE80;"></span>
-                <span class="brand-subtext" style="color:#FFF;">pemilu-ppts.ppti.me</span>
-            </div>
+        <a href="https://pemilu-ppts.ppti.me" target="_blank" class="pill-live">
+            <span class="dot-pulse"></span>
+            <span>pemilu-ppts.ppti.me</span>
         </a>
     </div>
 
-    <!-- 16:9 Presentation Slides Container -->
+    <!-- Main 16:9 Presentation Stage -->
     <div class="slide-deck">
 
-        <!-- SLIDE 1: COVER -->
+        <!-- SLIDE 1: COVER & ORIENTASI -->
         <div class="slide active" id="slide-1">
-            <div class="pill-badge">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
-                Sistem E-Voting Modern
+            <div class="pill-category">
+                Panduan Lengkap & Deck Presentasi
             </div>
             <h1 class="slide-title">
-                Demokrasi Sekolah Digital<br>
-                <span class="highlight">Cepat, Akurat, & Terpercaya</span>
+                Sistem E-Voting Modern<br>
+                <span class="highlight">Pemilihan Ketua & Wakil Ketua PPTS</span>
             </h1>
             <p class="slide-desc">
-                Platform pemilihan umum digital terpadu untuk suksesi kepemimpinan Ketua & Wakil Ketua PPTS (Persatuan Pelajar Tamansiswa) SMA Tamansiswa Mojokerto.
+                Solusi teknologi pemilihan umum digital SMA Tamansiswa Mojokerto: menjamin asas Langsung, Umum, Bebas, Rahasia, Jujur, dan Adil melalui validasi token unik dan transparansi real-time.
             </p>
-            <div class="grid-3" style="max-width: 820px; margin-top: 10px;">
-                <div class="stat-card">
+            <div class="grid-3" style="max-width: 860px; margin-top: 6px;">
+                <div class="stat-box">
                     <div class="stat-number">100%</div>
-                    <div class="stat-label">Paperless (Hemat Kertas)</div>
-                    <div class="stat-sub">Ramah lingkungan & bebas biaya cetak</div>
+                    <div class="stat-label">Paperless (Tanpa Kertas)</div>
+                    <div class="stat-sub">Efisiensi anggaran logistik & ramah lingkungan</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-box">
+                    <div class="stat-number">&lt; 30 Dtk</div>
+                    <div class="stat-label">Durasi Pemilihan Siswa</div>
+                    <div class="stat-sub">Bilik suara digital intuitif dan terpandu rapi</div>
+                </div>
+                <div class="stat-box">
                     <div class="stat-number">0 Detik</div>
-                    <div class="stat-label">Rekapitulasi Suara</div>
-                    <div class="stat-sub">Hasil langsung tersaji otomatis saat bilik tutup</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">1 Token</div>
-                    <div class="stat-label">Hak Suara Unik</div>
-                    <div class="stat-sub">Jaminan bebas suara ganda & manipulasi</div>
+                    <div class="stat-label">Waktu Rekapitulasi Suara</div>
+                    <div class="stat-sub">Hasil final langsung tersaji saat pemungutan ditutup</div>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 2: THE PROBLEM (KENAPA BUTUH E-VOTING?) -->
+        <!-- SLIDE 2: PERAN PENGGUNA (ROLE MATRIX) -->
         <div class="slide" id="slide-2">
-            <div class="pill-badge">Latar Belakang & Masalah</div>
-            <h2 class="slide-title">Tantangan Pemilu <span class="highlight">Kertas Konvensional</span></h2>
-            <p class="slide-desc">Metode pemilihan manual dengan kertas surat suara memiliki berbagai celah inefisiensi, biaya operasional tinggi, dan potensi risiko tinggi.</p>
-            
-            <div class="grid-2">
-                <div class="card" style="border-left: 4px solid #EF4444;">
-                    <div class="card-icon" style="background: rgba(239, 68, 68, 0.15); color: #F87171;">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            <div class="pill-category">Struktur Peran Pengguna</div>
+            <h2 class="slide-title">Siapa yang Menggunakan <span class="highlight">Sistem Ini?</span></h2>
+            <p class="slide-desc">Hak akses dan fungsi dipisahkan secara tegas agar pelaksanaan pemilu tertib, rahasia, dan akuntabel.</p>
+
+            <div class="grid-3">
+                <div class="card" style="border-top: 4px solid #386641;">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </div>
+                        <div>
+                            <div class="card-title">1. Pemilih (Siswa & Pamong)</div>
+                            <span style="font-size: 11px; color: var(--text-muted);">Siswa Kelas X, XI, XII, Guru, Tendik</span>
+                        </div>
                     </div>
-                    <h3 class="card-title">Biaya Cetak & Logistik Tinggi</h3>
-                    <p class="card-body">Mencetak ratusan lembar surat suara, bilik coblos fisik, paku, dan bantalan menghabiskan anggaran besar setiap tahun yang hanya digunakan sekali pakai.</p>
+                    <p class="card-body">Menerima Kartu Pemilih fisik, login di bilik suara dengan NISN + Token acak, mengonfirmasi identitas, membaca visi misi kandidat, dan mengunci 1 pilihan suara secara rahasia.</p>
                 </div>
 
-                <div class="card" style="border-left: 4px solid #F59E0B;">
-                    <div class="card-icon" style="background: rgba(245, 158, 11, 0.15); color: #FBBF24;">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <div class="card" style="border-top: 4px solid #204E2B;">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        </div>
+                        <div>
+                            <div class="card-title">2. Panitia Pemilihan (Admin)</div>
+                            <span style="font-size: 11px; color: var(--text-muted);">Pengurus OSIS & Pembina Kesiswaan</span>
+                        </div>
                     </div>
-                    <h3 class="card-title">Penghitungan Lama & Human Error</h3>
-                    <p class="card-body">Proses buka suara dan tallying memakan waktu berjam-jam hingga malam hari. Panitia rawan lelah dan salah hitung rekapitulasi.</p>
+                    <p class="card-body">Mengelola data DPT, import data siswa dari Excel, mencetak kartu pemilih format A4, input profil kandidat, mengatur sakelar voting, serta memantau partisipasi kelas.</p>
                 </div>
 
-                <div class="card" style="border-left: 4px solid #EF4444;">
-                    <div class="card-icon" style="background: rgba(239, 68, 68, 0.15); color: #F87171;">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="18" y1="8" x2="23" y2="13"></line><line x1="23" y1="8" x2="18" y2="13"></line></svg>
+                <div class="card" style="border-top: 4px solid #6A994E;">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                        </div>
+                        <div>
+                            <div class="card-title">3. Saksi & Publik (Layar Proyektor)</div>
+                            <span style="font-size: 11px; color: var(--text-muted);">Layar Aula / Panggung Terbuka</span>
+                        </div>
                     </div>
-                    <h3 class="card-title">Risiko Pemilih Ganda & Joki</h3>
-                    <p class="card-body">Sulit memverifikasi kehadiran pemilih secara real-time. Tinta celup jari bisa terhapus dan absensi manual kertas rawan disalahgunakan.</p>
-                </div>
-
-                <div class="card" style="border-left: 4px solid #F59E0B;">
-                    <div class="card-icon" style="background: rgba(245, 158, 11, 0.15); color: #FBBF24;">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                    </div>
-                    <h3 class="card-title">Surat Suara Rusak / Tidak Sah</h3>
-                    <p class="card-body">Coblosan di luar kotak, robek, atau berlubang ganda sering menimbulkan perdebatan sengit saksi dan membatalkan hak suara pemilih.</p>
+                    <p class="card-body">Menampilkan grafik Quick Count dan Live Count perolehan suara tanpa navigasi admin, sehingga seluruh warga sekolah dapat menyaksikan hasil secara transparan.</p>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 3: SOLUSI PEMILU PPTS DIGITAL -->
+        <!-- SLIDE 3: TUTORIAL PEMILIH - LANGKAH 1 & 2 -->
         <div class="slide" id="slide-3">
-            <div class="pill-badge">Solusi Inovatif</div>
-            <h2 class="slide-title">4 Pilar Utama <span class="highlight">E-Voting Modern</span></h2>
-            <p class="slide-desc">Dirancang spesifik untuk memenuhi asas Pemilu LUBER JURDIL (Langsung, Umum, Bebas, Rahasia, Jujur, Adil) di lingkungan sekolah.</p>
+            <div class="pill-category">Panduan Pemilih &bull; Tahap 1</div>
+            <h2 class="slide-title">Tata Cara Pemilih: <span class="highlight">Otentikasi & Konfirmasi</span></h2>
+            <p class="slide-desc">Pemilih dipandu melalui antarmuka bersih di perangkat bilik suara (tablet, laptop, atau ponsel).</p>
 
-            <div class="grid-4">
+            <div class="grid-2">
                 <div class="card">
-                    <div class="card-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    <div class="card-header">
+                        <div class="step-tag">1</div>
+                        <div>
+                            <div class="card-title">Masuk Bilik Suara (Input Kredensial)</div>
+                            <span style="font-size: 11px; color: var(--text-muted);">Halaman Login Pemilih</span>
+                        </div>
                     </div>
-                    <h3 class="card-title">1. Token Unik Kriptografis</h3>
-                    <p class="card-body">Setiap pemilih (Siswa, Guru Pamong, Tendik) diberikan kombinasi NISN + Token acak acuan tunggal yang langsung hangus setelah suara tersimpan.</p>
+                    <p class="card-body">Pemilih duduk di bilik suara digital dan memasukkan kredensial dari Kartu Pemilih yang telah dibagikan panitia:</p>
+                    <ul class="action-list">
+                        <li class="action-item">
+                            <span class="action-bullet">&bull;</span>
+                            <span><strong>Kode Akses / NISN:</strong> Nomor identitas resmi siswa atau kode unik pamong.</span>
+                        </li>
+                        <li class="action-item">
+                            <span class="action-bullet">&bull;</span>
+                            <span><strong>Token Rahasia:</strong> Kode 5 s.d. 8 karakter unik acak (contoh: <code>TK-98A12</code>).</span>
+                        </li>
+                        <li class="action-item">
+                            <span class="action-bullet">&bull;</span>
+                            <span>Tekan tombol <strong>"Buka Bilik Suara"</strong> untuk melanjutkan.</span>
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="card">
-                    <div class="card-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <div class="card-header">
+                        <div class="step-tag">2</div>
+                        <div>
+                            <div class="card-title">Konfirmasi Identitas & Hak Suara</div>
+                            <span style="font-size: 11px; color: var(--text-muted);">Langkah 1 dari 3 di Bilik Suara</span>
+                        </div>
                     </div>
-                    <h3 class="card-title">2. Asas Rahasia Mutlak</h3>
-                    <p class="card-body">Sistem sengaja memisahkan catatan identitas pemilih dari tabel pilihan kandidat. Pilihan suara tidak dapat dilacak kembali ke individu manapun.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
-                    </div>
-                    <h3 class="card-title">3. Bilik Suara Kilat</h3>
-                    <p class="card-body">Antarmuka sentuh responsif dengan timer 5 menit dan modal Visi & Misi kandidat. Rata-rata pemilih selesai memilih dalam waktu kurang dari 30 detik.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-                    </div>
-                    <h3 class="card-title">4. Real-time Live Count</h3>
-                    <p class="card-body">Hasil suara, diagram perolehan, dan persentase partisipasi terhitung instan 0 detik begitu bilik suara ditutup tanpa jeda penghitungan.</p>
+                    <p class="card-body">Sistem menampilkan ringkasan profil pemilih untuk mencegah salah akun:</p>
+                    <ul class="action-list">
+                        <li class="action-item">
+                            <span class="action-bullet">&bull;</span>
+                            <span>Memeriksa <strong>Nama Lengkap</strong> dan <strong>Kelas / Jabatan</strong> yang terdaftar.</span>
+                        </li>
+                        <li class="action-item">
+                            <span class="action-bullet">&bull;</span>
+                            <span>Melihat badge status: <strong>"1 Suara Aktif (Dijamin Asas RAHASIA)"</strong>.</span>
+                        </li>
+                        <li class="action-item">
+                            <span class="action-bullet">&bull;</span>
+                            <span>Timer hitung mundur 5 menit aktif di sudut kanan atas untuk kelancaran antrean.</span>
+                        </li>
+                        <li class="action-item">
+                            <span class="action-bullet">&bull;</span>
+                            <span>Klik tombol hijau <strong>"Ya, Benar. Lanjutkan"</strong>.</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 4: VOTER JOURNEY (ALUR PEMILIH) -->
+        <!-- SLIDE 4: TUTORIAL PEMILIH - LANGKAH 3 & 4 -->
         <div class="slide" id="slide-4">
-            <div class="pill-badge">Pengalaman Pemilih</div>
-            <h2 class="slide-title">Alur Bilik Suara <span class="highlight">Mudah & Terbimbing</span></h2>
-            <p class="slide-desc">Pemilih dituntun langkah demi langkah melalui antarmuka bersih tanpa kebingungan.</p>
+            <div class="pill-category">Panduan Pemilih &bull; Tahap 2</div>
+            <h2 class="slide-title">Tata Cara Pemilih: <span class="highlight">Memilih & Mengunci Suara</span></h2>
+            <p class="slide-desc">Menjamin setiap pemilih dapat menentukan pilihan dengan tenang, bijak, dan tervalidasi.</p>
 
-            <div class="grid-4">
+            <div class="grid-2">
                 <div class="card">
-                    <div class="step-badge">1</div>
-                    <h3 class="card-title">Otentikasi Token</h3>
-                    <p class="card-body">Pemilih memasukkan NISN dan Token unik yang tercetak di Kartu Pemilih. Sistem otomatis memvalidasi keaslian hak suara.</p>
+                    <div class="card-header">
+                        <div class="step-tag">3</div>
+                        <div>
+                            <div class="card-title">Eksplorasi Visi Misi & Sentuh Paslon</div>
+                            <span style="font-size: 11px; color: var(--text-muted);">Langkah 2 dari 3: Bilik Suara</span>
+                        </div>
+                    </div>
+                    <p class="card-body">Di layar bilik suara, pemilih disuguhkan kartu kandidat nomor urut lengkap:</p>
+                    <ul class="action-list">
+                        <li class="action-item">
+                            <span class="action-bullet">&bull;</span>
+                            <span><strong>Tombol "Visi & Misi":</strong> Membuka jendela modal animasi halus berisi rincian visi dan butir program misi kerja kandidat.</span>
+                        </li>
+                        <li class="action-item">
+                            <span class="action-bullet">&bull;</span>
+                            <span><strong>Sentuh Kartu Paslon:</strong> Kartu pilihan akan menyala hijau dan menampilkan tombol <strong>"Terpilih"</strong>.</span>
+                        </li>
+                        <li class="action-item">
+                            <span class="action-bullet">&bull;</span>
+                            <span>Bilah bawah muncul: Klik <strong>"Kunci & Simpan Pilihan"</strong>.</span>
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="card">
-                    <div class="step-badge">2</div>
-                    <h3 class="card-title">Konfirmasi Identitas</h3>
-                    <p class="card-body">Pemilih mengonfirmasi nama lengkap, rombel kelas/jabatan guru, dan memastikan status hak suara berstatus 1 Suara Aktif.</p>
-                </div>
-
-                <div class="card">
-                    <div class="step-badge">3</div>
-                    <h3 class="card-title">Sentuh & Kunci Paslon</h3>
-                    <p class="card-body">Menampilkan kartu kandidat, foto paslon HD, tombol eksplorasi Visi & Misi, dan dialog konfirmasi sebelum suara dikunci permanen.</p>
-                </div>
-
-                <div class="card">
-                    <div class="step-badge">4</div>
-                    <h3 class="card-title">Struk Bukti & Auto-Logout</h3>
-                    <p class="card-body">Sistem menerbitkan nomor struk audit unik sebagai bukti sah telah memilih, lalu otomatis logout untuk keamanan bilik selanjutnya.</p>
+                    <div class="card-header">
+                        <div class="step-tag">4</div>
+                        <div>
+                            <div class="card-title">Konfirmasi Final, Struk & Logout</div>
+                            <span style="font-size: 11px; color: var(--text-muted);">Langkah 3 dari 3: Selesai</span>
+                        </div>
+                    </div>
+                    <p class="card-body">Menuntaskan proses pemilihan dengan pengamanan ganda:</p>
+                    <ul class="action-list">
+                        <li class="action-item">
+                            <span class="action-bullet">&bull;</span>
+                            <span><strong>Dialog Konfirmasi:</strong> Mengingatkan bahwa pilihan bersifat permanen dan tidak dapat diulang.</span>
+                        </li>
+                        <li class="action-item">
+                            <span class="action-bullet">&bull;</span>
+                            <span><strong>Struk Digital Resmi:</strong> Sistem menerbitkan kode struk verifikasi unik (contoh: <code>VOTE-2026-X89B</code>) sebagai bukti sah telah menggunakan hak suara.</span>
+                        </li>
+                        <li class="action-item">
+                            <span class="action-bullet">&bull;</span>
+                            <span><strong>Auto-Logout:</strong> Akun otomatis keluar dari sistem. Token hangus permanen (bebas risiko pemilih ganda).</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 5: FITUR ADMIN & PANITIA -->
+        <!-- SLIDE 5: ADMIN - MENU 1: DASHBOARD -->
         <div class="slide" id="slide-5">
-            <div class="pill-badge">Suite Manajemen Panitia</div>
-            <h2 class="slide-title">Fitur Lengkap untuk <span class="highlight">Panitia Pemilihan</span></h2>
-            <p class="slide-desc">Panel admin dirancang serba praktis untuk mempermudah persiapan, pelaksanaan, hingga pelaporan.</p>
+            <div class="pill-category">Tutorial Admin &bull; Menu 1</div>
+            <h2 class="slide-title">Menu 1: Dashboard Utama & <span class="highlight">Monitoring Partisipasi</span></h2>
+            <p class="slide-desc">Pusat kendali panitia untuk memantau dinamika partisipasi pemilih secara real-time pada hari H.</p>
 
             <div class="grid-3">
                 <div class="card">
-                    <div class="card-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        </div>
+                        <div class="card-title">4 Kartu Metrik Utama</div>
                     </div>
-                    <h3 class="card-title">Cetak Kartu Pemilih Siap Pakai</h3>
-                    <p class="card-body">Generator otomatis tata letak kartu presisi standar A4 (8 kartu per lembar) lengkap dengan barcode token, nama, dan kelas siap potong.</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span><strong>Total DPT:</strong> Jumlah seluruh pemilih terdaftar.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span><strong>Suara Masuk:</strong> Akumulasi suara sah yang sudah memilih.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span><strong>Belum Memilih:</strong> Jumlah siswa/guru yang belum hadir.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span><strong>Tingkat Partisipasi (%):</strong> Rasio kehadiran saat itu.</span></li>
+                    </ul>
                 </div>
 
                 <div class="card">
-                    <div class="card-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                        </div>
+                        <div class="card-title">Rekapitulasi Angkatan</div>
                     </div>
-                    <h3 class="card-title">Manajemen DPT & Guru Pamong</h3>
-                    <p class="card-body">Pengelompokan otomatis pemilih Kelas X, XI, XII, Guru Pamong, & Tendik. Dilengkapi fitur Import/Export Excel fleksibel.</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Persentase suara masuk untuk <strong>Kelas X</strong>.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Persentase suara masuk untuk <strong>Kelas XI</strong>.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Persentase suara masuk untuk <strong>Kelas XII</strong>.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Partisipasi <strong>Guru Pamong</strong> & <strong>Staf Tendik</strong>.</span></li>
+                    </ul>
                 </div>
 
                 <div class="card">
-                    <div class="card-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                        </div>
+                        <div class="card-title">Sebaran Per Rombel</div>
                     </div>
-                    <h3 class="card-title">UI Paslon & Image Cropper</h3>
-                    <p class="card-body">Tambah dan ubah data pasangan calon, nomor urut, visi, poin-poin misi kerja, serta pemotong foto rasio presisi otomatis.</p>
+                    <p class="card-body">Tabel detail per kelas (contoh: X-1, XI-IPA, XII-IPS). Panitia dapat melihat langsung kelas mana yang partisipasinya masih rendah untuk segera dipanggil ke bilik suara.</p>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 6: LIVE COUNT & AUDIT -->
+        <!-- SLIDE 6: ADMIN - MENU 2: PASANGAN CALON -->
         <div class="slide" id="slide-6">
-            <div class="pill-badge">Transparansi Publik</div>
-            <h2 class="slide-title">Layar Publik <span class="highlight">Live Count & Quick Count</span></h2>
-            <p class="slide-desc">Menyajikan data penghitungan suara secara visual, interaktif, dan dapat ditayangkan pada proyektor aula sekolah.</p>
+            <div class="pill-category">Tutorial Admin &bull; Menu 2</div>
+            <h2 class="slide-title">Menu 2: Manajemen <span class="highlight">Pasangan Calon (Kandidat)</span></h2>
+            <p class="slide-desc">Mengelola profil kandidat yang akan tampil di bilik suara siswa.</p>
 
             <div class="grid-3">
                 <div class="card">
-                    <div class="card-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        </div>
+                        <div class="card-title">1. Data Pokok Paslon</div>
                     </div>
-                    <h3 class="card-title">Tampilan Proyektor Bersih</h3>
-                    <p class="card-body">Mode layar penuh tanpa navigasi admin yang menampilkan progress bar dinamis, foto paslon, dan persentase suara masuk secara real-time.</p>
+                    <p class="card-body">Klik tombol <strong>"Tambah Paslon"</strong> untuk mengisi:</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Nomor Urut Kandidat (01, 02, dst).</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Nama Lengkap Calon Ketua.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Nama Lengkap Calon Wakil Ketua.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Tagline Aspirasi Utama Paslon.</span></li>
+                    </ul>
                 </div>
 
                 <div class="card">
-                    <div class="card-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                        </div>
+                        <div class="card-title">2. Visi & Butir Misi</div>
                     </div>
-                    <h3 class="card-title">Sebaran Partisipasi Kelas</h3>
-                    <p class="card-body">Rincian sebaran suara masuk per tingkatan kelas (X, XI, XII), partisipasi bapak/ibu guru pamong, dan tenaga kependidikan secara transparan.</p>
+                    <p class="card-body">Menyusun program kerja yang informatif bagi siswa:</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span><strong>Visi:</strong> Kalimat komitmen arah gerak PPTS.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span><strong>Misi Berpoin:</strong> Tersedia tombol tambah (+) butir misi agar rapi dan terstruktur saat dibaca pemilih di bilik.</span></li>
+                    </ul>
                 </div>
 
                 <div class="card">
-                    <div class="card-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><circle cx="12" cy="11" r="3"></circle></svg>
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        </div>
+                        <div class="card-title">3. Image Cropper Presisi</div>
                     </div>
-                    <h3 class="card-title">Jaminan Keamanan Anti-Sengketa</h3>
-                    <p class="card-body">Setiap suara yang masuk langsung tercatat di basis data terenkripsi. Tidak ada perdebatan suara sah atau batal karena rumus terkomputasi pasti.</p>
+                    <p class="card-body">Fitur pemotong foto terintegrasi (UI Cropper):</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Foto yang diupload otomatis masuk ke modal pemotong dengan rasio kartu paslon.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Menjamin foto tidak gepeng, pecah, atau miring.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Tersimpan di Cloudflare R2 Public CDN.</span></li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 7: ARSITEKTUR TEKNOLOGI -->
+        <!-- SLIDE 7: ADMIN - MENU 3: DATA PEMILIH (DPT) -->
         <div class="slide" id="slide-7">
-            <div class="pill-badge">Fondasi Engineering</div>
-            <h2 class="slide-title">Arsitektur Teknologi <span class="highlight">Kelas Modern</span></h2>
-            <p class="slide-desc">Dibangun di atas teknologi web generasi terbaru untuk memastikan stabilitas saat diakses ratusan pemilih serentak.</p>
+            <div class="pill-category">Tutorial Admin &bull; Menu 3</div>
+            <h2 class="slide-title">Menu 3: Manajemen <span class="highlight">DPT & Import Excel</span></h2>
+            <p class="slide-desc">Mengelola basis data pemilih dengan dukungan format berkas spreadsheet.</p>
 
-            <div class="grid-4">
+            <div class="grid-3">
                 <div class="card">
-                    <div class="card-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        </div>
+                        <div class="card-title">Import Massal Excel (.xlsx)</div>
                     </div>
-                    <h3 class="card-title">Laravel 12 (PHP 8.5)</h3>
-                    <p class="card-body">Framework backend enterprise dengan performa tinggi, database transactions yang aman, dan arsitektur modular.</p>
+                    <p class="card-body">Memasukkan ratusan data siswa sekaligus dalam sekejap:</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Klik <strong>"Import Excel"</strong> &rarr; Unduh Template resmi.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Isi kolom NISN, Nama, Kelas, dan Kategori.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Upload file: Sistem otomatis men-generate token unik acak untuk setiap pemilih tanpa duplikasi.</span></li>
+                    </ul>
                 </div>
 
                 <div class="card">
-                    <div class="card-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </div>
+                        <div class="card-title">Pencarian Cepat & Filter</div>
                     </div>
-                    <h3 class="card-title">Inertia.js + React</h3>
-                    <p class="card-body">Single Page Application (SPA) tanpa refresh layar, memberikan transisi yang mulus dan pengalaman seperti aplikasi native.</p>
+                    <p class="card-body">Mencari pemilih dalam hitungan milidetik:</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Cari berdasarkan Nama atau NISN di kolom pencarian.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Filter per Tingkatan (X, XI, XII, GURU, TENDIK).</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Filter per Status Suara (Sudah Memilih / Belum).</span></li>
+                    </ul>
                 </div>
 
                 <div class="card">
-                    <div class="card-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></svg>
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        </div>
+                        <div class="card-title">Export Laporan DPT</div>
                     </div>
-                    <h3 class="card-title">Cloudflare R2 Public CDN</h3>
-                    <p class="card-body">Penyimpanan foto paslon terdistribusi global. Aset gambar termuat instan tanpa membebani memori server utama.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    </div>
-                    <h3 class="card-title">Cloudflare Edge & SSL</h3>
-                    <p class="card-body">Perlindungan Anti-DDoS, enkripsi HTTPS SSL modern, dan kompresi Brotli untuk kecepatan akses maksimal.</p>
+                    <p class="card-body">Mengunduh rekapan DPT mutakhir:</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Tombol <strong>"Export Excel"</strong> mengekspor seluruh DPT.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Lengkap dengan status kehadiran, waktu memilih, dan nomor struk audit untuk berita acara pemilu.</span></li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 8: PERBANDINGAN & DAMPAK (CHART) -->
+        <!-- SLIDE 8: ADMIN - MENU 4: CETAK KARTU PEMILIH -->
         <div class="slide" id="slide-8">
-            <div class="pill-badge">Dampak Nyata</div>
-            <h2 class="slide-title">Efisiensi Pemilu Konvensional <span class="highlight">vs E-Voting</span></h2>
-            <p class="slide-desc">Perbandingan waktu proses penghitungan suara dan penghematan biaya logistik.</p>
+            <div class="pill-category">Tutorial Admin &bull; Menu 4</div>
+            <h2 class="slide-title">Menu 4: Cetak Kartu Pemilih <span class="highlight">Otomatis Format A4</span></h2>
+            <p class="slide-desc">Menghemat waktu pembuatan ID Card pemilih tanpa perlu aplikasi desain grafis tambahan.</p>
 
-            <div class="grid-2" style="align-items: center;">
-                <div class="card" style="padding: 20px; height: 100%; display: flex; flex-direction: column; justify-content: center;">
-                    <h3 style="font-size: 15px; margin-bottom: 12px; color: #FFF; text-align: center;">Perbandingan Waktu Rekapitulasi (Menit)</h3>
-                    <div style="position: relative; width: 100%; height: 200px;">
-                        <canvas id="timeComparisonChart"></canvas>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                        </div>
+                        <div>
+                            <div class="card-title">Tata Letak Presisi 8 Kartu / Lembar A4</div>
+                            <span style="font-size: 11px; color: var(--text-muted);">Fitur: admin/voters/print-cards</span>
+                        </div>
                     </div>
+                    <p class="card-body">Halaman cetak telah dikonfigurasi dengan CSS Paged Media presisi tinggi:</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Otomatis menyusun <strong>8 kartu pemilih per lembar kertas A4</strong> (grid 2 kolom x 4 baris).</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Dilengkapi <strong>garis putus-putus panduan potong (cutting guides)</strong> agar rapi saat digunting panitia.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Header kartu memuat Kop Resmi SMA Tamansiswa Mojokerto.</span></li>
+                    </ul>
                 </div>
 
-                <div style="display: flex; flex-direction: column; gap: 14px;">
-                    <div class="card" style="padding: 16px 20px; border-left: 4px solid #4ADE80;">
-                        <div style="font-size: 12px; color: var(--primary-light); font-weight: 700; text-transform: uppercase;">Waktu Penghitungan</div>
-                        <div style="font-size: 24px; font-weight: 900; color: #FFF;">Instan 0 Detik vs 180+ Menit</div>
-                        <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Hasil langsung dapat diumumkan saat itu juga di aula sekolah.</div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg>
+                        </div>
+                        <div>
+                            <div class="card-title">Komponen Kartu & Barcode Token</div>
+                            <span style="font-size: 11px; color: var(--text-muted);">Identitas Kredensial Bilik Suara</span>
+                        </div>
                     </div>
-
-                    <div class="card" style="padding: 16px 20px; border-left: 4px solid #A7C957;">
-                        <div style="font-size: 12px; color: var(--primary-sage); font-weight: 700; text-transform: uppercase;">Penghematan Anggaran</div>
-                        <div style="font-size: 24px; font-weight: 900; color: #FFF;">Hemat Hingga 85% Biaya</div>
-                        <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Mengeliminasi ribuan cetak kertas, sewa bilik, dan konsumsi lembur panitia.</div>
-                    </div>
-
-                    <div class="card" style="padding: 16px 20px; border-left: 4px solid #22C55E;">
-                        <div style="font-size: 12px; color: #22C55E; font-weight: 700; text-transform: uppercase;">Akurasi Matematis</div>
-                        <div style="font-size: 24px; font-weight: 900; color: #FFF;">100% Akurat Tanpa Suara Rusak</div>
-                        <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Menjamin legitimasi dan kehormatan suksesi kepemimpinan siswa.</div>
-                    </div>
+                    <p class="card-body">Setiap kartu yang dicetak mencantumkan informasi krusial:</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span><strong>Nama Pemilih:</strong> Tertera jelas dengan font tebal.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span><strong>Kelas / Rombel:</strong> Mempermudah sortir kartu per wali kelas.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span><strong>Kotak Token Rahasia:</strong> Kode token akses bilik suara.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span><strong>Barcode Unik:</strong> Dapat dipindai menggunakan barcode scanner untuk login otomatis tanpa ketik manual.</span></li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 9: PENUTUP & Q&A -->
+        <!-- SLIDE 9: ADMIN - MENU 5: RESET DARURAT & PENGAWASAN -->
         <div class="slide" id="slide-9">
-            <div class="pill-badge">Siap Digunakan</div>
-            <h2 class="slide-title">
-                Mewujudkan Pemilu Berkualitas,<br>
-                <span class="highlight">Menyongsong Pemimpin Berintegritas</span>
-            </h2>
-            <p class="slide-desc">
-                Sistem E-Voting PPTS siap digunakan untuk menyukseskan suksesi kepemimpinan SMA Tamansiswa Mojokerto secara demokratis, adil, dan bermartabat.
-            </p>
+            <div class="pill-category">Tutorial Admin &bull; Menu 5</div>
+            <h2 class="slide-title">Menu 5: Pengawasan & <span class="highlight">Fitur Reset Darurat</span></h2>
+            <p class="slide-desc">Prosedur penanganan kendala teknis individual pada hari pemungutan suara.</p>
 
-            <div class="grid-2" style="max-width: 720px; margin-top: 8px;">
-                <div class="card" style="text-align: center; padding: 28px;">
-                    <div style="font-size: 12px; font-weight: 700; color: var(--primary-light); text-transform: uppercase; margin-bottom: 6px;">Tautan Layanan</div>
-                    <div style="font-size: 18px; font-weight: 800; color: #FFF; margin-bottom: 8px;">pemilu-ppts.ppti.me</div>
-                    <p style="font-size: 12px; color: var(--text-muted);">Dapat diakses di laptop, tablet, maupun smartphone siswa & pamong.</p>
+            <div class="grid-2">
+                <div class="card" style="border-left: 4px solid var(--warning-text);">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: var(--warning-bg); color: var(--warning-text);">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+                        </div>
+                        <div>
+                            <div class="card-title">Reset Hak Suara Pemilih Tunggal</div>
+                            <span style="font-size: 11px; color: var(--text-muted);">Tombol Reset di Tabel DPT</span>
+                        </div>
+                    </div>
+                    <p class="card-body">Digunakan khusus jika terjadi situasi kahar (force majeure) di bilik suara:</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span><strong>Kapan Digunakan:</strong> Listrik bilik mendadak padam, peramban error saat pemilih sedang di dalam bilik, atau siswa salah sentuh sebelum konfirmasi.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span><strong>Cara Melakukan:</strong> Cari nama pemilih di tabel DPT &rarr; Klik tombol putar <strong>"Reset"</strong> &rarr; Konfirmasi persetujuan admin.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span><strong>Hasil Reset:</strong> Status hak suara kembali menjadi <strong>"Belum Memilih"</strong> dan token baru diterbitkan agar siswa dapat memilih ulang.</span></li>
+                    </ul>
                 </div>
 
-                <div class="card" style="text-align: center; padding: 28px;">
-                    <div style="font-size: 12px; font-weight: 700; color: var(--primary-sage); text-transform: uppercase; margin-bottom: 6px;">Sesi Diskusi</div>
-                    <div style="font-size: 18px; font-weight: 800; color: #FFF; margin-bottom: 8px;">Tanya Jawab (Q&A)</div>
-                    <p style="font-size: 12px; color: var(--text-muted);">Silakan jika bapak/ibu atau rekan panitia memiliki masukan atau pertanyaan.</p>
+                <div class="card" style="border-left: 4px solid var(--primary);">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        </div>
+                        <div>
+                            <div class="card-title">Integritas Audit Trail</div>
+                            <span style="font-size: 11px; color: var(--text-muted);">Keamanan Tanpa Jejak Pilihan</span>
+                        </div>
+                    </div>
+                    <p class="card-body">Mekanisme perlindungan asas rahasia saat reset dilakukan:</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Reset hanya mengubah status pemilih, <strong>tidak dapat membaca</strong> suara yang sudah masuk ke database.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Sistem mencatat log waktu reset untuk transparansi saksi pemilu.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Hanya akun Admin yang memiliki wewenang untuk menekan tombol reset.</span></li>
+                    </ul>
                 </div>
             </div>
+        </div>
 
-            <div style="margin-top: 24px; font-size: 12px; color: var(--text-dim);">
-                &copy; 2026 Sistem Pemilu PPTS • SMA Tamansiswa Mojokerto
+        <!-- SLIDE 10: ADMIN - MENU 6: PENGATURAN SISTEM (SETTINGS) -->
+        <div class="slide" id="slide-10">
+            <div class="pill-category">Tutorial Admin &bull; Menu 6</div>
+            <h2 class="slide-title">Menu 6: Pengaturan Sistem & <span class="highlight">Sakelar Pemilihan</span></h2>
+            <p class="slide-desc">Mengontrol parameter operasional, keamanan akun, dan sakelar buka/tutup bilik suara.</p>
+
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                        </div>
+                        <div class="card-title">1. Sakelar Buka / Kunci Bilik</div>
+                    </div>
+                    <p class="card-body">Kontrol status pemilihan:</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span><strong>Status AKTIF:</strong> Pemilih dapat login dan memberikan suara di bilik.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span><strong>Status KUNCI / TUTUP:</strong> Begitu jam pemilihan berakhir, admin mengunci sistem. Pemilih tidak dapat login lagi dan hasil suara terkunci permanen.</span></li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+                        </div>
+                        <div class="card-title">2. Identitas Lembaga & Sandi</div>
+                    </div>
+                    <p class="card-body">Kustomisasi informasi resmi:</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Ubah Judul Pemilihan, Nama Sekolah (SMA Tamansiswa), dan Tahun Ajaran.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Ubah Kata Sandi Admin secara berkala untuk menjaga kerahasiaan akses kontrol.</span></li>
+                    </ul>
+                </div>
+
+                <div class="card" style="border-left: 4px solid var(--danger-text);">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: var(--danger-bg); color: var(--danger-text);">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"></path></svg>
+                        </div>
+                        <div class="card-title">3. Reset Seluruh Suara (Simulasi)</div>
+                    </div>
+                    <p class="card-body">Fitur gladi bersih persiapan:</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Digunakan saat <strong>simulasi / uji coba</strong> sebelum hari pemilihan resmi.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Mereset seluruh vote count menjadi 0 dan mengembalikan hak suara DPT.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Dilindungi dialog konfirmasi keamanan ganda.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: ADMIN - MENU 7: LIVE COUNT & QUICK COUNT -->
+        <div class="slide" id="slide-11">
+            <div class="pill-category">Tutorial Admin &bull; Menu 7</div>
+            <h2 class="slide-title">Menu 7: Layar Proyektor <span class="highlight">Live Count & Quick Count</span></h2>
+            <p class="slide-desc">Menyajikan penghitungan suara secara visual, interaktif, dan akurat di panggung sekolah.</p>
+
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                        </div>
+                        <div class="card-title">Layar Panggung Aula</div>
+                    </div>
+                    <p class="card-body">Mode tampilan khusus tanpa sidebar admin. Dapat ditayangkan pada proyektor besar atau TV sekolah:</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Tampilan foto kandidat nomor urut besar.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Progress bar persentase perolehan suara paslon.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Status total suara masuk vs total DPT.</span></li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                        </div>
+                        <div class="card-title">Quick Count Interaktif</div>
+                    </div>
+                    <p class="card-body">Pembaruan data instan tanpa refresh layar:</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Animasi pertambahan suara yang halus.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Diagram batang dan lingkaran yang mudah dipahami seluruh audiens.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Badge kandidat unggul secara otomatis.</span></li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                        </div>
+                        <div class="card-title">Kepastian Hukum & Anti-Sengketa</div>
+                    </div>
+                    <p class="card-body">Menghilangkan potensi konflik hasil:</p>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Perhitungan matematis mutlak tanpa interpretasi coblosan kertas.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Tidak ada surat suara rusak, robek, atau ganda.</span></li>
+                        <li class="action-item"><span class="action-bullet">&bull;</span><span>Kedua saksi paslon dapat menyaksikan angka yang sama persis.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: SOP HARI PEMILIHAN & PENUTUP -->
+        <div class="slide" id="slide-12">
+            <div class="pill-category">SOP Pelaksanaan &bull; Hari H</div>
+            <h2 class="slide-title">Standar Operasional Prosedur <span class="highlight">& Tanya Jawab</span></h2>
+            <p class="slide-desc">Langkah praktis panitia dari pembukaan bilik hingga penetapan hasil resmi.</p>
+
+            <div class="grid-2" style="align-items: stretch;">
+                <div class="card">
+                    <div class="card-title" style="margin-bottom: 12px; color: var(--primary-dark);">Timeline Operasional Hari Pemilihan:</div>
+                    <ul class="action-list">
+                        <li class="action-item"><span class="action-bullet">1</span><span><strong>07.00 - 07.30:</strong> Pembagian Kartu Pemilih per kelas oleh panitia/wali kelas.</span></li>
+                        <li class="action-item"><span class="action-bullet">2</span><span><strong>07.30 - 08.00:</strong> Pembukaan sakelar voting di menu Pengaturan oleh Ketua Panitia.</span></li>
+                        <li class="action-item"><span class="action-bullet">3</span><span><strong>08.00 - 12.00:</strong> Pemilih memasuki bilik suara secara bergelombang sesuai jadwal.</span></li>
+                        <li class="action-item"><span class="action-bullet">4</span><span><strong>12.00 - 12.15:</strong> Penutupan bilik suara (Kunci Voting) dan cetak Berita Acara Rekapitulasi.</span></li>
+                        <li class="action-item"><span class="action-bullet">5</span><span><strong>12.30:</strong> Pengumuman resmi Ketua & Wakil Ketua PPTS terpilih di aula sekolah.</span></li>
+                    </ul>
+                </div>
+
+                <div class="card" style="display: flex; flex-direction: column; justify-content: space-between; text-align: center; padding: 24px;">
+                    <div>
+                        <div class="card-title" style="margin-bottom: 6px; color: var(--primary);">Tautan Akses Aplikasi:</div>
+                        <div style="font-size: 20px; font-weight: 900; color: var(--text-title); font-family: 'JetBrains Mono', monospace; margin-bottom: 8px;">pemilu-ppts.ppti.me</div>
+                        <p class="card-body">Dapat dibuka pada perangkat bilik suara (tablet, laptop chromebook, atau smartphone panitia).</p>
+                    </div>
+
+                    <div style="background: var(--primary-light); padding: 16px; border-radius: 14px; border: 1px solid #C2E9C6; margin-top: 14px;">
+                        <div style="font-size: 13px; font-weight: 800; color: var(--primary-dark); margin-bottom: 4px;">Sesi Diskusi & Tanya Jawab (Q&A)</div>
+                        <p style="font-size: 11.5px; color: var(--text-body);">Silakan bapak/ibu pamong, kepala sekolah, atau rekan panitia menyampaikan pertanyaan.</p>
+                    </div>
+
+                    <div style="font-size: 11px; color: var(--text-muted); margin-top: 10px;">
+                        &copy; 2026 Sistem Pemilu PPTS &bull; SMA Tamansiswa Mojokerto
+                    </div>
+                </div>
             </div>
         </div>
 
     </div>
 
-    <!-- Bottom Dock Navigation Controls -->
+    <!-- Bottom Floating Dock Navigation -->
     <div class="nav-dock">
         <button onclick="prevSlide()" title="Slide Sebelumnya (Panah Kiri)">←</button>
-        <span class="slide-counter"><span id="current">1</span> / <span id="total">9</span></span>
+        <span class="slide-counter"><span id="current">1</span> / <span id="total">12</span></span>
         <button onclick="nextSlide()" title="Slide Selanjutnya (Panah Kanan)">→</button>
-        <button class="fs-btn" onclick="toggleFullScreen()" title="Mode Layar Penuh (F)">⛶</button>
+        <button onclick="toggleFullScreen()" title="Layar Penuh (F)">⛶</button>
     </div>
 
-    <!-- Keyboard Navigation Hint -->
-    <div class="keyboard-hint">
+    <!-- Keyboard Navigation Guide -->
+    <div class="kbd-guide">
         <span>Gunakan</span>
-        <span class="kbd">←</span>
-        <span class="kbd">→</span>
-        <span class="kbd">Spasi</span>
-        <span>untuk navigasi &bull;</span>
-        <span class="kbd">F</span>
+        <span class="kbd-key">←</span>
+        <span class="kbd-key">→</span>
+        <span class="kbd-key">Spasi</span>
+        <span>navigasi &bull;</span>
+        <span class="kbd-key">F</span>
         <span>Fullscreen</span>
     </div>
 
@@ -784,11 +1126,6 @@
 
             document.getElementById('current').textContent = n;
             document.getElementById('progressBar').style.width = ((n / total) * 100) + '%';
-
-            // Trigger Chart if on Slide 8
-            if (n === 8 && !window.chartInitialized) {
-                initChart();
-            }
         }
 
         function nextSlide() { showSlide(current + 1); }
@@ -804,7 +1141,7 @@
             }
         }
 
-        // Keyboard navigation
+        // Keyboard Controls
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
                 e.preventDefault();
@@ -824,7 +1161,7 @@
             }
         });
 
-        // Touch swipe for tablet / mobile presentation
+        // Touch Swipe Handling for Mobile & Tablet
         let touchStartX = 0;
         let touchEndX = 0;
         document.addEventListener('touchstart', (e) => {
@@ -835,63 +1172,6 @@
             if (touchEndX < touchStartX - 50) nextSlide();
             if (touchEndX > touchStartX + 50) prevSlide();
         }, { passive: true });
-
-        // Chart Initialization
-        function initChart() {
-            window.chartInitialized = true;
-            const ctx = document.getElementById('timeComparisonChart');
-            if (!ctx) return;
-
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Pemilu Kertas Manual', 'Pemilu PPTS Digital'],
-                    datasets: [{
-                        label: 'Waktu Rekapitulasi (Menit)',
-                        data: [180, 0.5],
-                        backgroundColor: [
-                            'rgba(239, 68, 68, 0.75)',
-                            'rgba(74, 222, 128, 0.9)'
-                        ],
-                        borderColor: [
-                            '#EF4444',
-                            '#4ADE80'
-                        ],
-                        borderWidth: 2,
-                        borderRadius: 10
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: (ctx) => `${ctx.raw} Menit`
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: { color: 'rgba(255,255,255,0.06)' },
-                            ticks: {
-                                color: '#A3B899',
-                                callback: (val) => `${val} m`
-                            }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: {
-                                color: '#FFFFFF',
-                                font: { family: 'Plus Jakarta Sans', weight: 'bold' }
-                            }
-                        }
-                    }
-                }
-            });
-        }
 
         showSlide(1);
     </script>
