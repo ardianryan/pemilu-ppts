@@ -115,10 +115,6 @@ export default function AdminLogin() {
                         </button>
                     </form>
                 </div>
-
-                <div className="text-center text-xs text-[#727970]">
-                    Kredensial bawaan awal: <strong>admin</strong> / <strong>admin123</strong>
-                </div>
             </div>
         </div>
     );
