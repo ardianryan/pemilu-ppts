@@ -6,12 +6,17 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\VoterController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\VotingController;
 use App\Http\Controllers\PublicLiveCountController;
+use App\Http\Controllers\VotingController;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root to student login
-Route::get('/', fn() => redirect()->route('login'));
+Route::get('/', fn () => redirect()->route('login'));
+
+// Interactive Presentation Deck
+Route::get('/deck', fn () => response()->file(public_path('deck.html'), [
+    'Cache-Control' => 'no-cache, private, must-revalidate',
+]))->name('deck');
 
 // Public Live Count Page
 Route::get('/livecount', [PublicLiveCountController::class, 'index'])->name('livecount');
