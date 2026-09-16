@@ -14,9 +14,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', fn () => redirect()->route('login'));
 
 // Interactive Presentation Deck
-Route::get('/deck', fn () => response()->file(public_path('deck.html'), [
-    'Cache-Control' => 'no-cache, private, must-revalidate',
-]))->name('deck');
+Route::get('/deck', fn () => response()->view('deck')->header('Cache-Control', 'no-cache, private, must-revalidate'))->name('deck');
+Route::redirect('/deck.html', '/deck', 301);
 
 // Public Live Count Page
 Route::get('/livecount', [PublicLiveCountController::class, 'index'])->name('livecount');
