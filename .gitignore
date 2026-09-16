@@ -29,3 +29,10 @@ Thumbs.db
 *.zip
 stitch_e_voting_osis_web_app/
 
+# Scratch & Confidential Files
+/scratch
+*.xlsx
+*.xls
+*.csv
+
+
