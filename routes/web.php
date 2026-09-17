@@ -8,7 +8,9 @@ use App\Http\Controllers\Admin\VoterController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PublicLiveCountController;
 use App\Http\Controllers\VotingController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 // Redirect root to student login
 Route::get('/', fn () => redirect()->route('login'));
@@ -18,7 +20,7 @@ Route::get('/deck', fn () => response()->view('deck')->header('Cache-Control', '
 Route::redirect('/deck.html', '/deck', 301);
 
 // Demo Preview Halaman Antrean
-Route::get('/demo-antrean', fn () => Inertia::render('Error', ['status' => 429]))->name('demo.antrean');
+Route::get('/demo-antrean', fn (Request $request) => Inertia::render('Error', ['status' => 429])->toResponse($request)->setStatusCode(429))->name('demo.antrean');
 
 // Public Live Count Page
 Route::get('/livecount', [PublicLiveCountController::class, 'index'])->name('livecount');

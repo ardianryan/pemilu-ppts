@@ -21,4 +21,10 @@ class CustomErrorPageTest extends TestCase
         $response = $this->post('/login', ['token' => 'INVALID_TOKEN']);
         $response->assertStatus(429);
     }
+
+    public function test_demo_antrean_route_renders_429_page(): void
+    {
+        $response = $this->get('/demo-antrean');
+        $response->assertStatus(429);
+    }
 }
