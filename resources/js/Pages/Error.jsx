@@ -56,6 +56,14 @@ export default function ErrorPage({ status = 404, message = null }) {
             badgeBg: 'bg-[#E6F8E8] text-[#204E2B] border-[#C2E9C6]',
             iconBg: 'bg-[#E6F8E8] text-[#386641]',
         },
+        429: {
+            title: 'Anda Sedang Dalam Antrean',
+            subtitle: 'Sistem saat ini sedang memproses lalu lintas data pemilih yang sangat padat secara bersamaan. Mohon tunggu 10–20 detik, lalu muat ulang halaman ini untuk melanjutkan.',
+            icon: Clock,
+            badge: '429 ANTREAN PADAT / QUEUED',
+            badgeBg: 'bg-[#FEF3C7] text-[#92400E] border-[#FDE68A]',
+            iconBg: 'bg-[#FEF3C7] text-[#D97706]',
+        },
     };
 
     const config = errorConfigs[status] || {

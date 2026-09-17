@@ -22,13 +22,13 @@ Route::get('/livecount', [PublicLiveCountController::class, 'index'])->name('liv
 
 // Student / Voter Authentication
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:voter-login')->name('login.attempt');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Student Voting Flow (Protected)
 Route::middleware('auth:voter')->group(function () {
     Route::get('/voting', [VotingController::class, 'index'])->name('voting.index');
-    Route::post('/voting/store', [VotingController::class, 'store'])->name('voting.store');
+    Route::post('/voting/store', [VotingController::class, 'store'])->middleware('throttle:voter-vote')->name('voting.store');
 });
 
 Route::get('/voting/receipt', [VotingController::class, 'receipt'])->name('voting.receipt');

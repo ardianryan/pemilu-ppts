@@ -36,7 +36,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
             $status = $response->getStatusCode();
 
-            if (in_array($status, [403, 404, 419, 500, 503])) {
+            if (in_array($status, [403, 404, 419, 429, 500, 503])) {
                 if (app()->environment('testing')) {
                     return $response;
                 }

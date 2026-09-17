@@ -11,4 +11,14 @@ class CustomErrorPageTest extends TestCase
         $response = $this->get('/non-existent-page-url-12345');
         $response->assertStatus(404);
     }
+
+    public function test_rate_limiter_throttles_excessive_login_attempts(): void
+    {
+        for ($i = 0; $i < 30; $i++) {
+            $this->post('/login', ['token' => 'INVALID_TOKEN']);
+        }
+
+        $response = $this->post('/login', ['token' => 'INVALID_TOKEN']);
+        $response->assertStatus(429);
+    }
 }
