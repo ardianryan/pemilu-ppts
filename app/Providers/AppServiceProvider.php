@@ -24,14 +24,14 @@ class AppServiceProvider extends ServiceProvider
     {
         RateLimiter::for('voter-login', function (Request $request) {
             return [
-                Limit::perSecond(150, 150)->by('global-voter-login'),
+                Limit::perSecond(100, 150)->by('global-voter-login'),
                 Limit::perMinute(30)->by($request->ip()),
             ];
         });
 
         RateLimiter::for('voter-vote', function (Request $request) {
             return [
-                Limit::perSecond(150, 150)->by('global-voter-vote'),
+                Limit::perSecond(100, 150)->by('global-voter-vote'),
                 Limit::perMinute(10)->by($request->user()?->id ?: $request->ip()),
             ];
         });
