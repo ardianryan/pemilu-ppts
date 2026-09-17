@@ -32,12 +32,10 @@ export default function VotersIndex({ voters, classes, filters, stats }) {
     const [perPage, setPerPage] = useState(filters.per_page || '20');
     const [selectedIds, setSelectedIds] = useState([]);
 
-    // Modals
     const [importModalOpen, setImportModalOpen] = useState(false);
     const [addModalOpen, setAddModalOpen] = useState(false);
     const [editingVoter, setEditingVoter] = useState(null);
 
-    // Form Add / Edit
     const voterForm = useForm({
         nisn: '',
         token: '',
@@ -47,7 +45,6 @@ export default function VotersIndex({ voters, classes, filters, stats }) {
         class_room: '',
     });
 
-    // Form Import
     const importForm = useForm({
         file: null,
     });

@@ -18,15 +18,15 @@ export default function ErrorPage({ status = 404, message = null }) {
     const errorConfigs = {
         404: {
             title: 'Halaman Tidak Ditemukan',
-            subtitle: 'Mohon maaf, halaman atau tautan yang Anda tuju tidak tersedia, telah dipindahkan, atau alamat URL salah ketik.',
+            subtitle: 'Halaman atau tautan yang Anda tuju tidak ditemukan. Periksa kembali alamat URL Anda.',
             icon: Compass,
             badge: '404 NOT FOUND',
             badgeBg: 'bg-[#E6F8E8] text-[#204E2B] border-[#C2E9C6]',
             iconBg: 'bg-[#E6F8E8] text-[#386641]',
         },
         403: {
-            title: 'Akses Ditolak / Dilarang',
-            subtitle: 'Anda tidak memiliki hak otorisasi atau izin akses untuk membuka halaman ini. Silakan periksa kembali hak akses akun Anda.',
+            title: 'Akses Ditolak',
+            subtitle: 'Anda tidak memiliki izin untuk mengakses halaman ini. Periksa kembali akun Anda.',
             icon: ShieldAlert,
             badge: '403 FORBIDDEN',
             badgeBg: 'bg-[#FFDAD6] text-[#93000A] border-[#FFB4AB]',
@@ -34,15 +34,15 @@ export default function ErrorPage({ status = 404, message = null }) {
         },
         419: {
             title: 'Sesi Halaman Kedaluwarsa',
-            subtitle: 'Masa berlaku sesi atau token keamanan halaman ini telah berakhir karena tidak ada aktivitas. Silakan muat ulang halaman untuk memperbarui sesi.',
+            subtitle: 'Sesi Anda telah berakhir karena tidak ada aktivitas. Muat ulang halaman untuk melanjutkan.',
             icon: Clock,
             badge: '419 SESSION EXPIRED',
             badgeBg: 'bg-[#FEF3C7] text-[#92400E] border-[#FDE68A]',
             iconBg: 'bg-[#FEF3C7] text-[#D97706]',
         },
         500: {
-            title: 'Terjadi Kendala pada Server',
-            subtitle: 'Sistem mengalami kendala teknis internal yang tidak terduga saat memproses data. Tim teknis sedang menangani kendala ini.',
+            title: 'Terjadi Kendala Server',
+            subtitle: 'Sistem mengalami kendala saat memproses permintaan. Silakan muat ulang halaman atau hubungi panitia.',
             icon: AlertTriangle,
             badge: '500 INTERNAL SERVER ERROR',
             badgeBg: 'bg-[#FFDAD6] text-[#93000A] border-[#FFB4AB]',
@@ -50,7 +50,7 @@ export default function ErrorPage({ status = 404, message = null }) {
         },
         503: {
             title: 'Sistem Sedang Pemeliharaan',
-            subtitle: 'Layanan Pemilu PPTS saat ini sedang dalam proses pemeliharaan berkala atau peningkatan kapasitas server. Silakan coba kembali dalam beberapa saat.',
+            subtitle: 'Layanan Pemilu PPTS sedang dalam pemeliharaan berkala. Silakan coba kembali beberapa saat lagi.',
             icon: ServerOff,
             badge: '503 SERVICE UNAVAILABLE',
             badgeBg: 'bg-[#E6F8E8] text-[#204E2B] border-[#C2E9C6]',
@@ -58,7 +58,7 @@ export default function ErrorPage({ status = 404, message = null }) {
         },
         429: {
             title: 'Anda Sedang Dalam Antrean',
-            subtitle: 'Sistem saat ini sedang memproses lalu lintas data pemilih yang sangat padat secara bersamaan. Mohon tunggu 10–20 detik, lalu muat ulang halaman ini untuk melanjutkan.',
+            subtitle: 'Lalu lintas data pemilih sedang sangat padat. Mohon tunggu 10–20 detik lalu muat ulang halaman ini.',
             icon: Clock,
             badge: '429 ANTREAN PADAT / QUEUED',
             badgeBg: 'bg-[#FEF3C7] text-[#92400E] border-[#FDE68A]',

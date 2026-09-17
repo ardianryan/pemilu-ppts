@@ -19,12 +19,12 @@ import {
 } from 'lucide-react';
 
 export default function VotingIndex({ voter, candidates, setting }) {
-    const [currentStep, setCurrentStep] = useState(1); // 1: Identitas, 2: Bilik Suara
+    const [currentStep, setCurrentStep] = useState(1);
     const [selectedCandidate, setSelectedCandidate] = useState(null);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [modalManifesto, setModalManifesto] = useState(null);
     const [showManifestoModal, setShowManifestoModal] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(300); // 5 menit hitung mundur
+    const [timeLeft, setTimeLeft] = useState(300);
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState(null);
@@ -439,8 +439,9 @@ export default function VotingIndex({ voter, candidates, setting }) {
                             </div>
                             <button 
                                 onClick={requestClose}
-                                className="p-1 rounded-lg text-[#727970] hover:bg-[#F4F7F4]"
+                                className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl text-[#727970] hover:bg-[#F4F7F4] flex items-center justify-center transition cursor-pointer"
                                 disabled={isSubmitting}
+                                aria-label="Tutup Modal"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -544,7 +545,8 @@ export default function VotingIndex({ voter, candidates, setting }) {
                             </div>
                             <button 
                                 onClick={requestClose}
-                                className="p-1 rounded-lg text-[#727970] hover:bg-[#F4F7F4]"
+                                className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl text-[#727970] hover:bg-[#F4F7F4] flex items-center justify-center transition cursor-pointer"
+                                aria-label="Tutup Modal Visi Misi"
                             >
                                 <X className="w-5 h-5" />
                             </button>

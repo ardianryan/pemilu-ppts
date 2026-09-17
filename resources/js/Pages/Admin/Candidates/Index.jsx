@@ -22,7 +22,6 @@ export default function CandidatesIndex({ candidates }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [editingCandidate, setEditingCandidate] = useState(null);
 
-    // Cropper State
     const [cropModalOpen, setCropModalOpen] = useState(false);
     const [rawImageSrc, setRawImageSrc] = useState(null);
     const [croppedPreview, setCroppedPreview] = useState(null);

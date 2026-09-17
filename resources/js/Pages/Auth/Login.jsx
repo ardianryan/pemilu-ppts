@@ -139,7 +139,7 @@ export default function Login({ setting, errors: serverErrors }) {
                                         placeholder="Masukkan Kode Akses / NISN"
                                         value={data.nisn}
                                         onChange={handleNisnChange}
-                                        className="w-full h-13 px-4 bg-[#F4F7F4] text-[#101F15] rounded-xl font-mono text-lg font-semibold tracking-wider border border-[#E1F2E2] focus:bg-white focus:border-[#386641] focus:ring-4 focus:ring-[#A7C957]/25 outline-none transition-all"
+                                        className="w-full h-13 px-4 bg-[#F4F7F4] text-[#101F15] rounded-xl font-mono text-lg font-semibold tracking-wider border border-[#E1F2E2] focus:bg-white focus:border-[#386641] focus:ring-4 focus:ring-[#A7C957]/25 focus-visible:ring-2 focus-visible:ring-[#386641] focus-visible:ring-offset-2 outline-none transition-all"
                                         required
                                     />
                                     {data.nisn.length >= 3 && (
@@ -174,7 +174,7 @@ export default function Login({ setting, errors: serverErrors }) {
                                         placeholder="Contoh: X7K9P2"
                                         value={data.token}
                                         onChange={handleTokenChange}
-                                        className="w-full h-13 px-4 bg-[#F4F7F4] text-[#101F15] rounded-xl font-mono text-lg font-bold tracking-widest uppercase border border-[#E1F2E2] focus:bg-white focus:border-[#386641] focus:ring-4 focus:ring-[#A7C957]/25 outline-none transition-all"
+                                        className="w-full h-13 px-4 bg-[#F4F7F4] text-[#101F15] rounded-xl font-mono text-lg font-bold tracking-widest uppercase border border-[#E1F2E2] focus:bg-white focus:border-[#386641] focus:ring-4 focus:ring-[#A7C957]/25 focus-visible:ring-2 focus-visible:ring-[#386641] focus-visible:ring-offset-2 outline-none transition-all"
                                         required
                                     />
                                     {data.token.length >= 3 && (

@@ -64,7 +64,7 @@ export default function AdminLogin() {
                                     placeholder="admin / panitia"
                                     value={data.login}
                                     onChange={(e) => setData('login', e.target.value)}
-                                    className="w-full h-11 pl-10 pr-4 bg-[#F4F7F4] text-sm text-[#101F15] rounded-xl border border-[#E1F2E2] focus:bg-white focus:border-[#386641] focus:ring-3 focus:ring-[#A7C957]/20 outline-none transition"
+                                    className="w-full h-11 pl-10 pr-4 bg-[#F4F7F4] text-sm text-[#101F15] rounded-xl border border-[#E1F2E2] focus:bg-white focus:border-[#386641] focus:ring-3 focus:ring-[#A7C957]/20 focus-visible:ring-2 focus-visible:ring-[#386641] focus-visible:ring-offset-2 outline-none transition"
                                     required
                                 />
                             </div>
@@ -81,7 +81,7 @@ export default function AdminLogin() {
                                     placeholder="••••••••"
                                     value={data.password}
                                     onChange={(e) => setData('password', e.target.value)}
-                                    className="w-full h-11 pl-10 pr-4 bg-[#F4F7F4] text-sm text-[#101F15] rounded-xl border border-[#E1F2E2] focus:bg-white focus:border-[#386641] focus:ring-3 focus:ring-[#A7C957]/20 outline-none transition"
+                                    className="w-full h-11 pl-10 pr-4 bg-[#F4F7F4] text-sm text-[#101F15] rounded-xl border border-[#E1F2E2] focus:bg-white focus:border-[#386641] focus:ring-3 focus:ring-[#A7C957]/20 focus-visible:ring-2 focus-visible:ring-[#386641] focus-visible:ring-offset-2 outline-none transition"
                                     required
                                 />
                             </div>
