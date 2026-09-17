@@ -17,6 +17,9 @@ Route::get('/', fn () => redirect()->route('login'));
 Route::get('/deck', fn () => response()->view('deck')->header('Cache-Control', 'no-cache, private, must-revalidate'))->name('deck');
 Route::redirect('/deck.html', '/deck', 301);
 
+// Demo Preview Halaman Antrean
+Route::get('/demo-antrean', fn () => Inertia::render('Error', ['status' => 429]))->name('demo.antrean');
+
 // Public Live Count Page
 Route::get('/livecount', [PublicLiveCountController::class, 'index'])->name('livecount');
 
