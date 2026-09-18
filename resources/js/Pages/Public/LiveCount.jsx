@@ -98,7 +98,7 @@ export default function PublicLiveCount({ setting, is_public_enabled, metrics = 
                 <div className="text-center space-y-2 max-w-2xl mx-auto">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-[#E6F8E8] text-[#204E2B] border border-[#E1F2E2] text-xs font-bold">
                         <BarChart3 className="w-4 h-4 text-[#386641]" />
-                        <span>PEROLEHAN SUARA DIGITAL (RELOAD PER JAM)</span>
+                        <span>PEROLEHAN SUARA DIGITAL (UPDATE PER 30 MENIT)</span>
                     </div>
                     <h1 className="font-headline font-extrabold text-2xl sm:text-4xl text-[#101F15] tracking-tight">
                         {setting?.title || 'Pemilihan Ketua & Wakil Ketua PPTS'}

@@ -16,26 +16,30 @@ class PublicLiveCountController extends Controller
     {
         $setting = ElectionSetting::current();
 
-        $currentHourKey = date('Y-m-d_H');
-        $secondsUntilNextHour = max(60, 3600 - (time() % 3600));
+        $currentMinute = (int) date('i');
+        $halfHourBlock = $currentMinute < 30 ? '00' : '30';
+        $currentHalfHourKey = date('Y-m-d_H_').$halfHourBlock;
 
-        $lastUpdatedFormatted = date('H:00').' WIB';
-        $nextUpdateFormatted = date('H:00', strtotime('+1 hour')).' WIB';
+        $secondsUntilNextHalfHour = max(30, 1800 - (time() % 1800));
+
+        $lastUpdatedFormatted = date('H:').$halfHourBlock.' WIB';
+        $nextUpdateTimestamp = $currentMinute < 30 ? strtotime(date('Y-m-d H:30:00')) : strtotime('+1 hour', strtotime(date('Y-m-d H:00:00')));
+        $nextUpdateFormatted = date('H:i', $nextUpdateTimestamp).' WIB';
 
         return Inertia::render('Public/LiveCount', [
             'setting' => $setting,
             'is_public_enabled' => (bool) $setting->show_quick_count_public,
-            'metrics' => Inertia::defer(fn () => $this->getPayload($currentHourKey, $secondsUntilNextHour, $setting)['metrics']),
-            'candidates' => Inertia::defer(fn () => $this->getPayload($currentHourKey, $secondsUntilNextHour, $setting)['candidates']),
-            'grade_stats' => Inertia::defer(fn () => $this->getPayload($currentHourKey, $secondsUntilNextHour, $setting)['grade_stats']),
+            'metrics' => Inertia::defer(fn () => $this->getPayload($currentHalfHourKey, $secondsUntilNextHalfHour, $setting)['metrics']),
+            'candidates' => Inertia::defer(fn () => $this->getPayload($currentHalfHourKey, $secondsUntilNextHalfHour, $setting)['candidates']),
+            'grade_stats' => Inertia::defer(fn () => $this->getPayload($currentHalfHourKey, $secondsUntilNextHalfHour, $setting)['grade_stats']),
             'last_updated' => $lastUpdatedFormatted,
             'next_update' => $nextUpdateFormatted,
         ]);
     }
 
-    private function getPayload(string $currentHourKey, int $secondsUntilNextHour, ElectionSetting $setting): array
+    private function getPayload(string $cacheKey, int $decaySeconds, ElectionSetting $setting): array
     {
-        return Cache::remember('public_livecount_payload_'.$currentHourKey, $secondsUntilNextHour, function () use ($setting) {
+        return Cache::remember('public_livecount_payload_'.$cacheKey, $decaySeconds, function () use ($setting) {
             $totalVoters = Voter::count();
             $totalVoted = Voter::where('has_voted', true)->count();
             $totalNotVoted = $totalVoters - $totalVoted;
